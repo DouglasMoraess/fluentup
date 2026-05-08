@@ -1042,11 +1042,86 @@ if (!DEMO_MODE) {
 
 // ===================== CONTEÚDO DO APP =====================
 const listenQuestions = [
-  { phrase: "I wake up at 7am", phonetic: "/aɪ weɪk ʌp æt ˈsɛvən/", options: ["Eu durmo às 7h","Eu acordo às 7h","Eu chego às 7h","Eu saio às 7h"], correct: 1 },
-  { phrase: "I have breakfast", phonetic: "/aɪ hæv ˈbrɛkfəst/", options: ["Eu faço o almoço","Eu tomo o café da manhã","Eu janto","Eu pulo a refeição"], correct: 1 },
-  { phrase: "I go to work by bus", phonetic: "/aɪ ɡoʊ tʊ wɜːrk baɪ bʌs/", options: ["Eu vou de carro","Eu trabalho em casa","Eu vou ao trabalho de ônibus","Eu perco o ônibus"], correct: 2 },
-  { phrase: "I finish work at 6pm", phonetic: "/aɪ ˈfɪnɪʃ wɜːrk æt sɪks/", options: ["Começo às 6h","Termino o trabalho às 18h","Almoço às 6h","Saio às 18h pelo trem"], correct: 1 },
-  { phrase: "I go to bed early", phonetic: "/aɪ ɡoʊ tʊ bɛd ˈɜːrli/", options: ["Durmo tarde","Vou dormir cedo","Fico acordado","Acordo cedo"], correct: 1 },
+  {
+    phrase: "I wake up at 7am",
+    phonetic: "/aɪ weɪk ʌp æt ˈsɛvən/",
+    type: "recognize",
+    instruction: "O que você ouviu?",
+    options: ["I sleep at 7am", "I wake up at 7am", "I arrive at 7am", "I leave at 7am"],
+    correct: 1
+  },
+  {
+    phrase: "I wake up at 7am",
+    phonetic: "/aɪ weɪk ʌp æt ˈsɛvən/",
+    type: "translate",
+    instruction: "O que significa o que você ouviu?",
+    options: ["Eu durmo às 7h", "Eu acordo às 7h", "Eu chego às 7h", "Eu saio às 7h"],
+    correct: 1
+  },
+  {
+    phrase: "I have breakfast",
+    phonetic: "/aɪ hæv ˈbrɛkfəst/",
+    type: "recognize",
+    instruction: "O que você ouviu?",
+    options: ["I have dinner", "I have lunch", "I have breakfast", "I skip meals"],
+    correct: 2
+  },
+  {
+    phrase: "I have breakfast",
+    phonetic: "/aɪ hæv ˈbrɛkfəst/",
+    type: "translate",
+    instruction: "O que significa o que você ouviu?",
+    options: ["Eu faço o almoço", "Eu tomo o café da manhã", "Eu janto", "Eu pulo a refeição"],
+    correct: 1
+  },
+  {
+    phrase: "I go to work by bus",
+    phonetic: "/aɪ ɡoʊ tʊ wɜːrk baɪ bʌs/",
+    type: "recognize",
+    instruction: "O que você ouviu?",
+    options: ["I go home by bus", "I go to school by car", "I go to work by bus", "I go to work by train"],
+    correct: 2
+  },
+  {
+    phrase: "I go to work by bus",
+    phonetic: "/aɪ ɡoʊ tʊ wɜːrk baɪ bʌs/",
+    type: "translate",
+    instruction: "O que significa o que você ouviu?",
+    options: ["Eu vou de carro", "Eu trabalho em casa", "Eu vou ao trabalho de ônibus", "Eu perco o ônibus"],
+    correct: 2
+  },
+  {
+    phrase: "I finish work at 6pm",
+    phonetic: "/aɪ ˈfɪnɪʃ wɜːrk æt sɪks/",
+    type: "recognize",
+    instruction: "O que você ouviu?",
+    options: ["I start work at 6pm", "I finish work at 6pm", "I have lunch at 6pm", "I leave at 6am"],
+    correct: 1
+  },
+  {
+    phrase: "I finish work at 6pm",
+    phonetic: "/aɪ ˈfɪnɪʃ wɜːrk æt sɪks/",
+    type: "translate",
+    instruction: "O que significa o que você ouviu?",
+    options: ["Começo às 6h", "Termino o trabalho às 18h", "Almoço às 6h", "Saio às 18h de trem"],
+    correct: 1
+  },
+  {
+    phrase: "I go to bed early",
+    phonetic: "/aɪ ɡoʊ tʊ bɛd ˈɜːrli/",
+    type: "recognize",
+    instruction: "O que você ouviu?",
+    options: ["I wake up early", "I go to bed late", "I go to bed early", "I stay awake early"],
+    correct: 2
+  },
+  {
+    phrase: "I go to bed early",
+    phonetic: "/aɪ ɡoʊ tʊ bɛd ˈɜːrli/",
+    type: "translate",
+    instruction: "O que significa o que você ouviu?",
+    options: ["Durmo tarde", "Vou dormir cedo", "Fico acordado", "Acordo cedo"],
+    correct: 1
+  },
 ];
 
 const fillQuestions = [
@@ -1298,14 +1373,22 @@ function renderListenQuestion() {
   document.getElementById('listen-feedback').style.display = 'none';
   document.getElementById('listen-next-btn').style.display = 'none';
 
+  const isRecognize = q.type === 'recognize';
+  const typeLabel = isRecognize
+    ? '<i class="ti ti-ear" style="font-size:12px;vertical-align:-1px"></i> Ouça e escolha o que foi dito'
+    : '<i class="ti ti-language" style="font-size:12px;vertical-align:-1px"></i> Ouça e escolha a tradução';
+
   document.getElementById('listen-body').innerHTML = `
-    <div class="ex-type"><i class="ti ti-headphones" style="font-size:12px;vertical-align:-1px"></i> Ouça e escolha a tradução</div>
+    <div class="ex-type">${typeLabel}</div>
     <div class="audio-card-ex">
       <button class="play-circle" onclick="simulatePlay(this)" id="play-btn">
         <i class="ti ti-player-play" id="play-icon"></i>
       </button>
-      <div class="phrase-en">"${q.phrase}"</div>
-      <div class="phrase-ph">${q.phonetic}</div>
+      ${isRecognize
+        ? `<div class="phrase-en" style="font-size:15px;color:var(--text2);font-weight:400;font-family:'DM Sans'">Ouça com atenção...</div>`
+        : `<div class="phrase-en">"${q.phrase}"</div><div class="phrase-ph">${q.phonetic}</div>`
+      }
+      <div style="margin-top:10px;font-size:13px;color:var(--text2)">${q.instruction}</div>
     </div>
     <div class="choices-grid">
       ${q.options.map((o, i) => `<button class="choice-btn" onclick="answerListen(this, ${i === q.correct})">${o}</button>`).join('')}
