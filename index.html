@@ -1313,51 +1313,54 @@ function renderListenQuestion() {
   `;
 }
 
-window.simulatePlay = function(btn) {
-  const q = listenQuestions[listenQ];
+window.speakPhrase = function(phrase, btn) {
   const icon = document.getElementById('play-icon');
-
-  if (!window.speechSynthesis) {
-    showToast('Seu navegador nao suporta audio');
-    return;
-  }
-
   window.speechSynthesis.cancel();
 
-  const utter = new SpeechSynthesisUtterance(q.phrase);
+  const utter = new SpeechSynthesisUtterance(phrase);
   utter.lang = 'en-US';
-  utter.rate = 0.85;
-  utter.pitch = 1;
+  utter.rate = 0.78;
+  utter.pitch = 1.1;
+  utter.volume = 1;
+
+  function doSpeak() {
+    const voices = window.speechSynthesis.getVoices();
+    const enVoice = 
+      voices.find(v => v.name === 'Samantha') ||
+      voices.find(v => v.name === 'Karen') ||
+      voices.find(v => v.name === 'Moira') ||
+      voices.find(v => v.name.includes('Google US English Female')) ||
+      voices.find(v => v.name.includes('Microsoft Zira')) ||
+      voices.find(v => v.name.includes('Microsoft Jenny')) ||
+      voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('female')) ||
+      voices.find(v => v.lang === 'en-US') ||
+      voices.find(v => v.lang.startsWith('en'));
+    if (enVoice) utter.voice = enVoice;
+
+    utter.onstart = () => {
+      if (icon) icon.className = 'ti ti-player-pause';
+      if (btn) { btn.style.background = 'var(--purple-dark)'; btn.onclick = () => { window.speechSynthesis.cancel(); }; }
+    };
+    utter.onend = utter.onerror = () => {
+      if (icon) icon.className = 'ti ti-player-play';
+      if (btn) { btn.style.background = 'var(--purple)'; btn.onclick = () => window.speakPhrase(phrase, btn); }
+    };
+    window.speechSynthesis.speak(utter);
+  }
 
   const voices = window.speechSynthesis.getVoices();
-  const enVoice = voices.find(v => v.lang.startsWith('en-US') && v.name.toLowerCase().includes('female'))
-    || voices.find(v => v.lang.startsWith('en-US'))
-    || voices.find(v => v.lang.startsWith('en'));
-  if (enVoice) utter.voice = enVoice;
-
-  utter.onstart = () => {
-    icon.className = 'ti ti-player-pause';
-    btn.style.background = 'var(--purple-dark)';
-    btn.onclick = () => { window.speechSynthesis.cancel(); };
-  };
-  utter.onend = () => {
-    icon.className = 'ti ti-player-play';
-    btn.style.background = 'var(--purple)';
-    btn.onclick = () => simulatePlay(btn);
-  };
-  utter.onerror = () => {
-    icon.className = 'ti ti-player-play';
-    btn.style.background = 'var(--purple)';
-    btn.onclick = () => simulatePlay(btn);
-    showToast('Erro ao reproduzir audio');
-  };
-
-  window.speechSynthesis.speak(utter);
+  if (voices.length > 0) {
+    doSpeak();
+  } else {
+    window.speechSynthesis.onvoiceschanged = () => { doSpeak(); };
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+  }
 }
 
-window.speechSynthesis.onvoiceschanged = function() {
-  window.speechSynthesis.getVoices();
-};
+window.simulatePlay = function(btn) {
+  const q = listenQuestions[listenQ];
+  window.speakPhrase(q.phrase, btn);
+}
 
 window.answerListen = function(btn, correct) {
   if (listenAnswered) return;
