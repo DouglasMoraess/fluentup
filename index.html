@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>FluentUp — Inglês em 6 meses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root {
+  --purple: #6C5CE7;
+  --purple-light: #A29BFE;
+  --purple-pale: #F0EEFF;
+  --purple-dark: #4A3CC7;
+  --teal: #00CEC9;
+  --teal-pale: #E0FAF9;
+  --amber: #FDCB6E;
+  --amber-dark: #E17055;
+  --green: #00B894;
+  --green-pale: #D4EFEA;
+  --red: #FF7675;
+  --red-pale: #FFF0F0;
+  --bg: #F7F6FF;
+  --surface: #FFFFFF;
+  --surface2: #F2F1FC;
+  --border: rgba(108,92,231,0.12);
+  --text: #1A1530;
+  --text2: #6B6494;
+  --text3: #A89EC9;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 24px rgba(108,92,231,0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
+
+/* PHONE FRAME */
+.app-wrapper {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* SCREENS */
+.screen {
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+  animation: fadeIn 0.2s ease;
+}
+.screen.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* NAV BAR */
+.navbar {
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 8px 0 env(safe-area-inset-bottom, 8px);
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 0; font-size: 10px; color: var(--text3);
+  cursor: pointer; border: none; background: none;
+  transition: color 0.15s; font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+}
+.nav-item i { font-size: 22px; }
+.nav-item.active { color: var(--purple); }
+
+/* SHARED COMPONENTS */
+.section-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text3);
+  padding: 20px 20px 10px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 0 16px 12px;
+  overflow: hidden;
+}
+
+.btn {
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  transition: all 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-full { width: 100%; padding: 15px; font-size: 15px; }
+.btn-primary { background: var(--purple); color: white; }
+.btn-primary:hover { background: var(--purple-dark); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-ghost { background: var(--surface2); color: var(--text2); }
+.btn-ghost:hover { background: var(--purple-pale); color: var(--purple); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 99px;
+  font-size: 11px; font-weight: 500;
+}
+.badge-purple { background: var(--purple-pale); color: var(--purple); }
+.badge-green { background: var(--green-pale); color: var(--green); }
+.badge-amber { background: #FFF4E0; color: #B8860B; }
+
+.progress-bar-wrap { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 99px; background: var(--purple); transition: width 0.4s ease; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: white; padding: 10px 20px;
+  border-radius: 99px; font-size: 13px; font-weight: 500;
+  opacity: 0; transition: all 0.3s; z-index: 999; white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* LOADING */
+#loading-screen {
+  position: fixed; inset: 0; background: var(--purple);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999; transition: opacity 0.4s;
+}
+#loading-screen.hide { opacity: 0; pointer-events: none; }
+.loading-logo { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px; }
+.loading-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+.loading-spinner {
+  width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===================== AUTH SCREEN ===================== */
+#screen-auth {
+  padding: 0;
+  background: var(--surface);
+}
+.auth-hero {
+  background: var(--purple);
+  padding: 60px 28px 40px;
+  text-align: center;
+}
+.auth-hero-icon {
+  width: 72px; height: 72px;
+  background: rgba(255,255,255,0.15); border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; color: white;
+  margin: 0 auto 20px;
+}
+.auth-hero h1 { font-size: 28px; font-weight: 800; color: white; margin-bottom: 8px; }
+.auth-hero p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+.auth-body { padding: 32px 24px; }
+.auth-body h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.auth-body .sub { font-size: 14px; color: var(--text2); margin-bottom: 28px; }
+.field { margin-bottom: 14px; }
+.field label { font-size: 12px; font-weight: 500; color: var(--text2); display: block; margin-bottom: 6px; letter-spacing: 0.04em; }
+.field input {
+  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 15px; font-family: 'DM Sans', sans-serif;
+  background: var(--surface); color: var(--text); outline: none;
+  transition: border-color 0.15s;
+}
+.field input:focus { border-color: var(--purple); }
+.auth-switch { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text2); }
+.auth-switch a { color: var(--purple); font-weight: 500; cursor: pointer; text-decoration: none; }
+
+/* ===================== ONBOARDING ===================== */
+#screen-onboarding {
+  background: var(--surface);
+}
+.onboard-container {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 40px 24px 24px;
+}
+.onboard-step-indicator {
+  display: flex; gap: 6px; margin-bottom: 36px;
+}
+.step-pip {
+  height: 4px; flex: 1; border-radius: 99px;
+  background: var(--surface2); transition: background 0.3s;
+}
+.step-pip.done { background: var(--purple); }
+.step-pip.active { background: var(--purple-light); }
+
+.onboard-icon {
+  width: 72px; height: 72px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin-bottom: 24px;
+}
+.onboard-container h2 { font-size: 26px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+.onboard-container .desc { font-size: 15px; color: var(--text2); line-height: 1.6; margin-bottom: 28px; }
+
+.choice-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.choice-card {
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: all 0.15s; background: var(--surface);
+}
+.choice-card:hover { border-color: var(--purple-light); background: var(--purple-pale); }
+.choice-card.selected { border-color: var(--purple); background: var(--purple-pale); }
+.choice-card-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.choice-card-text h4 { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; }
+.choice-card-text p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+.check-dot {
+  margin-left: auto; width: 20px; height: 20px;
+  border-radius: 50%; border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.choice-card.selected .check-dot { background: var(--purple); border-color: var(--purple); color: white; }
+
+/* ===================== HOME ===================== */
+.home-header {
+  background: var(--purple);
+  padding: 20px 20px 36px; color: white; position: relative; overflow: hidden;
+}
+.home-header::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.home-header::after {
+  content: ''; position: absolute; bottom: -50px; right: 20px;
+  width: 100px; height: 100px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.home-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.home-greeting { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+.home-name { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; }
+.avatar-sm {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: white; cursor: pointer;
+}
+.streak-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.15); border-radius: 99px;
+  padding: 6px 14px; font-size: 13px; font-weight: 500; margin-bottom: 14px;
+}
+.xp-row { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+.xp-bar-bg { background: rgba(255,255,255,0.2); border-radius: 99px; height: 7px; overflow: hidden; }
+.xp-bar-fg { height: 100%; border-radius: 99px; background: white; transition: width 0.5s ease; }
+
+.lesson-card {
+  margin: 0 16px 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.lesson-card-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.lesson-icon {
+  width: 46px; height: 46px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+}
+.lesson-meta h3 { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; }
+.lesson-meta p { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.lesson-badge-area { margin-left: auto; }
+.lesson-card-bottom {
+  border-top: 1px solid var(--border); padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.lesson-card-bottom .progress-bar-wrap { flex: 1; }
+.lesson-card-bottom .pct { font-size: 12px; color: var(--text3); min-width: 32px; text-align: right; }
+.start-btn {
+  border: none; border-radius: 8px; padding: 7px 14px;
+  font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: all 0.15s;
+}
+.start-btn-purple { background: var(--purple); color: white; }
+.start-btn-ghost { background: var(--surface2); color: var(--text2); }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 16px 16px; }
+.stat-tile {
+  background: var(--surface2); border-radius: var(--radius-sm); padding: 14px;
+}
+.stat-tile .val { font-size: 24px; font-weight: 700; font-family: 'Syne', sans-serif; color: var(--purple); }
+.stat-tile .lbl { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+/* ===================== LESSON / EXERCISE ===================== */
+.ex-topbar {
+  display: flex; align-items: center; gap: 12px; padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.ex-back { border: none; background: none; cursor: pointer; color: var(--text2); font-size: 22px; padding: 0; }
+.ex-title { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; flex: 1; }
+.ex-xp { font-size: 13px; font-weight: 600; color: var(--purple); }
+.ex-progress { display: flex; gap: 4px; padding: 0 20px 14px; }
+.ex-prog-pip { flex: 1; height: 5px; border-radius: 99px; background: var(--surface2); }
+.ex-prog-pip.done { background: var(--purple); }
+.ex-prog-pip.active { background: var(--purple-light); }
+
+.ex-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.ex-type { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--purple); }
+
+.audio-card-ex {
+  background: var(--purple-pale); border-radius: var(--radius);
+  padding: 24px; text-align: center;
+}
+.play-circle {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--purple); color: white; border: none;
+  font-size: 26px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; margin: 0 auto 14px; transition: transform 0.15s;
+}
+.play-circle:hover { transform: scale(1.05); }
+.phrase-en { font-size: 22px; font-weight: 700; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
+.phrase-ph { font-size: 13px; color: var(--text3); }
+
+.choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice-btn {
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 14px 10px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; text-align: center; background: var(--surface);
+  color: var(--text); transition: all 0.15s; line-height: 1.4;
+}
+.choice-btn:hover { border-color: var(--purple-light); background: var(--purple-pale); }
+.choice-btn.correct { border-color: var(--green); background: var(--green-pale); color: #00675A; }
+.choice-btn.wrong { border-color: var(--red); background: var(--red-pale); color: #C0392B; }
+
+.feedback-panel {
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  display: flex; align-items: flex-start; gap: 10px; font-size: 14px;
+}
+.feedback-panel.correct { background: var(--green-pale); color: #005A50; }
+.feedback-panel.wrong { background: var(--red-pale); color: #B71C1C; }
+.feedback-panel i { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+/* FILL BLANK */
+.sentence-display {
+  background: var(--surface2); border-radius: var(--radius);
+  padding: 20px; font-size: 17px; font-weight: 500; line-height: 1.8;
+  font-family: 'Syne', sans-serif;
+}
+.blank-slot {
+  display: inline-block; min-width: 90px; border-bottom: 2.5px solid var(--purple);
+  text-align: center; color: var(--purple); font-weight: 600;
+  padding: 0 6px; margin: 0 4px; cursor: pointer;
+}
+.word-bank-ex { display: flex; flex-wrap: wrap; gap: 8px; }
+.word-tile {
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 8px 14px; font-size: 14px; cursor: pointer;
+  background: var(--surface); color: var(--text);
+  transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.word-tile:hover { border-color: var(--purple); background: var(--purple-pale); color: var(--purple); }
+.word-tile.used { opacity: 0.3; pointer-events: none; }
+
+.hint-box {
+  background: #FFF8EC; border-radius: var(--radius-sm);
+  padding: 12px 14px; display: flex; gap: 8px; align-items: flex-start;
+}
+.hint-box i { color: #E17055; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.hint-box p { font-size: 13px; color: #7D3C0F; line-height: 1.5; }
+
+/* ===================== AI CHAT ===================== */
+.chat-top {
+  padding: 14px 20px 0; border-bottom: 1px solid var(--border);
+}
+.chat-top h2 { font-size: 17px; font-weight: 700; font-family: 'Syne', sans-serif; }
+.chat-top p { font-size: 12px; color: var(--text2); margin-top: 2px; margin-bottom: 12px; }
+.scenario-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
+.scenario-pill {
+  flex-shrink: 0; padding: 6px 14px; border-radius: 99px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text2); transition: all 0.15s; white-space: nowrap;
+}
+.scenario-pill.active { background: var(--purple); border-color: var(--purple); color: white; }
+.chat-messages { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+.msg { max-width: 82%; display: flex; flex-direction: column; gap: 4px; }
+.msg.ai { align-self: flex-start; }
+.msg.user { align-self: flex-end; }
+.msg-name { font-size: 11px; color: var(--text3); padding: 0 4px; }
+.msg.user .msg-name { text-align: right; }
+.bubble {
+  padding: 11px 15px; border-radius: 16px; font-size: 14px; line-height: 1.55;
+}
+.msg.ai .bubble {
+  background: var(--surface2); border-bottom-left-radius: 4px; color: var(--text);
+}
+.msg.user .bubble {
+  background: var(--purple); color: white; border-bottom-right-radius: 4px;
+}
+.correction-chip {
+  font-size: 12px; background: var(--green-pale); color: #005A50;
+  padding: 5px 10px; border-radius: 8px; line-height: 1.5;
+}
+.chat-input-area {
+  display: flex; gap: 8px; padding: 10px 16px 16px;
+  border-top: 1px solid var(--border); align-items: flex-end;
+  background: var(--surface);
+}
+.chat-textarea {
+  flex: 1; border: 1.5px solid var(--border); border-radius: 12px;
+  padding: 10px 14px; font-size: 14px; resize: none;
+  font-family: 'DM Sans', sans-serif; background: var(--surface);
+  color: var(--text); outline: none; min-height: 42px; max-height: 100px;
+  transition: border-color 0.15s;
+}
+.chat-textarea:focus { border-color: var(--purple); }
+.icon-btn {
+  width: 42px; height: 42px; border-radius: 12px; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+}
+.icon-btn-ghost { background: var(--surface2); color: var(--text2); }
+.icon-btn-ghost:hover { background: var(--purple-pale); color: var(--purple); }
+.icon-btn-purple { background: var(--purple); color: white; }
+.icon-btn-purple:hover { background: var(--purple-dark); }
+.ai-thinking {
+  align-self: flex-start; display: flex; gap: 5px; align-items: center;
+  padding: 12px 16px; background: var(--surface2); border-radius: 16px;
+  border-bottom-left-radius: 4px;
+}
+.thinking-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--text3);
+  animation: bounce 1.2s infinite;
+}
+.thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+
+/* ===================== PROGRESS ===================== */
+.progress-hero {
+  background: var(--purple); padding: 20px 20px 28px; color: white;
+}
+.progress-hero h2 { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
+.progress-hero p { font-size: 13px; color: rgba(255,255,255,0.8); }
+.phase-row {
+  display: flex; gap: 8px; padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.phase-label { font-size: 12px; color: var(--text2); width: 54px; flex-shrink: 0; padding-top: 4px; }
+.phase-bar-wrap { flex: 1; }
+.phase-bar {
+  height: 24px; border-radius: 99px; display: flex; align-items: center;
+  padding-left: 12px; font-size: 12px; font-weight: 600; min-width: 40px;
+}
+.phase-done { background: var(--purple); color: white; }
+.phase-prog { background: var(--purple-light); color: white; }
+.phase-future { background: var(--surface2); color: var(--text3); }
+
+.skills-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 16px 16px; }
+.skill-card {
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;
+  background: var(--surface); text-align: center;
+}
+.skill-name { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+.ring-svg { width: 64px; height: 64px; display: block; margin: 0 auto 8px; }
+.skill-pct { font-size: 20px; font-weight: 700; font-family: 'Syne', sans-serif; }
+
+/* ===================== VOCAB ===================== */
+.vocab-top { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.vocab-top h2 { font-size: 17px; font-weight: 700; font-family: 'Syne', sans-serif; }
+.search-row { margin: 10px 16px 0; position: relative; }
+.search-row i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 18px; }
+.search-input {
+  width: 100%; padding: 10px 14px 10px 40px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 14px; font-family: 'DM Sans', sans-serif;
+  background: var(--surface); color: var(--text); outline: none; transition: border-color 0.15s;
+}
+.search-input:focus { border-color: var(--purple); }
+.filter-row { display: flex; gap: 6px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; }
+.filter-chip {
+  flex-shrink: 0; padding: 5px 13px; border-radius: 99px; font-size: 13px;
+  border: 1.5px solid var(--border); cursor: pointer; background: var(--surface); color: var(--text2);
+  transition: all 0.15s;
+}
+.filter-chip.active { background: var(--purple); border-color: var(--purple); color: white; }
+.word-list { padding: 0 16px; }
+.word-row {
+  display: flex; align-items: center; gap: 12px; padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+.word-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.wd-green { background: var(--green); }
+.wd-amber { background: var(--amber); }
+.wd-gray { background: var(--border); }
+.word-content { flex: 1; }
+.word-en { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; }
+.word-pt { font-size: 13px; color: var(--text2); margin-top: 1px; }
+.word-ctx { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 2px; }
+.word-actions-row { display: flex; gap: 4px; }
+.word-action-btn {
+  width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface2); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text3); font-size: 15px; transition: all 0.15s;
+}
+.word-action-btn:hover { color: var(--purple); border-color: var(--purple); background: var(--purple-pale); }
+
+/* ===================== GAMIFICATION ===================== */
+.gami-header {
+  background: var(--purple); padding: 24px 20px 32px; text-align: center; color: white;
+}
+.gami-trophy { font-size: 52px; margin-bottom: 10px; }
+.gami-header h2 { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
+.gami-header p { font-size: 13px; color: rgba(255,255,255,0.8); }
+.xp-badge-lg {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.18); border-radius: 99px;
+  padding: 7px 16px; font-size: 14px; font-weight: 600; margin-top: 14px;
+}
+.rank-list { padding: 4px 16px; display: flex; flex-direction: column; gap: 8px; }
+.rank-row {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+}
+.rank-row.me { border-color: var(--purple); background: var(--purple-pale); }
+.rank-pos { font-size: 14px; font-weight: 700; width: 22px; text-align: center; font-family: 'Syne', sans-serif; }
+.ava {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.rank-info { flex: 1; }
+.rank-name { font-size: 14px; font-weight: 600; font-family: 'Syne', sans-serif; }
+.rank-pts { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+.ach-list { padding: 4px 16px; display: flex; flex-direction: column; gap: 8px; }
+.ach-row {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+  border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+}
+.ach-row.locked { opacity: 0.4; }
+.ach-icon { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.ach-text { flex: 1; }
+.ach-text h4 { font-size: 14px; font-weight: 600; font-family: 'Syne', sans-serif; }
+.ach-text p { font-size: 12px; color: var(--text2); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="loading-logo">FluentUp</div>
+  <div class="loading-sub">Inglês em 6 meses</div>
+  <div class="loading-spinner"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="app-wrapper">
+
+  <!-- =========== AUTH =========== -->
+  <div class="screen" id="screen-auth">
+    <div class="auth-hero">
+      <div class="auth-hero-icon"><i class="ti ti-language"></i></div>
+      <h1>FluentUp</h1>
+      <p>Do básico ao intermediário funcional em 6 meses. Prática real, sem enrolação.</p>
+    </div>
+    <div class="auth-body">
+      <div id="auth-login-view">
+        <h2>Entrar</h2>
+        <p class="sub">Acesse seu progresso de qualquer lugar</p>
+        <div class="field">
+          <label>E-MAIL</label>
+          <input type="email" id="login-email" placeholder="seu@email.com">
+        </div>
+        <div class="field">
+          <label>SENHA</label>
+          <input type="password" id="login-pass" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary btn-full" onclick="doLogin()" style="margin-top:8px">
+          <i class="ti ti-login"></i> Entrar
+        </button>
+        <p class="auth-switch">Não tem conta? <a onclick="toggleAuthView()">Criar agora</a></p>
+      </div>
+      <div id="auth-register-view" style="display:none">
+        <h2>Criar conta</h2>
+        <p class="sub">Comece sua jornada hoje</p>
+        <div class="field">
+          <label>SEU NOME</label>
+          <input type="text" id="reg-name" placeholder="Como posso te chamar?">
+        </div>
+        <div class="field">
+          <label>E-MAIL</label>
+          <input type="email" id="reg-email" placeholder="seu@email.com">
+        </div>
+        <div class="field">
+          <label>SENHA</label>
+          <input type="password" id="reg-pass" placeholder="Mínimo 6 caracteres">
+        </div>
+        <button class="btn btn-primary btn-full" onclick="doRegister()" style="margin-top:8px">
+          <i class="ti ti-user-plus"></i> Criar conta gratuita
+        </button>
+        <p class="auth-switch">Já tem conta? <a onclick="toggleAuthView()">Entrar</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== ONBOARDING =========== -->
+  <div class="screen" id="screen-onboarding">
+    <div class="onboard-container">
+      <div class="onboard-step-indicator" id="step-indicator">
+        <div class="step-pip active"></div>
+        <div class="step-pip"></div>
+        <div class="step-pip"></div>
+      </div>
+
+      <!-- Step 1: Level -->
+      <div id="onboard-1">
+        <div class="onboard-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-plant-2"></i></div>
+        <h2>Qual é seu nível de inglês?</h2>
+        <p class="desc">Vamos criar um plano personalizado pra você.</p>
+        <div class="choice-grid">
+          <div class="choice-card selected" onclick="selectChoice(this, 'level', 'beginner')">
+            <div class="choice-card-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-seedling"></i></div>
+            <div class="choice-card-text"><h4>Iniciante</h4><p>Sei pouquíssimas palavras</p></div>
+            <div class="check-dot"><i class="ti ti-check" style="font-size:12px"></i></div>
+          </div>
+          <div class="choice-card" onclick="selectChoice(this, 'level', 'basic')">
+            <div class="choice-card-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-leaf"></i></div>
+            <div class="choice-card-text"><h4>Básico</h4><p>Conheço algumas frases</p></div>
+            <div class="check-dot"></div>
+          </div>
+          <div class="choice-card" onclick="selectChoice(this, 'level', 'intermediate')">
+            <div class="choice-card-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-tree"></i></div>
+            <div class="choice-card-text"><h4>Intermediário</h4><p>Me comunico com dificuldade</p></div>
+            <div class="check-dot"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="nextOnboardStep(2)">Continuar <i class="ti ti-arrow-right"></i></button>
+      </div>
+
+      <!-- Step 2: Goal -->
+      <div id="onboard-2" style="display:none">
+        <div class="onboard-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-target"></i></div>
+        <h2>Qual é seu objetivo?</h2>
+        <p class="desc">Seu plano será totalmente focado nisso.</p>
+        <div class="choice-grid">
+          <div class="choice-card selected" onclick="selectChoice(this, 'goal', 'travel')">
+            <div class="choice-card-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-plane"></i></div>
+            <div class="choice-card-text"><h4>Viagens</h4><p>Me virar no exterior</p></div>
+            <div class="check-dot"><i class="ti ti-check" style="font-size:12px"></i></div>
+          </div>
+          <div class="choice-card" onclick="selectChoice(this, 'goal', 'work')">
+            <div class="choice-card-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-briefcase"></i></div>
+            <div class="choice-card-text"><h4>Trabalho</h4><p>Reuniões e e-mails</p></div>
+            <div class="check-dot"></div>
+          </div>
+          <div class="choice-card" onclick="selectChoice(this, 'goal', 'conversation')">
+            <div class="choice-card-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-messages"></i></div>
+            <div class="choice-card-text"><h4>Conversação</h4><p>Falar com nativos</p></div>
+            <div class="check-dot"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="nextOnboardStep(3)">Continuar <i class="ti ti-arrow-right"></i></button>
+      </div>
+
+      <!-- Step 3: Time -->
+      <div id="onboard-3" style="display:none">
+        <div class="onboard-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-clock"></i></div>
+        <h2>Quanto tempo por dia?</h2>
+        <p class="desc">Consistência bate quantidade. 5 minutos todo dia já funcionam.</p>
+        <div class="choice-grid">
+          <div class="choice-card" onclick="selectChoice(this, 'time', 5)">
+            <div class="choice-card-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-clock"></i></div>
+            <div class="choice-card-text"><h4>5 minutos</h4><p>Leve e consistente</p></div>
+            <div class="check-dot"></div>
+          </div>
+          <div class="choice-card selected" onclick="selectChoice(this, 'time', 10)">
+            <div class="choice-card-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-clock"></i></div>
+            <div class="choice-card-text"><h4>10 minutos</h4><p>Ritmo ideal</p></div>
+            <div class="check-dot"><i class="ti ti-check" style="font-size:12px"></i></div>
+          </div>
+          <div class="choice-card" onclick="selectChoice(this, 'time', 20)">
+            <div class="choice-card-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-bolt"></i></div>
+            <div class="choice-card-text"><h4>20 minutos</h4><p>Modo intensivo</p></div>
+            <div class="check-dot"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="finishOnboarding()"><i class="ti ti-sparkles"></i> Criar meu plano</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== HOME =========== -->
+  <div class="screen" id="screen-home">
+    <div class="content" style="flex:1;overflow-y:auto">
+      <div class="home-header">
+        <div class="home-top">
+          <div>
+            <div class="home-greeting">Bom dia! 👋</div>
+            <div class="home-name" id="home-name">Carregando...</div>
+          </div>
+          <div class="avatar-sm" id="home-avatar" onclick="showScreen('settings')">?</div>
+        </div>
+        <div class="streak-pill">
+          <i class="ti ti-flame" style="color:#FDCB6E;font-size:18px"></i>
+          <span id="home-streak">0 dias</span>
+        </div>
+        <div class="xp-row">
+          <span id="home-xp">0 XP hoje</span>
+          <span id="home-level">Nível 1</span>
+        </div>
+        <div class="xp-bar-bg">
+          <div class="xp-bar-fg" id="home-xp-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="section-label">Lições de hoje</div>
+
+      <div class="lesson-card" id="lesson-listening">
+        <div class="lesson-card-top">
+          <div class="lesson-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-headphones"></i></div>
+          <div class="lesson-meta">
+            <h3>Listening</h3>
+            <p id="lesson-listening-topic">Daily routine · 8 min</p>
+          </div>
+          <div class="lesson-badge-area">
+            <span class="badge badge-purple">Novo</span>
+          </div>
+        </div>
+        <div class="lesson-card-bottom">
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-listen" style="width:0%"></div></div>
+          <span class="pct" id="pct-listen">0%</span>
+          <button class="start-btn start-btn-purple" onclick="startLesson('listening')">Iniciar</button>
+        </div>
+      </div>
+
+      <div class="lesson-card" id="lesson-vocab">
+        <div class="lesson-card-top">
+          <div class="lesson-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-vocabulary"></i></div>
+          <div class="lesson-meta">
+            <h3>Vocabulário</h3>
+            <p id="lesson-vocab-topic">At work · 15 palavras</p>
+          </div>
+          <div class="lesson-badge-area">
+            <span class="badge badge-green" id="vocab-status">Novo</span>
+          </div>
+        </div>
+        <div class="lesson-card-bottom">
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-vocab" style="width:0%;background:var(--green)"></div></div>
+          <span class="pct" id="pct-vocab">0%</span>
+          <button class="start-btn start-btn-ghost" onclick="startLesson('fillblank')">Iniciar</button>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="lesson-card-top">
+          <div class="lesson-icon" style="background:#FFF8EC;color:#E17055"><i class="ti ti-rotate-clockwise"></i></div>
+          <div class="lesson-meta">
+            <h3>Revisão inteligente</h3>
+            <p>Baseada nos seus erros · 5 min</p>
+          </div>
+          <div class="lesson-badge-area">
+            <span class="badge badge-amber">Revisar</span>
+          </div>
+        </div>
+        <div class="lesson-card-bottom">
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-review" style="width:40%;background:#E17055"></div></div>
+          <span class="pct">40%</span>
+          <button class="start-btn" style="background:#FFF4E0;color:#E17055" onclick="startLesson('fillblank')">Continuar</button>
+        </div>
+      </div>
+
+      <div class="section-label">Progresso geral</div>
+      <div class="stats-grid">
+        <div class="stat-tile"><div class="val" id="stat-words">0</div><div class="lbl">Palavras aprendidas</div></div>
+        <div class="stat-tile"><div class="val" id="stat-accuracy">0%</div><div class="lbl">Taxa de acerto</div></div>
+        <div class="stat-tile"><div class="val" id="stat-days">0</div><div class="lbl">Dias estudando</div></div>
+        <div class="stat-tile"><div class="val" id="stat-week">0h</div><div class="lbl">Esta semana</div></div>
+      </div>
+    </div>
+    <nav class="navbar">
+      <button class="nav-item active" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
+      <button class="nav-item" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+      <button class="nav-item" onclick="showScreen('vocab')"><i class="ti ti-list"></i>Vocab</button>
+    </nav>
+  </div>
+
+  <!-- =========== LESSON LISTENING =========== -->
+  <div class="screen" id="screen-lesson-listening">
+    <div class="ex-topbar">
+      <button class="ex-back" onclick="showScreen('home')"><i class="ti ti-arrow-left"></i></button>
+      <span class="ex-title">Listening · Daily routine</span>
+      <span class="ex-xp">+15 XP</span>
+    </div>
+    <div class="ex-progress" id="listen-progress"></div>
+    <div class="ex-body" id="listen-body"></div>
+    <div style="padding:0 20px 20px">
+      <div id="listen-feedback" style="display:none" class="feedback-panel correct"></div>
+      <button class="btn btn-primary btn-full" id="listen-next-btn" style="display:none;margin-top:12px" onclick="nextListenQuestion()">
+        Próxima <i class="ti ti-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========== FILL BLANK =========== -->
+  <div class="screen" id="screen-fillblank">
+    <div class="ex-topbar">
+      <button class="ex-back" onclick="showScreen('home')"><i class="ti ti-arrow-left"></i></button>
+      <span class="ex-title">Complete a frase</span>
+      <span class="ex-xp">+20 XP</span>
+    </div>
+    <div class="ex-progress" id="fill-progress"></div>
+    <div class="ex-body" id="fill-body" style="flex:1;overflow-y:auto"></div>
+    <div style="padding:0 20px 20px">
+      <div id="fill-feedback" style="display:none" class="feedback-panel"></div>
+      <button class="btn btn-primary btn-full" id="fill-check-btn" style="margin-top:12px" onclick="checkFill()" disabled>
+        Verificar resposta
+      </button>
+      <button class="btn btn-ghost btn-full" id="fill-next-btn" style="display:none;margin-top:8px" onclick="nextFillQuestion()">
+        Próxima <i class="ti ti-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========== AI CHAT =========== -->
+  <div class="screen" id="screen-chat" style="height:100vh">
+    <div class="chat-top">
+      <h2>Chat com IA</h2>
+      <p>Pratique conversação em situações reais</p>
+      <div class="scenario-scroll" id="scenario-pills"></div>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-area">
+      <button class="icon-btn icon-btn-ghost" id="mic-btn" onclick="toggleMic()"><i class="ti ti-microphone"></i></button>
+      <textarea class="chat-textarea" id="chat-input" placeholder="Type in English..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="icon-btn icon-btn-purple" onclick="sendChat()"><i class="ti ti-send"></i></button>
+    </div>
+  </div>
+
+  <!-- =========== PROGRESS =========== -->
+  <div class="screen" id="screen-progress">
+    <div class="content" style="flex:1;overflow-y:auto">
+      <div class="progress-hero">
+        <h2>Seu progresso</h2>
+        <p id="prog-subtitle">Mês 1 de 6 · calculando...</p>
+      </div>
+
+      <div class="section-label">Plano de 6 meses</div>
+      <div style="padding:0 16px 4px" id="phase-bars"></div>
+
+      <div class="section-label">Habilidades</div>
+      <div class="skills-wrap" id="skills-wrap"></div>
+
+      <div class="section-label">Histórico recente</div>
+      <div style="padding:0 16px 20px" id="history-list"></div>
+    </div>
+    <nav class="navbar">
+      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
+      <button class="nav-item" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+      <button class="nav-item active"><i class="ti ti-chart-line"></i>Progresso</button>
+      <button class="nav-item" onclick="showScreen('vocab')"><i class="ti ti-list"></i>Vocab</button>
+    </nav>
+  </div>
+
+  <!-- =========== VOCAB =========== -->
+  <div class="screen" id="screen-vocab">
+    <div class="vocab-top">
+      <h2>Vocabulário</h2>
+      <div class="search-row" style="margin:10px 0 0">
+        <i class="ti ti-search"></i>
+        <input class="search-input" type="text" placeholder="Buscar palavra..." id="vocab-search" oninput="filterVocab()">
+      </div>
+    </div>
+    <div class="filter-row">
+      <div class="filter-chip active" onclick="setVocabFilter('all', this)">Todas</div>
+      <div class="filter-chip" onclick="setVocabFilter('mastered', this)">✅ Dominadas</div>
+      <div class="filter-chip" onclick="setVocabFilter('review', this)">🔄 Revisar</div>
+      <div class="filter-chip" onclick="setVocabFilter('new', this)">⭐ Novas</div>
+    </div>
+    <div class="word-list" id="word-list" style="flex:1;overflow-y:auto"></div>
+    <nav class="navbar">
+      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
+      <button class="nav-item" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+      <button class="nav-item active"><i class="ti ti-list"></i>Vocab</button>
+    </nav>
+  </div>
+
+  <!-- =========== GAMIFICATION =========== -->
+  <div class="screen" id="screen-gami">
+    <div class="content" style="flex:1;overflow-y:auto">
+      <div class="gami-header">
+        <div class="gami-trophy"><i class="ti ti-trophy"></i></div>
+        <h2>Liga Semanal</h2>
+        <p id="gami-subtitle">Liga Bronze · Semana atual</p>
+        <div class="xp-badge-lg"><i class="ti ti-star" style="font-size:16px"></i> <span id="gami-xp">0 XP esta semana</span></div>
+      </div>
+
+      <div class="section-label">Ranking</div>
+      <div class="rank-list" id="rank-list"></div>
+
+      <div class="section-label">Conquistas</div>
+      <div class="ach-list" id="ach-list"></div>
+    </div>
+    <nav class="navbar">
+      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
+      <button class="nav-item active"><i class="ti ti-trophy"></i>Liga</button>
+      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+      <button class="nav-item" onclick="showScreen('settings')"><i class="ti ti-settings"></i>Config</button>
+    </nav>
+  </div>
+
+  <!-- =========== SETTINGS =========== -->
+  <div class="screen" id="screen-settings">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border)">
+      <h2 style="font-size:17px;font-weight:700;font-family:'Syne',sans-serif">Configurações</h2>
+    </div>
+    <div style="flex:1;overflow-y:auto">
+      <!-- Profile -->
+      <div style="display:flex;align-items:center;gap:14px;padding:20px;border-bottom:1px solid var(--border)">
+        <div id="settings-avatar" style="width:60px;height:60px;border-radius:50%;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--purple);font-family:'Syne',sans-serif">?</div>
+        <div>
+          <div style="font-size:17px;font-weight:700;font-family:'Syne',sans-serif" id="settings-name">--</div>
+          <div style="font-size:13px;color:var(--text2);margin-top:2px" id="settings-email">--</div>
+          <div style="margin-top:6px"><span class="badge badge-purple" id="settings-level">Nível 1</span></div>
+        </div>
+      </div>
+
+      <!-- Plan -->
+      <div class="section-label">Plano ativo</div>
+      <div style="margin:0 16px 16px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+        <div style="background:var(--purple);color:white;padding:16px">
+          <div style="font-size:15px;font-weight:700;font-family:'Syne',sans-serif" id="plan-title">--</div>
+          <div style="font-size:12px;opacity:0.8;margin-top:3px" id="plan-sub">--</div>
+        </div>
+        <div style="display:flex;justify-content:space-around;padding:16px;background:var(--surface)">
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;color:var(--purple)" id="plan-days-done">0</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Dias feitos</div></div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;color:var(--purple)" id="plan-days-left">180</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Restantes</div></div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div style="text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;color:var(--purple)" id="plan-pct">0%</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Concluído</div></div>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="section-label">Notificações</div>
+      <div style="padding:0 20px">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)">
+          <i class="ti ti-bell" style="font-size:20px;color:var(--text2);width:24px"></i>
+          <div style="flex:1"><div style="font-size:14px;font-weight:500">Lembrete diário</div><div style="font-size:12px;color:var(--text2)">Às 20:00 todos os dias</div></div>
+          <div class="toggle-switch" data-on="true" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)">
+          <i class="ti ti-flame" style="font-size:20px;color:var(--text2);width:24px"></i>
+          <div style="flex:1"><div style="font-size:14px;font-weight:500">Alerta de sequência</div><div style="font-size:12px;color:var(--text2)">Aviso antes de perder o streak</div></div>
+          <div class="toggle-switch" data-on="true" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)">
+          <i class="ti ti-trophy" style="font-size:20px;color:var(--text2);width:24px"></i>
+          <div style="flex:1"><div style="font-size:14px;font-weight:500">Atualizações da liga</div><div style="font-size:12px;color:var(--text2)">Mudanças no ranking</div></div>
+          <div class="toggle-switch" data-on="false" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
+        </div>
+      </div>
+
+      <div style="padding:20px 20px 8px">
+        <button class="btn btn-full" style="background:var(--red-pale);color:var(--red);border:none;border-radius:var(--radius-sm)" onclick="doLogout()">
+          <i class="ti ti-logout"></i> Sair da conta
+        </button>
+      </div>
+    </div>
+    <nav class="navbar">
+      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
+      <button class="nav-item" onclick="showScreen('gami')"><i class="ti ti-trophy"></i>Liga</button>
+      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+      <button class="nav-item active"><i class="ti ti-settings"></i>Config</button>
+    </nav>
+  </div>
+
+</div><!-- end app-wrapper -->
+
+<style>
+.toggle-switch {
+  width: 42px; height: 24px; border-radius: 99px;
+  background: var(--border); cursor: pointer; position: relative;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.toggle-switch[data-on="true"] { background: var(--purple); }
+.toggle-thumb {
+  width: 20px; height: 20px; border-radius: 50%; background: white;
+  position: absolute; top: 2px; left: 2px; transition: left 0.2s;
+}
+.toggle-switch[data-on="true"] .toggle-thumb { left: 20px; }
+</style>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ===================== FIREBASE CONFIG =====================
+// INSTRUÇÃO: Substitua estas chaves pelas suas do Firebase Console
+// firebase.google.com → Criar projeto → Web App → Copiar firebaseConfig
+const firebaseConfig = {
+  apiKey: "AIzaSyCR2rvk534fZKKkRP3HtnzfFZZ6s1COUVg",
+  authDomain: "fluentup-dbdc1.firebaseapp.com",
+  projectId: "fluentup-dbdc1",
+  storageBucket: "fluentup-dbdc1.firebasestorage.app",
+  messagingSenderId: "1030644173691",
+  appId: "1:1030644173691:web:ecf33a4ce5846fcd2fcbde"
+};
+
+// Modo demo: roda sem Firebase real quando config não está configurada
+const DEMO_MODE = firebaseConfig.apiKey.includes('DEMO');
+
+let app, auth, db, currentUser = null, userProfile = null;
+
+if (!DEMO_MODE) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+}
+
+// ===================== CONTEÚDO DO APP =====================
+const listenQuestions = [
+  { phrase: "I wake up at 7am", phonetic: "/aɪ weɪk ʌp æt ˈsɛvən/", options: ["Eu durmo às 7h","Eu acordo às 7h","Eu chego às 7h","Eu saio às 7h"], correct: 1 },
+  { phrase: "I have breakfast", phonetic: "/aɪ hæv ˈbrɛkfəst/", options: ["Eu faço o almoço","Eu tomo o café da manhã","Eu janto","Eu pulo a refeição"], correct: 1 },
+  { phrase: "I go to work by bus", phonetic: "/aɪ ɡoʊ tʊ wɜːrk baɪ bʌs/", options: ["Eu vou de carro","Eu trabalho em casa","Eu vou ao trabalho de ônibus","Eu perco o ônibus"], correct: 2 },
+  { phrase: "I finish work at 6pm", phonetic: "/aɪ ˈfɪnɪʃ wɜːrk æt sɪks/", options: ["Começo às 6h","Termino o trabalho às 18h","Almoço às 6h","Saio às 18h pelo trem"], correct: 1 },
+  { phrase: "I go to bed early", phonetic: "/aɪ ɡoʊ tʊ bɛd ˈɜːrli/", options: ["Durmo tarde","Vou dormir cedo","Fico acordado","Acordo cedo"], correct: 1 },
+];
+
+const fillQuestions = [
+  { pt: "Eu costumava acordar cedo quando trabalhava lá.", prefix: "I", blanks: [{id:'b1',answer:'used to'},{id:'b2',answer:'worked'}], suffix: "wake up early when I ___ there.", words: ["worked","used to","was","would","did","use to"], hint: '"Costumava" = hábito passado. Use "used to" + verbo.' },
+  { pt: "Você poderia me ajudar com isso, por favor?", prefix: "Could you", blanks: [{id:'b1',answer:'help'}], suffix: "me with this, please?", words: ["help","helps","helping","helped","do","make"], hint: 'Após "Could you", use o verbo no infinitivo sem "to".' },
+  { pt: "Ela está estudando inglês há dois anos.", prefix: "She", blanks: [{id:'b1',answer:'has been studying'}], suffix: "English for two years.", words: ["is studying","has been studying","was studying","studies","studied","will study"], hint: 'Ação que começou no passado e continua: "has been + -ing".' },
+];
+
+const chatScenarios = {
+  airport: { name: "✈️ Aeroporto", prompt: "You are an English conversation coach. Simulate being an airport staff member at JFK airport. The user just arrived. Speak naturally, correct grammar mistakes kindly by saying 'Quick tip:' followed by the correction, then continue the conversation. Keep responses under 3 sentences." },
+  supermarket: { name: "🛒 Supermercado", prompt: "You are an English conversation coach simulating a supermarket employee. Help the customer find items, discuss prices, etc. Correct grammar mistakes kindly with 'Quick tip:'. Keep responses under 3 sentences." },
+  job: { name: "💼 Entrevista", prompt: "You are an English conversation coach simulating a job interviewer at a tech company. Ask typical interview questions. Correct grammar mistakes with 'Quick tip:'. Keep responses under 3 sentences." },
+  hotel: { name: "🏨 Hotel", prompt: "You are an English conversation coach simulating a hotel receptionist. Handle check-in, questions about amenities, etc. Correct grammar mistakes with 'Quick tip:'. Keep responses under 3 sentences." },
+};
+
+const vocabData = [
+  { en: "routine", pt: "rotina", ctx: "My morning routine is simple.", status: "mastered" },
+  { en: "schedule", pt: "agenda / horário", ctx: "What's on your schedule today?", status: "review" },
+  { en: "meeting", pt: "reunião", ctx: "We have a meeting at 3pm.", status: "mastered" },
+  { en: "deadline", pt: "prazo / data limite", ctx: "The deadline is Friday.", status: "review" },
+  { en: "colleague", pt: "colega de trabalho", ctx: "My colleague helped me.", status: "new" },
+  { en: "available", pt: "disponível", ctx: "Are you available tomorrow?", status: "mastered" },
+  { en: "presentation", pt: "apresentação", ctx: "I have a presentation today.", status: "review" },
+  { en: "feedback", pt: "retorno / opinião", ctx: "Can I get your feedback?", status: "mastered" },
+  { en: "project", pt: "projeto", ctx: "The project is almost done.", status: "mastered" },
+  { en: "budget", pt: "orçamento", ctx: "We are under budget.", status: "new" },
+  { en: "client", pt: "cliente", ctx: "The client loved the idea.", status: "mastered" },
+  { en: "report", pt: "relatório", ctx: "Please send the report.", status: "review" },
+];
+
+// ===================== STATE =====================
+let currentScreen = '';
+let listenQ = 0, listenAnswered = false;
+let fillQ = 0, fillBlanks = {}, fillAnswered = false;
+let chatHistory = [];
+let currentScenario = 'airport';
+let vocabFilter = 'all';
+let onboardData = { level: 'beginner', goal: 'travel', time: 10 };
+
+// ===================== UTILS =====================
+window.showToast = function(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+window.showScreen = function(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + name);
+  if (el) { el.classList.add('active'); currentScreen = name; }
+  if (name === 'progress') renderProgress();
+  if (name === 'vocab') renderVocab();
+  if (name === 'gami') renderGami();
+  if (name === 'settings') renderSettings();
+  if (name === 'chat') initChat();
+}
+
+window.toggleSwitch = function(el) {
+  const on = el.dataset.on === 'true';
+  el.dataset.on = (!on).toString();
+}
+
+// ===================== AUTH =====================
+window.toggleAuthView = function() {
+  const login = document.getElementById('auth-login-view');
+  const reg = document.getElementById('auth-register-view');
+  login.style.display = login.style.display === 'none' ? '' : 'none';
+  reg.style.display = reg.style.display === 'none' ? '' : 'none';
+}
+
+window.doLogin = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if (!email || !pass) { showToast('Preencha todos os campos'); return; }
+
+  if (DEMO_MODE) { demoLogin(email); return; }
+
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    await loadUserProfile(cred.user);
+  } catch(e) {
+    showToast('Erro: ' + (e.code === 'auth/invalid-credential' ? 'Email ou senha incorretos' : e.message));
+  }
+}
+
+window.doRegister = async function() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  if (!name || !email || !pass) { showToast('Preencha todos os campos'); return; }
+  if (pass.length < 6) { showToast('Senha deve ter no mínimo 6 caracteres'); return; }
+
+  if (DEMO_MODE) { demoRegister(name, email); return; }
+
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await createUserProfile(cred.user.uid, name, email);
+    showScreen('onboarding');
+  } catch(e) {
+    showToast('Erro: ' + e.message);
+  }
+}
+
+window.doLogout = async function() {
+  if (!DEMO_MODE) await signOut(auth);
+  currentUser = null; userProfile = null;
+  showScreen('auth');
+}
+
+// ===================== DEMO MODE =====================
+function demoLogin(email) {
+  userProfile = {
+    name: email.split('@')[0],
+    email: email,
+    level: 'beginner',
+    goal: 'travel',
+    time: 10,
+    xp: 620,
+    streak: 12,
+    daysDone: 47,
+    wordsLearned: 423,
+    accuracy: 78,
+    weekHours: 3.2,
+    skills: { listening: 60, speaking: 40, reading: 70, writing: 50 },
+    createdAt: new Date(Date.now() - 47 * 86400000)
+  };
+  loadHomeData();
+  showScreen('home');
+}
+
+function demoRegister(name, email) {
+  userProfile = {
+    name, email,
+    level: 'beginner', goal: 'travel', time: 10,
+    xp: 0, streak: 0, daysDone: 0,
+    wordsLearned: 0, accuracy: 0, weekHours: 0,
+    skills: { listening: 0, speaking: 0, reading: 0, writing: 0 },
+    createdAt: new Date()
+  };
+  showScreen('onboarding');
+}
+
+// ===================== FIREBASE USER =====================
+async function createUserProfile(uid, name, email) {
+  const profile = {
+    name, email, level: 'beginner', goal: 'travel', time: 10,
+    xp: 0, streak: 0, daysDone: 0,
+    wordsLearned: 0, accuracy: 0, weekHours: 0,
+    skills: { listening: 0, speaking: 0, reading: 0, writing: 0 },
+    onboardingDone: false,
+    createdAt: serverTimestamp()
+  };
+  await setDoc(doc(db, 'users', uid), profile);
+  userProfile = profile;
+  currentUser = { uid };
+}
+
+async function loadUserProfile(user) {
+  currentUser = user;
+  const snap = await getDoc(doc(db, 'users', user.uid));
+  if (snap.exists()) {
+    userProfile = snap.data();
+    if (!userProfile.onboardingDone) { showScreen('onboarding'); }
+    else { loadHomeData(); showScreen('home'); }
+  } else {
+    await createUserProfile(user.uid, user.email.split('@')[0], user.email);
+    showScreen('onboarding');
+  }
+}
+
+async function saveProfile(updates) {
+  Object.assign(userProfile, updates);
+  if (!DEMO_MODE && currentUser) {
+    await updateDoc(doc(db, 'users', currentUser.uid), updates);
+  }
+}
+
+// ===================== ONBOARDING =====================
+window.selectChoice = function(el, key, val) {
+  el.closest('.choice-grid').querySelectorAll('.choice-card').forEach(c => {
+    c.classList.remove('selected');
+    c.querySelector('.check-dot').innerHTML = '';
+  });
+  el.classList.add('selected');
+  el.querySelector('.check-dot').innerHTML = '<i class="ti ti-check" style="font-size:12px"></i>';
+  onboardData[key] = val;
+}
+
+window.nextOnboardStep = function(step) {
+  document.getElementById('onboard-1').style.display = 'none';
+  document.getElementById('onboard-2').style.display = 'none';
+  document.getElementById('onboard-3').style.display = 'none';
+  document.getElementById('onboard-' + step).style.display = '';
+  document.querySelectorAll('.step-pip').forEach((p, i) => {
+    p.className = 'step-pip' + (i < step - 1 ? ' done' : i === step - 1 ? ' active' : '');
+  });
+}
+
+window.finishOnboarding = async function() {
+  await saveProfile({ ...onboardData, onboardingDone: true });
+  loadHomeData();
+  showScreen('home');
+  showToast('Plano criado! Bora começar 🚀');
+}
+
+// ===================== HOME =====================
+function loadHomeData() {
+  if (!userProfile) return;
+  const p = userProfile;
+  const initials = p.name ? p.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : '??';
+  document.getElementById('home-name').textContent = p.name || 'Aluno';
+  document.getElementById('home-avatar').textContent = initials;
+  document.getElementById('home-streak').textContent = (p.streak || 0) + ' dias';
+  const xpInLevel = (p.xp || 0) % 1000;
+  document.getElementById('home-xp').textContent = (p.xp || 0) + ' XP total';
+  document.getElementById('home-level').textContent = 'Nível ' + (Math.floor((p.xp || 0) / 1000) + 1);
+  document.getElementById('home-xp-bar').style.width = (xpInLevel / 10) + '%';
+  document.getElementById('stat-words').textContent = p.wordsLearned || 0;
+  document.getElementById('stat-accuracy').textContent = (p.accuracy || 0) + '%';
+  document.getElementById('stat-days').textContent = p.daysDone || 0;
+  document.getElementById('stat-week').textContent = (p.weekHours || 0) + 'h';
+}
+
+// ===================== LESSONS =====================
+window.startLesson = function(type) {
+  if (type === 'listening') {
+    listenQ = 0; listenAnswered = false;
+    renderListenQuestion();
+    showScreen('lesson-listening');
+  } else if (type === 'fillblank') {
+    fillQ = 0; fillAnswered = false; fillBlanks = {};
+    renderFillQuestion();
+    showScreen('fillblank');
+  }
+}
+
+function renderListenProgress() {
+  const c = document.getElementById('listen-progress');
+  c.innerHTML = listenQuestions.map((_, i) =>
+    `<div class="ex-prog-pip ${i < listenQ ? 'done' : i === listenQ ? 'active' : ''}"></div>`
+  ).join('');
+}
+
+function renderListenQuestion() {
+  renderListenProgress();
+  const q = listenQuestions[listenQ];
+  listenAnswered = false;
+  document.getElementById('listen-feedback').style.display = 'none';
+  document.getElementById('listen-next-btn').style.display = 'none';
+
+  document.getElementById('listen-body').innerHTML = `
+    <div class="ex-type"><i class="ti ti-headphones" style="font-size:12px;vertical-align:-1px"></i> Ouça e escolha a tradução</div>
+    <div class="audio-card-ex">
+      <button class="play-circle" onclick="simulatePlay(this)" id="play-btn">
+        <i class="ti ti-player-play" id="play-icon"></i>
+      </button>
+      <div class="phrase-en">"${q.phrase}"</div>
+      <div class="phrase-ph">${q.phonetic}</div>
+    </div>
+    <div class="choices-grid">
+      ${q.options.map((o, i) => `<button class="choice-btn" onclick="answerListen(this, ${i === q.correct})">${o}</button>`).join('')}
+    </div>
+  `;
+}
+
+window.simulatePlay = function(btn) {
+  const icon = document.getElementById('play-icon');
+  icon.className = 'ti ti-player-pause';
+  btn.style.background = 'var(--purple-dark)';
+  setTimeout(() => {
+    icon.className = 'ti ti-player-play';
+    btn.style.background = 'var(--purple)';
+  }, 1800);
+}
+
+window.answerListen = function(btn, correct) {
+  if (listenAnswered) return;
+  listenAnswered = true;
+  document.querySelectorAll('.choice-btn').forEach(b => b.style.pointerEvents = 'none');
+  const fb = document.getElementById('listen-feedback');
+  if (correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback-panel correct';
+    fb.innerHTML = '<i class="ti ti-circle-check"></i><div><strong>Correto!</strong> +15 XP adicionados.</div>';
+    gainXP(15);
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback-panel wrong';
+    fb.innerHTML = '<i class="ti ti-circle-x"></i><div>Quase! Revise essa palavra na próxima sessão.</div>';
+    document.querySelectorAll('.choice-btn')[listenQuestions[listenQ].correct].classList.add('correct');
+  }
+  fb.style.display = 'flex';
+  document.getElementById('listen-next-btn').style.display = '';
+}
+
+window.nextListenQuestion = function() {
+  listenQ++;
+  if (listenQ >= listenQuestions.length) {
+    saveProfile({ daysDone: (userProfile.daysDone || 0) + 1 });
+    showToast('Lição concluída! +75 XP 🎉');
+    showScreen('home');
+    loadHomeData();
+  } else {
+    renderListenQuestion();
+  }
+}
+
+// FILL BLANK
+function renderFillProgress() {
+  const c = document.getElementById('fill-progress');
+  c.innerHTML = fillQuestions.map((_, i) =>
+    `<div class="ex-prog-pip ${i < fillQ ? 'done' : i === fillQ ? 'active' : ''}"></div>`
+  ).join('');
+}
+
+function renderFillQuestion() {
+  renderFillProgress();
+  const q = fillQuestions[fillQ];
+  fillBlanks = {};
+  fillAnswered = false;
+  document.getElementById('fill-feedback').style.display = 'none';
+  document.getElementById('fill-next-btn').style.display = 'none';
+  document.getElementById('fill-check-btn').style.display = '';
+  document.getElementById('fill-check-btn').disabled = true;
+
+  const blanksHtml = q.blanks.map(b => `<span class="blank-slot" id="${b.id}" data-answer="${b.answer}" onclick="clearBlankSlot('${b.id}')">___</span>`).join(' ');
+
+  document.getElementById('fill-body').innerHTML = `
+    <div class="ex-type"><i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px"></i> Tradução reversa PT → EN</div>
+    <div class="sentence-display">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:400;font-family:'DM Sans'">${q.pt}</div>
+      ${q.prefix} ${blanksHtml} ${q.suffix}
+    </div>
+    <div class="hint-box">
+      <i class="ti ti-bulb"></i>
+      <p>${q.hint}</p>
+    </div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:500">Banco de palavras</div>
+    <div class="word-bank-ex" id="word-bank-${fillQ}">
+      ${q.words.map(w => `<div class="word-tile" onclick="selectWord(this, '${w}')">${w}</div>`).join('')}
+    </div>
+  `;
+}
+
+window.selectWord = function(el, word) {
+  if (el.classList.contains('used')) return;
+  const blanks = fillQuestions[fillQ].blanks;
+  const emptyBlank = blanks.find(b => !fillBlanks[b.id]);
+  if (!emptyBlank) return;
+  fillBlanks[emptyBlank.id] = word;
+  el.classList.add('used');
+  const slot = document.getElementById(emptyBlank.id);
+  slot.textContent = word;
+  slot.style.color = 'var(--purple)';
+  if (Object.keys(fillBlanks).length === blanks.length) {
+    document.getElementById('fill-check-btn').disabled = false;
+  }
+}
+
+window.clearBlankSlot = function(id) {
+  if (!fillBlanks[id]) return;
+  const word = fillBlanks[id];
+  delete fillBlanks[id];
+  document.getElementById(id).textContent = '___';
+  document.getElementById(id).style.color = 'var(--purple)';
+  document.querySelectorAll('.word-tile').forEach(t => {
+    if (t.textContent === word && t.classList.contains('used')) { t.classList.remove('used'); return; }
+  });
+  document.getElementById('fill-check-btn').disabled = true;
+  document.getElementById('fill-feedback').style.display = 'none';
+}
+
+window.checkFill = function() {
+  if (fillAnswered) return;
+  fillAnswered = true;
+  const q = fillQuestions[fillQ];
+  let allCorrect = true;
+  q.blanks.forEach(b => {
+    const slot = document.getElementById(b.id);
+    if (fillBlanks[b.id] === b.answer) {
+      slot.style.borderColor = 'var(--green)'; slot.style.color = 'var(--green)';
+    } else {
+      slot.style.borderColor = 'var(--red)'; slot.style.color = 'var(--red)';
+      allCorrect = false;
+    }
+  });
+  const fb = document.getElementById('fill-feedback');
+  if (allCorrect) {
+    fb.className = 'feedback-panel correct';
+    fb.innerHTML = '<i class="ti ti-circle-check"></i><div><strong>Perfeito!</strong> Resposta correta. +20 XP</div>';
+    gainXP(20);
+  } else {
+    fb.className = 'feedback-panel wrong';
+    const correct = q.blanks.map(b => `<strong>${b.answer}</strong>`).join(' / ');
+    fb.innerHTML = `<i class="ti ti-circle-x"></i><div>Quase! Resposta: ${correct}</div>`;
+  }
+  fb.style.display = 'flex';
+  document.getElementById('fill-check-btn').style.display = 'none';
+  document.getElementById('fill-next-btn').style.display = '';
+}
+
+window.nextFillQuestion = function() {
+  fillQ++;
+  if (fillQ >= fillQuestions.length) {
+    showToast('Exercício concluído! +60 XP 🎉');
+    showScreen('home');
+    loadHomeData();
+  } else {
+    renderFillQuestion();
+  }
+}
+
+// ===================== AI CHAT =====================
+function initChat() {
+  if (chatHistory.length === 0) {
+    renderScenarioPills();
+    loadScenario('airport');
+  }
+}
+
+function renderScenarioPills() {
+  document.getElementById('scenario-pills').innerHTML = Object.entries(chatScenarios).map(([key, s]) =>
+    `<div class="scenario-pill ${key === currentScenario ? 'active' : ''}" onclick="loadScenario('${key}')">${s.name}</div>`
+  ).join('');
+}
+
+window.loadScenario = function(key) {
+  currentScenario = key;
+  chatHistory = [];
+  renderScenarioPills();
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML = '';
+  appendMessage('ai', 'Coach IA', scenarios_intro[key] || 'Hello! Ready to practice? Let\'s go!');
+}
+
+const scenarios_intro = {
+  airport: "Hello! Welcome to JFK Airport. You just arrived in New York. How can I help you today?",
+  supermarket: "Hi there! Welcome to Whole Foods. Are you looking for something specific today?",
+  job: "Good morning! Please have a seat. I'm Alex, the hiring manager. Tell me a little about yourself.",
+  hotel: "Good evening and welcome to the Grand Hotel. Do you have a reservation with us?",
+};
+
+function appendMessage(type, name, text, correction = null) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `
+    <div class="msg-name">${name}</div>
+    <div class="bubble">${text}</div>
+    ${correction ? `<div class="correction-chip"><i class="ti ti-pencil" style="font-size:12px"></i> ${correction}</div>` : ''}
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendThinking() {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.id = 'thinking';
+  div.className = 'ai-thinking';
+  div.innerHTML = '<div class="thinking-dot"></div><div class="thinking-dot"></div><div class="thinking-dot"></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+window.sendChat = async function() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+
+  const name = userProfile?.name || 'Você';
+  appendMessage('user', name, text);
+  chatHistory.push({ role: 'user', content: text });
+  appendThinking();
+
+  try {
+    const systemPrompt = chatScenarios[currentScenario].prompt;
+    const messages = [{ role: 'user', content: systemPrompt + '\n\nConversation so far:\n' +
+      chatHistory.slice(-6).map(m => m.role + ': ' + m.content).join('\n') +
+      '\n\nNow respond to the latest user message.' }];
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'anthropic-dangerous-allow-browser': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 300, messages })
+    });
+    const data = await res.json();
+    document.getElementById('thinking')?.remove();
+
+    const reply = data.content?.[0]?.text || "Sorry, could you repeat that?";
+    chatHistory.push({ role: 'assistant', content: reply });
+
+    let correction = null;
+    if (reply.includes('Quick tip:')) {
+      const parts = reply.split('Quick tip:');
+      const mainText = parts[0].trim();
+      correction = 'Quick tip:' + parts[1].split('\n')[0];
+      appendMessage('ai', 'Coach IA', mainText, correction);
+    } else {
+      appendMessage('ai', 'Coach IA', reply);
+    }
+    gainXP(5);
+  } catch(e) {
+    document.getElementById('thinking')?.remove();
+    appendMessage('ai', 'Coach IA', "I'm having trouble connecting right now. Try again in a moment!");
+  }
+}
+
+window.toggleMic = function() {
+  showToast('Reconhecimento de voz em breve 🎤');
+}
+
+// ===================== XP =====================
+async function gainXP(amount) {
+  const newXP = (userProfile.xp || 0) + amount;
+  await saveProfile({ xp: newXP });
+  loadHomeData();
+}
+
+// ===================== PROGRESS =====================
+function renderProgress() {
+  if (!userProfile) return;
+  const p = userProfile;
+  const daysDone = p.daysDone || 0;
+  const month = Math.floor(daysDone / 30) + 1;
+  document.getElementById('prog-subtitle').textContent = `Mês ${Math.min(month, 6)} de 6 · ${Math.max(180 - daysDone, 0)} dias restantes`;
+
+  const phases = [
+    { label: 'Mês 1–2', name: 'Fundamentos', pct: Math.min(daysDone / 60, 1) },
+    { label: 'Mês 3–4', name: 'Comunicação', pct: Math.min(Math.max((daysDone - 60) / 60, 0), 1) },
+    { label: 'Mês 5–6', name: 'Fluência prática', pct: Math.min(Math.max((daysDone - 120) / 60, 0), 1) },
+  ];
+
+  document.getElementById('phase-bars').innerHTML = phases.map(ph => {
+    const cls = ph.pct >= 1 ? 'phase-done' : ph.pct > 0 ? 'phase-prog' : 'phase-future';
+    const w = Math.max(ph.pct * 100, ph.pct > 0 ? 30 : 100);
+    const label = ph.pct >= 1 ? ph.name + ' ✓' : ph.name;
+    return `<div class="phase-row">
+      <div class="phase-label">${ph.label}</div>
+      <div class="phase-bar-wrap"><div class="phase-bar ${cls}" style="width:${w}%">${label}</div></div>
+    </div>`;
+  }).join('');
+
+  const skills = p.skills || { listening: 0, speaking: 0, reading: 0, writing: 0 };
+  const skillItems = [
+    { key: 'listening', label: 'Listening', icon: 'ti-ear', color: '#6C5CE7' },
+    { key: 'speaking', label: 'Speaking', icon: 'ti-message', color: '#00B894' },
+    { key: 'reading', label: 'Reading', icon: 'ti-book', color: '#E17055' },
+    { key: 'writing', label: 'Writing', icon: 'ti-pencil', color: '#FDCB6E' },
+  ];
+  document.getElementById('skills-wrap').innerHTML = skillItems.map(s => {
+    const pct = skills[s.key] || 0;
+    const r = 26; const circ = 2 * Math.PI * r;
+    const dash = (pct / 100) * circ;
+    return `<div class="skill-card">
+      <div class="skill-name"><i class="ti ${s.icon}" style="color:${s.color};margin-right:4px;font-size:14px"></i> ${s.label}</div>
+      <svg class="ring-svg" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="${r}" fill="none" stroke="#F2F1FC" stroke-width="6"/>
+        <circle cx="32" cy="32" r="${r}" fill="none" stroke="${s.color}" stroke-width="6"
+          stroke-dasharray="${dash.toFixed(1)} ${circ.toFixed(1)}"
+          stroke-linecap="round" transform="rotate(-90 32 32)"/>
+      </svg>
+      <div class="skill-pct" style="color:${s.color}">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('history-list').innerHTML = `
+    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      ${[
+        { icon: 'ti-headphones', label: 'Listening concluído', time: 'Hoje · +75 XP', color: '#EEEDFE', tc: '#6C5CE7' },
+        { icon: 'ti-vocabulary', label: 'Vocabulário: At work', time: 'Ontem · +45 XP', color: '#E1F5EE', tc: '#00B894' },
+        { icon: 'ti-message-chatbot', label: 'Chat IA: Aeroporto', time: '2 dias atrás · +30 XP', color: '#FFF8EC', tc: '#E17055' },
+      ].map((h, i) => `
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;${i > 0 ? 'border-top:1px solid var(--border)' : ''}">
+          <div style="width:36px;height:36px;border-radius:10px;background:${h.color};display:flex;align-items:center;justify-content:center;font-size:18px;color:${h.tc}"><i class="ti ${h.icon}"></i></div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:500">${h.label}</div><div style="font-size:12px;color:var(--text2);margin-top:2px">${h.time}</div></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ===================== VOCAB =====================
+let currentVocabFilter = 'all';
+let vocabSearch = '';
+
+window.setVocabFilter = function(filter, el) {
+  currentVocabFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderVocab();
+}
+
+window.filterVocab = function() {
+  vocabSearch = document.getElementById('vocab-search').value.toLowerCase();
+  renderVocab();
+}
+
+function renderVocab() {
+  const filtered = vocabData.filter(w => {
+    const matchFilter = currentVocabFilter === 'all' || w.status === currentVocabFilter;
+    const matchSearch = !vocabSearch || w.en.toLowerCase().includes(vocabSearch) || w.pt.toLowerCase().includes(vocabSearch);
+    return matchFilter && matchSearch;
+  });
+  const dotColor = { mastered: 'var(--green)', review: 'var(--amber)', new: 'var(--border)' };
+  document.getElementById('word-list').innerHTML = filtered.map(w => `
+    <div class="word-row">
+      <div class="word-dot" style="background:${dotColor[w.status]}"></div>
+      <div class="word-content">
+        <div class="word-en">${w.en}</div>
+        <div class="word-pt">${w.pt}</div>
+        <div class="word-ctx">"${w.ctx}"</div>
+      </div>
+      <div class="word-actions-row">
+        <div class="word-action-btn"><i class="ti ti-volume"></i></div>
+        <div class="word-action-btn"><i class="ti ti-star"></i></div>
+      </div>
+    </div>
+  `).join('') || '<div style="text-align:center;color:var(--text3);padding:40px 20px;font-size:14px">Nenhuma palavra encontrada</div>';
+}
+
+// ===================== GAMIFICATION =====================
+function renderGami() {
+  const xp = userProfile?.xp || 0;
+  document.getElementById('gami-xp').textContent = xp + ' XP total';
+
+  const ranking = [
+    { name: 'Carlos A.', pts: 1240, streak: 21, color: '#FFF4E0', tc: '#E17055', initials: 'CA', pos: '1', posColor: '#B8860B' },
+    { name: 'Maria R.', pts: 980, streak: 14, color: '#E1F5EE', tc: '#00B894', initials: 'MR', pos: '2', posColor: '#888' },
+    { name: 'João S.', pts: 810, streak: 9, color: '#FFF4E0', tc: '#E17055', initials: 'JS', pos: '3', posColor: '#CD7F32' },
+    { name: userProfile?.name || 'Você', pts: xp, streak: userProfile?.streak || 0, color: '#EEEDFE', tc: '#6C5CE7', initials: (userProfile?.name||'?')[0].toUpperCase() + ((userProfile?.name||'?').split(' ')[1]||'?')[0].toUpperCase(), pos: '4', isMe: true, posColor: '#6C5CE7' },
+    { name: 'Lucas F.', pts: Math.max(xp - 80, 100), streak: 5, color: '#F2F1FC', tc: '#888', initials: 'LF', pos: '5', posColor: 'var(--text3)' },
+  ].sort((a,b) => b.pts - a.pts).map((r, i) => ({ ...r, pos: String(i + 1) }));
+
+  document.getElementById('rank-list').innerHTML = ranking.map(r => `
+    <div class="rank-row ${r.isMe ? 'me' : ''}">
+      <div class="rank-pos" style="color:${r.posColor}">${r.pos}</div>
+      <div class="ava" style="background:${r.color};color:${r.tc}">${r.initials}</div>
+      <div class="rank-info">
+        <div class="rank-name" ${r.isMe ? 'style="color:var(--purple)"' : ''}>${r.name}</div>
+        <div class="rank-pts">${r.pts.toLocaleString()} XP · <i class="ti ti-flame" style="font-size:12px;vertical-align:-1px;color:#FDCB6E"></i> ${r.streak} dias</div>
+      </div>
+    </div>
+  `).join('');
+
+  const achievements = [
+    { icon: 'ti-flame', bg: '#FFF4E0', tc: '#E17055', name: 'Sequência de fogo', desc: 'Estudou 10 dias seguidos', xp: '+100 XP', locked: (userProfile?.streak || 0) < 10 },
+    { icon: 'ti-vocabulary', bg: '#E1F5EE', tc: '#00B894', name: 'Poliglota iniciante', desc: 'Aprendeu 400 palavras', xp: '+200 XP', locked: (userProfile?.wordsLearned || 0) < 400 },
+    { icon: 'ti-message-chatbot', bg: '#EEEDFE', tc: '#6C5CE7', name: 'Conversador', desc: 'Complete 10 chats com a IA', xp: '+150 XP', locked: true },
+    { icon: 'ti-crown', bg: '#FFF4E0', tc: '#E17055', name: 'Liga Ouro', desc: 'Alcance o 1º lugar na semana', xp: '+500 XP', locked: true },
+  ];
+
+  document.getElementById('ach-list').innerHTML = achievements.map(a => `
+    <div class="ach-row ${a.locked ? 'locked' : ''}">
+      <div class="ach-icon" style="background:${a.bg};color:${a.tc}"><i class="ti ${a.icon}"></i></div>
+      <div class="ach-text"><h4>${a.name}</h4><p>${a.desc}</p></div>
+      <span class="badge badge-purple">${a.xp}</span>
+    </div>
+  `).join('');
+}
+
+// ===================== SETTINGS =====================
+function renderSettings() {
+  if (!userProfile) return;
+  const p = userProfile;
+  const initials = p.name ? p.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : '??';
+  document.getElementById('settings-avatar').textContent = initials;
+  document.getElementById('settings-name').textContent = p.name || '--';
+  document.getElementById('settings-email').textContent = p.email || '--';
+  document.getElementById('settings-level').textContent = 'Nível ' + (Math.floor((p.xp || 0) / 1000) + 1);
+
+  const goalLabel = { travel: 'Viagens', work: 'Trabalho', conversation: 'Conversação' };
+  const levelLabel = { beginner: 'Iniciante', basic: 'Básico', intermediate: 'Intermediário' };
+  document.getElementById('plan-title').textContent = `Plano ${levelLabel[p.level] || 'Iniciante'} · ${p.time || 10} min/dia`;
+  document.getElementById('plan-sub').textContent = `Foco em ${goalLabel[p.goal] || 'viagens'} · 6 meses`;
+
+  const done = p.daysDone || 0;
+  const pct = Math.round(done / 180 * 100);
+  document.getElementById('plan-days-done').textContent = done;
+  document.getElementById('plan-days-left').textContent = Math.max(180 - done, 0);
+  document.getElementById('plan-pct').textContent = pct + '%';
+}
+
+// ===================== BOOT =====================
+async function boot() {
+  await new Promise(r => setTimeout(r, 1200));
+  document.getElementById('loading-screen').classList.add('hide');
+  setTimeout(() => document.getElementById('loading-screen').remove(), 400);
+
+  if (DEMO_MODE) {
+    showScreen('auth');
+    showToast('Modo demo ativo — use qualquer e-mail/senha');
+    return;
+  }
+
+  onAuthStateChanged(auth, async user => {
+    if (user) { await loadUserProfile(user); }
+    else { showScreen('auth'); }
+  });
+}
+
+boot();
+</script>
+</body>
+</html>
