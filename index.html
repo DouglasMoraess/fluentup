@@ -1314,14 +1314,50 @@ function renderListenQuestion() {
 }
 
 window.simulatePlay = function(btn) {
+  const q = listenQuestions[listenQ];
   const icon = document.getElementById('play-icon');
-  icon.className = 'ti ti-player-pause';
-  btn.style.background = 'var(--purple-dark)';
-  setTimeout(() => {
+
+  if (!window.speechSynthesis) {
+    showToast('Seu navegador nao suporta audio');
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(q.phrase);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+
+  const voices = window.speechSynthesis.getVoices();
+  const enVoice = voices.find(v => v.lang.startsWith('en-US') && v.name.toLowerCase().includes('female'))
+    || voices.find(v => v.lang.startsWith('en-US'))
+    || voices.find(v => v.lang.startsWith('en'));
+  if (enVoice) utter.voice = enVoice;
+
+  utter.onstart = () => {
+    icon.className = 'ti ti-player-pause';
+    btn.style.background = 'var(--purple-dark)';
+    btn.onclick = () => { window.speechSynthesis.cancel(); };
+  };
+  utter.onend = () => {
     icon.className = 'ti ti-player-play';
     btn.style.background = 'var(--purple)';
-  }, 1800);
+    btn.onclick = () => simulatePlay(btn);
+  };
+  utter.onerror = () => {
+    icon.className = 'ti ti-player-play';
+    btn.style.background = 'var(--purple)';
+    btn.onclick = () => simulatePlay(btn);
+    showToast('Erro ao reproduzir audio');
+  };
+
+  window.speechSynthesis.speak(utter);
 }
+
+window.speechSynthesis.onvoiceschanged = function() {
+  window.speechSynthesis.getVoices();
+};
 
 window.answerListen = function(btn, correct) {
   if (listenAnswered) return;
