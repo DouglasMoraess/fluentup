@@ -2,1878 +2,1083 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>FluentUp — Inglês em 6 meses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 :root {
-  --purple: #6C5CE7;
-  --purple-light: #A29BFE;
-  --purple-pale: #F0EEFF;
-  --purple-dark: #4A3CC7;
-  --teal: #00CEC9;
-  --teal-pale: #E0FAF9;
-  --amber: #FDCB6E;
-  --amber-dark: #E17055;
-  --green: #00B894;
-  --green-pale: #D4EFEA;
-  --red: #FF7675;
-  --red-pale: #FFF0F0;
-  --bg: #F7F6FF;
-  --surface: #FFFFFF;
-  --surface2: #F2F1FC;
-  --border: rgba(108,92,231,0.12);
-  --text: #1A1530;
-  --text2: #6B6494;
-  --text3: #A89EC9;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 4px 24px rgba(108,92,231,0.10);
+  --purple:#6C5CE7;--purple-l:#A29BFE;--purple-pale:#F0EEFF;--purple-dark:#4A3CC7;--purple-border:#C4B8FF;
+  --green:#00B894;--green-pale:#D4EFEA;--green-border:#81E6D9;
+  --red:#FF6B6B;--red-pale:#FFF0F0;--red-border:#FFBABA;
+  --amber:#FDCB6E;--amber-pale:#FFF8EC;--orange:#E17055;
+  --bg:#F7F6FF;--surface:#FFFFFF;--surface2:#F2F1FC;
+  --border:rgba(108,92,231,0.13);--text:#1A1530;--text2:#6B6494;--text3:#B0A8D4;
+  --r:16px;--rs:12px;--rx:8px;
 }
-
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
-
-/* PHONE FRAME */
-.app-wrapper {
-  width: 100%;
-  max-width: 430px;
-  min-height: 100vh;
-  background: var(--surface);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* SCREENS */
-.screen {
-  display: none;
-  flex-direction: column;
-  min-height: 100vh;
-  animation: fadeIn 0.2s ease;
-}
-.screen.active { display: flex; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
-/* NAV BAR */
-.navbar {
-  display: flex;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  padding: 8px 0 env(safe-area-inset-bottom, 8px);
-  position: sticky;
-  bottom: 0;
-  z-index: 100;
-}
-.nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 6px 0; font-size: 10px; color: var(--text3);
-  cursor: pointer; border: none; background: none;
-  transition: color 0.15s; font-family: 'DM Sans', sans-serif;
-  letter-spacing: 0.02em;
-}
-.nav-item i { font-size: 22px; }
-.nav-item.active { color: var(--purple); }
-
-/* SHARED COMPONENTS */
-.section-label {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--text3);
-  padding: 20px 20px 10px;
-}
-
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin: 0 16px 12px;
-  overflow: hidden;
-}
-
-.btn {
-  border: none; border-radius: var(--radius-sm); cursor: pointer;
-  font-family: 'DM Sans', sans-serif; font-weight: 500;
-  transition: all 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-full { width: 100%; padding: 15px; font-size: 15px; }
-.btn-primary { background: var(--purple); color: white; }
-.btn-primary:hover { background: var(--purple-dark); transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0); }
-.btn-ghost { background: var(--surface2); color: var(--text2); }
-.btn-ghost:hover { background: var(--purple-pale); color: var(--purple); }
-
-.badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 9px; border-radius: 99px;
-  font-size: 11px; font-weight: 500;
-}
-.badge-purple { background: var(--purple-pale); color: var(--purple); }
-.badge-green { background: var(--green-pale); color: var(--green); }
-.badge-amber { background: #FFF4E0; color: #B8860B; }
-
-.progress-bar-wrap { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; }
-.progress-bar-fill { height: 100%; border-radius: 99px; background: var(--purple); transition: width 0.4s ease; }
-
-/* TOAST */
-.toast {
-  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: var(--text); color: white; padding: 10px 20px;
-  border-radius: 99px; font-size: 13px; font-weight: 500;
-  opacity: 0; transition: all 0.3s; z-index: 999; white-space: nowrap;
-  pointer-events: none;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+.app{width:100%;max-width:430px;min-height:100vh;background:var(--surface);display:flex;flex-direction:column;position:relative;overflow-x:hidden;}
+.screen{display:none;flex-direction:column;min-height:100vh;animation:si .22s ease;}
+.screen.active{display:flex;}
+@keyframes si{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 
 /* LOADING */
-#loading-screen {
-  position: fixed; inset: 0; background: var(--purple);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 9999; transition: opacity 0.4s;
-}
-#loading-screen.hide { opacity: 0; pointer-events: none; }
-.loading-logo { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: white; margin-bottom: 8px; }
-.loading-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
-.loading-spinner {
-  width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.3);
-  border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+#screen-loading{background:var(--purple);align-items:center;justify-content:center;}
+.load-logo{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:white;letter-spacing:-1px;}
+.load-sub{font-size:14px;color:rgba(255,255,255,.7);margin-top:4px;margin-bottom:48px;}
+.spinner{width:34px;height:34px;border:3px solid rgba(255,255,255,.25);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-/* ===================== AUTH SCREEN ===================== */
-#screen-auth {
-  padding: 0;
-  background: var(--surface);
-}
-.auth-hero {
-  background: var(--purple);
-  padding: 60px 28px 40px;
-  text-align: center;
-}
-.auth-hero-icon {
-  width: 72px; height: 72px;
-  background: rgba(255,255,255,0.15); border-radius: 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px; color: white;
-  margin: 0 auto 20px;
-}
-.auth-hero h1 { font-size: 28px; font-weight: 800; color: white; margin-bottom: 8px; }
-.auth-hero p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.6; }
-.auth-body { padding: 32px 24px; }
-.auth-body h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-.auth-body .sub { font-size: 14px; color: var(--text2); margin-bottom: 28px; }
-.field { margin-bottom: 14px; }
-.field label { font-size: 12px; font-weight: 500; color: var(--text2); display: block; margin-bottom: 6px; letter-spacing: 0.04em; }
-.field input {
-  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm); font-size: 15px; font-family: 'DM Sans', sans-serif;
-  background: var(--surface); color: var(--text); outline: none;
-  transition: border-color 0.15s;
-}
-.field input:focus { border-color: var(--purple); }
-.auth-switch { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text2); }
-.auth-switch a { color: var(--purple); font-weight: 500; cursor: pointer; text-decoration: none; }
+/* AUTH */
+#screen-auth{background:var(--surface);}
+.auth-hero{background:var(--purple);padding:52px 28px 40px;text-align:center;position:relative;overflow:hidden;}
+.auth-hero::before,.auth-hero::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.05);}
+.auth-hero::before{width:200px;height:200px;top:-60px;right:-40px;}
+.auth-hero::after{width:120px;height:120px;bottom:-30px;left:-20px;}
+.auth-owl{font-size:54px;margin-bottom:14px;position:relative;z-index:1;}
+.auth-hero h1{font-size:30px;font-weight:800;color:white;position:relative;z-index:1;}
+.auth-hero p{font-size:14px;color:rgba(255,255,255,.8);margin-top:8px;line-height:1.6;position:relative;z-index:1;}
+.auth-body{padding:26px 24px 24px;flex:1;}
+.auth-tabs{display:flex;background:var(--surface2);border-radius:var(--rs);padding:4px;margin-bottom:22px;}
+.auth-tab{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;color:var(--text2);transition:all .15s;}
+.auth-tab.active{background:var(--surface);color:var(--purple);box-shadow:0 1px 4px rgba(108,92,231,.15);}
+.field{margin-bottom:13px;}
+.field label{font-size:11px;font-weight:600;color:var(--text3);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em;}
+.field input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .15s;background:var(--surface);}
+.field input:focus{border-color:var(--purple);}
+.btn{width:100%;padding:15px;border:none;border-radius:var(--rs);font-size:16px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em;}
+.btn-purple{background:var(--purple);color:white;}
+.btn-purple:hover{background:var(--purple-dark);transform:translateY(-1px);}
+.btn-ghost{background:var(--surface2);color:var(--text2);margin-top:10px;}
+.btn-ghost:hover{background:var(--purple-pale);color:var(--purple);}
+.btn-green{background:var(--green);color:white;}
+.btn-green:hover{background:#009B7D;}
 
-/* ===================== ONBOARDING ===================== */
-#screen-onboarding {
-  background: var(--surface);
-}
-.onboard-container {
-  flex: 1; display: flex; flex-direction: column;
-  padding: 40px 24px 24px;
-}
-.onboard-step-indicator {
-  display: flex; gap: 6px; margin-bottom: 36px;
-}
-.step-pip {
-  height: 4px; flex: 1; border-radius: 99px;
-  background: var(--surface2); transition: background 0.3s;
-}
-.step-pip.done { background: var(--purple); }
-.step-pip.active { background: var(--purple-light); }
+/* ONBOARDING */
+.onboard-body{flex:1;padding:32px 24px 24px;display:flex;flex-direction:column;}
+.onboard-pips{display:flex;gap:6px;margin-bottom:38px;}
+.pip{flex:1;height:5px;border-radius:99px;background:var(--surface2);transition:background .3s;}
+.pip.done{background:var(--purple);}
+.pip.active{background:var(--purple-l);}
+.onboard-emoji{font-size:56px;margin-bottom:18px;}
+.onboard-body h2{font-size:26px;font-weight:800;line-height:1.2;margin-bottom:10px;}
+.onboard-body .desc{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:26px;}
+.opts{display:flex;flex-direction:column;gap:10px;flex:1;margin-bottom:22px;}
+.opt{border:2px solid var(--border);border-radius:var(--r);padding:15px 17px;display:flex;align-items:center;gap:13px;cursor:pointer;transition:all .15s;background:var(--surface);}
+.opt:hover{border-color:var(--purple-l);background:var(--purple-pale);}
+.opt.sel{border-color:var(--purple);background:var(--purple-pale);}
+.opt-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.opt-txt h4{font-size:15px;font-weight:700;}
+.opt-txt p{font-size:13px;color:var(--text2);margin-top:2px;}
+.opt-chk{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.opt.sel .opt-chk{background:var(--purple);border-color:var(--purple);color:white;}
 
-.onboard-icon {
-  width: 72px; height: 72px; border-radius: 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px; margin-bottom: 24px;
-}
-.onboard-container h2 { font-size: 26px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
-.onboard-container .desc { font-size: 15px; color: var(--text2); line-height: 1.6; margin-bottom: 28px; }
+/* NAVBAR */
+.navbar{display:flex;border-top:1px solid var(--border);background:var(--surface);padding:8px 0 max(env(safe-area-inset-bottom),8px);position:sticky;bottom:0;z-index:100;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;font-size:10px;font-weight:600;color:var(--text3);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;transition:color .15s;}
+.nav-btn i{font-size:22px;}
+.nav-btn.active{color:var(--purple);}
 
-.choice-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-.choice-card {
-  border: 1.5px solid var(--border); border-radius: var(--radius);
-  padding: 14px 16px; display: flex; align-items: center; gap: 14px;
-  cursor: pointer; transition: all 0.15s; background: var(--surface);
-}
-.choice-card:hover { border-color: var(--purple-light); background: var(--purple-pale); }
-.choice-card.selected { border-color: var(--purple); background: var(--purple-pale); }
-.choice-card-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
-}
-.choice-card-text h4 { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; }
-.choice-card-text p { font-size: 13px; color: var(--text2); margin-top: 2px; }
-.check-dot {
-  margin-left: auto; width: 20px; height: 20px;
-  border-radius: 50%; border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; flex-shrink: 0;
-}
-.choice-card.selected .check-dot { background: var(--purple); border-color: var(--purple); color: white; }
+/* HOME HEADER */
+.home-hdr{background:var(--purple);padding:18px 20px 28px;position:relative;overflow:hidden;}
+.home-hdr::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);top:-50px;right:-30px;}
+.home-hdr::after{content:'';position:absolute;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-40px;left:10px;}
+.home-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:relative;z-index:1;}
+.home-greet{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:3px;}
+.home-name{font-size:22px;font-weight:800;color:white;}
+.home-ava{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;cursor:pointer;border:2px solid rgba(255,255,255,.3);}
+.home-stats{display:flex;gap:8px;position:relative;z-index:1;margin-bottom:14px;}
+.hstat{flex:1;background:rgba(255,255,255,.15);border-radius:var(--rs);padding:9px 10px;display:flex;align-items:center;gap:7px;}
+.hstat i{font-size:18px;}
+.hstat-v{font-size:16px;font-weight:700;color:white;line-height:1;}
+.hstat-l{font-size:10px;color:rgba(255,255,255,.7);margin-top:2px;font-weight:500;}
+.xp-lbl{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.85);margin-bottom:5px;font-weight:500;position:relative;z-index:1;}
+.xp-track{background:rgba(255,255,255,.2);border-radius:99px;height:8px;overflow:hidden;position:relative;z-index:1;}
+.xp-fill{height:100%;border-radius:99px;background:white;transition:width .6s ease;}
 
-/* ===================== HOME ===================== */
-.home-header {
-  background: var(--purple);
-  padding: 20px 20px 36px; color: white; position: relative; overflow: hidden;
-}
-.home-header::before {
-  content: ''; position: absolute; top: -30px; right: -30px;
-  width: 160px; height: 160px; border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-}
-.home-header::after {
-  content: ''; position: absolute; bottom: -50px; right: 20px;
-  width: 100px; height: 100px; border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-}
-.home-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-.home-greeting { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
-.home-name { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; }
-.avatar-sm {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 700; color: white; cursor: pointer;
-}
-.streak-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.15); border-radius: 99px;
-  padding: 6px 14px; font-size: 13px; font-weight: 500; margin-bottom: 14px;
-}
-.xp-row { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
-.xp-bar-bg { background: rgba(255,255,255,0.2); border-radius: 99px; height: 7px; overflow: hidden; }
-.xp-bar-fg { height: 100%; border-radius: 99px; background: white; transition: width 0.5s ease; }
+/* TRAIL */
+.trail-lbl{font-size:11px;font-weight:700;color:var(--text3);padding:18px 20px 10px;text-transform:uppercase;letter-spacing:.08em;}
+.trail{padding:0 16px 20px;}
+.t-section{margin-bottom:10px;}
+.t-sec-hdr{color:white;border-radius:var(--r) var(--r) 0 0;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.t-sec-hdr i{font-size:20px;}
+.t-sec-hdr h3{font-size:14px;font-weight:700;}
+.t-sec-hdr p{font-size:11px;opacity:.8;margin-top:1px;}
+.t-sec-body{background:var(--surface2);border-radius:0 0 var(--r) var(--r);padding:14px;display:flex;flex-direction:column;gap:9px;}
+.t-lesson{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:var(--rs);background:var(--surface);border:2px solid var(--border);cursor:pointer;transition:all .15s;}
+.t-lesson:hover:not(.locked){border-color:var(--purple-l);transform:translateX(2px);}
+.t-lesson.locked{opacity:.4;cursor:not-allowed;}
+.t-lesson.done{border-color:var(--green-border);background:var(--green-pale);}
+.t-lesson.curr{border-color:var(--purple);background:var(--purple-pale);}
+.lesson-node{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ln-done{background:var(--green);color:white;}
+.ln-curr{background:var(--purple);color:white;animation:pulse 2s infinite;}
+.ln-lock{background:var(--surface2);color:var(--text3);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(108,92,231,.3);}50%{box-shadow:0 0 0 8px rgba(108,92,231,0);}}
+.t-lesson-info{flex:1;}
+.t-lesson-info h4{font-size:14px;font-weight:600;}
+.t-lesson-info p{font-size:12px;color:var(--text2);margin-top:2px;}
+.t-xp{font-size:12px;font-weight:700;color:var(--purple);background:var(--purple-pale);padding:3px 8px;border-radius:99px;}
+.t-lesson.done .t-xp{color:var(--green);background:var(--green-pale);}
 
-.lesson-card {
-  margin: 0 16px 10px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-}
-.lesson-card-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
-.lesson-icon {
-  width: 46px; height: 46px; border-radius: 13px;
-  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
-}
-.lesson-meta h3 { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; }
-.lesson-meta p { font-size: 12px; color: var(--text2); margin-top: 2px; }
-.lesson-badge-area { margin-left: auto; }
-.lesson-card-bottom {
-  border-top: 1px solid var(--border); padding: 10px 16px;
-  display: flex; align-items: center; gap: 10px;
-}
-.lesson-card-bottom .progress-bar-wrap { flex: 1; }
-.lesson-card-bottom .pct { font-size: 12px; color: var(--text3); min-width: 32px; text-align: right; }
-.start-btn {
-  border: none; border-radius: 8px; padding: 7px 14px;
-  font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif;
-  cursor: pointer; transition: all 0.15s;
-}
-.start-btn-purple { background: var(--purple); color: white; }
-.start-btn-ghost { background: var(--surface2); color: var(--text2); }
+/* LESSON */
+.ex-shell{display:flex;flex-direction:column;flex:1;}
+.ex-topbar{padding:13px 16px 8px;display:flex;align-items:center;gap:11px;}
+.ex-close-btn{width:36px;height:36px;border:none;background:var(--surface2);border-radius:99px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:20px;flex-shrink:0;transition:all .15s;}
+.ex-close-btn:hover{background:var(--red-pale);color:var(--red);}
+.ex-pbar{flex:1;height:10px;background:var(--surface2);border-radius:99px;overflow:hidden;}
+.ex-pfill{height:100%;background:var(--purple);border-radius:99px;transition:width .4s ease;}
+.hearts{display:flex;gap:2px;}
+.heart{font-size:20px;transition:transform .3s;}
+.heart.lost{filter:grayscale(1);opacity:.35;transform:scale(.85);}
+.ex-content{flex:1;padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.ex-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-radius:99px;}
+.badge-listen{background:var(--purple-pale);color:var(--purple);}
+.badge-translate{background:var(--amber-pale);color:var(--orange);}
+.badge-fill{background:var(--green-pale);color:var(--green);}
+.badge-match{background:#EEF9FF;color:#0891B2;}
+.ex-q{font-size:20px;font-weight:700;line-height:1.35;}
+.ex-q-sub{font-size:14px;color:var(--text2);margin-top:3px;}
 
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 16px 16px; }
-.stat-tile {
-  background: var(--surface2); border-radius: var(--radius-sm); padding: 14px;
-}
-.stat-tile .val { font-size: 24px; font-weight: 700; font-family: 'Syne', sans-serif; color: var(--purple); }
-.stat-tile .lbl { font-size: 12px; color: var(--text2); margin-top: 3px; }
+/* AUDIO */
+.audio-card{background:var(--purple-pale);border:2px solid var(--purple-border);border-radius:var(--r);padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;}
+.audio-card:hover{background:#E8E3FF;}
+.audio-card:active{transform:scale(.98);}
+.play-btn{width:54px;height:54px;border-radius:50%;background:var(--purple);color:white;border:none;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;flex-shrink:0;transition:all .15s;}
+.play-btn.playing{background:var(--purple-dark);animation:pp .8s infinite;}
+@keyframes pp{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+.audio-txt{flex:1;}
+.audio-phrase{font-size:19px;font-weight:700;color:var(--purple);}
+.audio-ph{font-size:13px;color:var(--text3);margin-top:3px;}
 
-/* ===================== LESSON / EXERCISE ===================== */
-.ex-topbar {
-  display: flex; align-items: center; gap: 12px; padding: 16px 20px 12px;
-  border-bottom: 1px solid var(--border);
-}
-.ex-back { border: none; background: none; cursor: pointer; color: var(--text2); font-size: 22px; padding: 0; }
-.ex-title { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; flex: 1; }
-.ex-xp { font-size: 13px; font-weight: 600; color: var(--purple); }
-.ex-progress { display: flex; gap: 4px; padding: 0 20px 14px; }
-.ex-prog-pip { flex: 1; height: 5px; border-radius: 99px; background: var(--surface2); }
-.ex-prog-pip.done { background: var(--purple); }
-.ex-prog-pip.active { background: var(--purple-light); }
+/* CHOICES */
+.choices{display:flex;flex-direction:column;gap:9px;}
+.choice{border:2px solid var(--border);border-radius:var(--rs);padding:13px 15px;font-size:15px;font-weight:500;cursor:pointer;text-align:left;background:var(--surface);color:var(--text);transition:all .15s;display:flex;align-items:center;gap:10px;font-family:'DM Sans',sans-serif;line-height:1.4;}
+.choice:hover:not(:disabled){border-color:var(--purple-l);background:var(--purple-pale);color:var(--purple);}
+.choice.sel{border-color:var(--purple);background:var(--purple-pale);color:var(--purple);}
+.choice.correct{border-color:var(--green);background:var(--green-pale);color:#00675A;pointer-events:none;}
+.choice.wrong{border-color:var(--red);background:var(--red-pale);color:#C0392B;pointer-events:none;}
+.cletter{width:28px;height:28px;border-radius:7px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;border:1px solid var(--border);transition:all .15s;}
+.choice.sel .cletter{background:var(--purple);color:white;border-color:var(--purple);}
+.choice.correct .cletter{background:var(--green);color:white;border-color:var(--green);}
+.choice.wrong .cletter{background:var(--red);color:white;border-color:var(--red);}
 
-.ex-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
-.ex-type { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--purple); }
+/* FILL */
+.sentence-wrap{font-size:17px;font-weight:500;line-height:2.2;background:var(--surface2);border-radius:var(--rs);padding:14px;}
+.blank-slot{display:inline-block;min-width:80px;border-bottom:2.5px solid var(--purple);text-align:center;color:var(--purple);font-weight:700;padding:0 6px;margin:0 3px;cursor:pointer;}
+.blank-slot.filled{background:var(--purple-pale);border-radius:5px 5px 0 0;}
+.blank-slot.ok{border-color:var(--green);color:var(--green);background:var(--green-pale);}
+.blank-slot.err{border-color:var(--red);color:var(--red);background:var(--red-pale);}
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;}
+.wtile{border:2px solid var(--purple-border);border-radius:var(--rx);padding:9px 15px;font-size:14px;font-weight:500;cursor:pointer;background:var(--surface);color:var(--text);transition:all .15s;font-family:'DM Sans',sans-serif;box-shadow:0 2px 0 var(--purple-border);}
+.wtile:hover{background:var(--purple-pale);border-color:var(--purple);}
+.wtile:active{transform:translateY(2px);box-shadow:none;}
+.wtile.used{opacity:.25;pointer-events:none;box-shadow:none;}
+.hint-box{background:var(--amber-pale);border-radius:var(--rx);padding:10px 13px;display:flex;gap:8px;align-items:flex-start;}
+.hint-box i{color:var(--orange);font-size:16px;flex-shrink:0;margin-top:1px;}
+.hint-box p{font-size:13px;color:#7D3C0F;line-height:1.5;}
 
-.audio-card-ex {
-  background: var(--purple-pale); border-radius: var(--radius);
-  padding: 24px; text-align: center;
-}
-.play-circle {
-  width: 60px; height: 60px; border-radius: 50%;
-  background: var(--purple); color: white; border: none;
-  font-size: 26px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; margin: 0 auto 14px; transition: transform 0.15s;
-}
-.play-circle:hover { transform: scale(1.05); }
-.phrase-en { font-size: 22px; font-weight: 700; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
-.phrase-ph { font-size: 13px; color: var(--text3); }
+/* MATCH */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.mitem{border:2px solid var(--border);border-radius:var(--rs);padding:12px 13px;font-size:14px;font-weight:500;cursor:pointer;text-align:center;background:var(--surface);transition:all .15s;}
+.mitem:hover{border-color:var(--purple-l);background:var(--purple-pale);}
+.mitem.sel{border-color:var(--purple);background:var(--purple-pale);color:var(--purple);}
+.mitem.matched{border-color:var(--green);background:var(--green-pale);color:#00675A;pointer-events:none;}
+.mitem.bad{border-color:var(--red);background:var(--red-pale);animation:shake .3s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
 
-.choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.choice-btn {
-  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-  padding: 14px 10px; font-size: 14px; font-family: 'DM Sans', sans-serif;
-  cursor: pointer; text-align: center; background: var(--surface);
-  color: var(--text); transition: all 0.15s; line-height: 1.4;
-}
-.choice-btn:hover { border-color: var(--purple-light); background: var(--purple-pale); }
-.choice-btn.correct { border-color: var(--green); background: var(--green-pale); color: #00675A; }
-.choice-btn.wrong { border-color: var(--red); background: var(--red-pale); color: #C0392B; }
+/* FOOTER */
+.ex-footer{padding:14px 20px max(env(safe-area-inset-bottom),18px);border-top:1px solid var(--border);}
+.feedback{border-radius:var(--rs);padding:13px 15px;margin-bottom:13px;display:flex;align-items:flex-start;gap:11px;}
+.feedback.ok{background:var(--green-pale);border:1.5px solid var(--green-border);}
+.feedback.err{background:var(--red-pale);border:1.5px solid var(--red-border);}
+.feedback i{font-size:22px;flex-shrink:0;margin-top:1px;}
+.feedback.ok i{color:var(--green);}
+.feedback.err i{color:var(--red);}
+.fb-title{font-size:15px;font-weight:700;}
+.fb-sub{font-size:13px;margin-top:2px;opacity:.85;}
+.feedback.ok .fb-title{color:#005A50;}
+.feedback.err .fb-title{color:#B71C1C;}
+.check-btn{width:100%;padding:15px;border:none;border-radius:var(--rs);font-size:16px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:all .15s;letter-spacing:.01em;}
+.cbtn-off{background:var(--surface2);color:var(--text3);cursor:not-allowed;}
+.cbtn-on{background:var(--purple);color:white;}
+.cbtn-on:hover{background:var(--purple-dark);}
+.cbtn-next{background:var(--green);color:white;}
+.cbtn-next:hover{background:#009B7D;}
 
-.feedback-panel {
-  border-radius: var(--radius-sm); padding: 14px 16px;
-  display: flex; align-items: flex-start; gap: 10px; font-size: 14px;
-}
-.feedback-panel.correct { background: var(--green-pale); color: #005A50; }
-.feedback-panel.wrong { background: var(--red-pale); color: #B71C1C; }
-.feedback-panel i { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+/* COMPLETE */
+#screen-complete{background:var(--purple);align-items:center;justify-content:center;padding:32px 24px;text-align:center;}
+.trophy{font-size:82px;animation:bIn .5s ease;margin-bottom:18px;}
+@keyframes bIn{0%{transform:scale(0);}60%{transform:scale(1.15);}100%{transform:scale(1);}}
+#screen-complete h2{font-size:32px;font-weight:800;color:white;margin-bottom:8px;}
+#screen-complete p{font-size:16px;color:rgba(255,255,255,.85);margin-bottom:30px;}
+.cstats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;width:100%;margin-bottom:30px;}
+.cstat{background:rgba(255,255,255,.15);border-radius:var(--rs);padding:14px 8px;}
+.cstat .v{font-size:26px;font-weight:800;color:white;}
+.cstat .l{font-size:11px;color:rgba(255,255,255,.75);margin-top:3px;}
+.confetti-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.cpiece{position:absolute;width:8px;height:8px;border-radius:2px;animation:fall linear forwards;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
 
-/* FILL BLANK */
-.sentence-display {
-  background: var(--surface2); border-radius: var(--radius);
-  padding: 20px; font-size: 17px; font-weight: 500; line-height: 1.8;
-  font-family: 'Syne', sans-serif;
-}
-.blank-slot {
-  display: inline-block; min-width: 90px; border-bottom: 2.5px solid var(--purple);
-  text-align: center; color: var(--purple); font-weight: 600;
-  padding: 0 6px; margin: 0 4px; cursor: pointer;
-}
-.word-bank-ex { display: flex; flex-wrap: wrap; gap: 8px; }
-.word-tile {
-  border: 1.5px solid var(--border); border-radius: 8px;
-  padding: 8px 14px; font-size: 14px; cursor: pointer;
-  background: var(--surface); color: var(--text);
-  transition: all 0.15s; font-family: 'DM Sans', sans-serif;
-}
-.word-tile:hover { border-color: var(--purple); background: var(--purple-pale); color: var(--purple); }
-.word-tile.used { opacity: 0.3; pointer-events: none; }
+/* CHAT */
+.chat-hdr{padding:13px 20px;border-bottom:1px solid var(--border);}
+.chat-hdr h2{font-size:17px;font-weight:700;}
+.chat-hdr p{font-size:12px;color:var(--text2);margin-top:2px;}
+.sc-pills{display:flex;gap:8px;overflow-x:auto;padding:10px 20px 0;scrollbar-width:none;}
+.sc-pill{flex-shrink:0;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:var(--surface);color:var(--text2);transition:all .15s;white-space:nowrap;}
+.sc-pill.active{background:var(--purple);border-color:var(--purple);color:white;}
+.chat-msgs{flex:1;padding:13px 15px;display:flex;flex-direction:column;gap:11px;overflow-y:auto;}
+.msg{max-width:84%;display:flex;flex-direction:column;gap:4px;}
+.msg.ai{align-self:flex-start;}
+.msg.user{align-self:flex-end;}
+.msg-who{font-size:11px;color:var(--text3);padding:0 4px;font-weight:500;}
+.msg.user .msg-who{text-align:right;}
+.bubble{padding:11px 15px;border-radius:17px;font-size:14px;line-height:1.55;}
+.msg.ai .bubble{background:var(--surface2);border-bottom-left-radius:4px;}
+.msg.user .bubble{background:var(--purple);color:white;border-bottom-right-radius:4px;}
+.correction{font-size:12px;background:var(--green-pale);color:#005A50;padding:5px 10px;border-radius:8px;border:1px solid var(--green-border);}
+.thinking{align-self:flex-start;display:flex;gap:5px;align-items:center;padding:13px 17px;background:var(--surface2);border-radius:17px;border-bottom-left-radius:4px;}
+.td{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:bounce 1.2s infinite;}
+.td:nth-child(2){animation-delay:.2s;}.td:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+.chat-input-row{display:flex;gap:8px;padding:10px 15px max(env(safe-area-inset-bottom),13px);border-top:1px solid var(--border);align-items:flex-end;background:var(--surface);}
+.chat-ta{flex:1;border:1.5px solid var(--border);border-radius:var(--rs);padding:11px 13px;font-size:14px;resize:none;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);outline:none;min-height:44px;max-height:100px;transition:border-color .15s;}
+.chat-ta:focus{border-color:var(--purple);}
+.ibtn{width:44px;height:44px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.ibtn-g{background:var(--surface2);color:var(--text2);}
+.ibtn-p{background:var(--purple);color:white;}
 
-.hint-box {
-  background: #FFF8EC; border-radius: var(--radius-sm);
-  padding: 12px 14px; display: flex; gap: 8px; align-items: flex-start;
-}
-.hint-box i { color: #E17055; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.hint-box p { font-size: 13px; color: #7D3C0F; line-height: 1.5; }
+/* PROGRESS */
+.prog-hero{background:var(--purple);padding:20px 20px 26px;color:white;}
+.prog-hero h2{font-size:22px;font-weight:800;}
+.prog-hero p{font-size:13px;color:rgba(255,255,255,.8);margin-top:4px;}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--text3);padding:16px 20px 10px;text-transform:uppercase;letter-spacing:.08em;}
+.skills-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 16px 14px;}
+.skill-card{border:1.5px solid var(--border);border-radius:var(--r);padding:15px;text-align:center;background:var(--surface);}
+.skill-lbl{font-size:11px;font-weight:700;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;}
+.skill-pct{font-size:22px;font-weight:800;margin-top:7px;}
+.stats-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 16px 14px;}
+.scard{background:var(--surface2);border-radius:var(--rs);padding:15px;}
+.scard .v{font-size:26px;font-weight:800;color:var(--purple);}
+.scard .l{font-size:12px;color:var(--text2);margin-top:3px;}
+.phase-list{padding:0 16px;}
+.phase-row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.pdot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.pinfo{flex:1;}
+.pname{font-size:14px;font-weight:600;}
+.psub{font-size:12px;color:var(--text2);margin-top:2px;}
 
-/* ===================== AI CHAT ===================== */
-.chat-top {
-  padding: 14px 20px 0; border-bottom: 1px solid var(--border);
-}
-.chat-top h2 { font-size: 17px; font-weight: 700; font-family: 'Syne', sans-serif; }
-.chat-top p { font-size: 12px; color: var(--text2); margin-top: 2px; margin-bottom: 12px; }
-.scenario-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
-.scenario-pill {
-  flex-shrink: 0; padding: 6px 14px; border-radius: 99px;
-  font-size: 13px; font-weight: 500; cursor: pointer;
-  border: 1.5px solid var(--border); background: var(--surface);
-  color: var(--text2); transition: all 0.15s; white-space: nowrap;
-}
-.scenario-pill.active { background: var(--purple); border-color: var(--purple); color: white; }
-.chat-messages { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
-.msg { max-width: 82%; display: flex; flex-direction: column; gap: 4px; }
-.msg.ai { align-self: flex-start; }
-.msg.user { align-self: flex-end; }
-.msg-name { font-size: 11px; color: var(--text3); padding: 0 4px; }
-.msg.user .msg-name { text-align: right; }
-.bubble {
-  padding: 11px 15px; border-radius: 16px; font-size: 14px; line-height: 1.55;
-}
-.msg.ai .bubble {
-  background: var(--surface2); border-bottom-left-radius: 4px; color: var(--text);
-}
-.msg.user .bubble {
-  background: var(--purple); color: white; border-bottom-right-radius: 4px;
-}
-.correction-chip {
-  font-size: 12px; background: var(--green-pale); color: #005A50;
-  padding: 5px 10px; border-radius: 8px; line-height: 1.5;
-}
-.chat-input-area {
-  display: flex; gap: 8px; padding: 10px 16px 16px;
-  border-top: 1px solid var(--border); align-items: flex-end;
-  background: var(--surface);
-}
-.chat-textarea {
-  flex: 1; border: 1.5px solid var(--border); border-radius: 12px;
-  padding: 10px 14px; font-size: 14px; resize: none;
-  font-family: 'DM Sans', sans-serif; background: var(--surface);
-  color: var(--text); outline: none; min-height: 42px; max-height: 100px;
-  transition: border-color 0.15s;
-}
-.chat-textarea:focus { border-color: var(--purple); }
-.icon-btn {
-  width: 42px; height: 42px; border-radius: 12px; border: none;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; cursor: pointer; transition: all 0.15s; flex-shrink: 0;
-}
-.icon-btn-ghost { background: var(--surface2); color: var(--text2); }
-.icon-btn-ghost:hover { background: var(--purple-pale); color: var(--purple); }
-.icon-btn-purple { background: var(--purple); color: white; }
-.icon-btn-purple:hover { background: var(--purple-dark); }
-.ai-thinking {
-  align-self: flex-start; display: flex; gap: 5px; align-items: center;
-  padding: 12px 16px; background: var(--surface2); border-radius: 16px;
-  border-bottom-left-radius: 4px;
-}
-.thinking-dot {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--text3);
-  animation: bounce 1.2s infinite;
-}
-.thinking-dot:nth-child(2) { animation-delay: 0.2s; }
-.thinking-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+/* VOCAB */
+.vocab-hdr{padding:14px 20px 0;border-bottom:1px solid var(--border);}
+.vocab-hdr h2{font-size:17px;font-weight:700;}
+.srch-wrap{position:relative;margin:9px 0 9px;}
+.srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:18px;}
+.srch-inp{width:100%;padding:11px 13px 11px 40px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .15s;background:var(--surface);}
+.srch-inp:focus{border-color:var(--purple);}
+.filter-row{display:flex;gap:6px;overflow-x:auto;padding:0 20px 11px;scrollbar-width:none;}
+.fpill{flex-shrink:0;padding:6px 13px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;background:var(--surface);color:var(--text2);transition:all .15s;}
+.fpill.on{background:var(--purple);border-color:var(--purple);color:white;}
+.word-list{padding:0 16px;overflow-y:auto;flex:1;}
+.word-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--border);}
+.wdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.wbody{flex:1;}
+.wen{font-size:15px;font-weight:700;}
+.wpt{font-size:13px;color:var(--text2);margin-top:1px;}
+.wctx{font-size:11px;color:var(--text3);font-style:italic;margin-top:2px;}
+.wbtns{display:flex;gap:4px;}
+.wbtn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:15px;transition:all .15s;}
+.wbtn:hover{color:var(--purple);border-color:var(--purple);background:var(--purple-pale);}
 
-/* ===================== PROGRESS ===================== */
-.progress-hero {
-  background: var(--purple); padding: 20px 20px 28px; color: white;
-}
-.progress-hero h2 { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
-.progress-hero p { font-size: 13px; color: rgba(255,255,255,0.8); }
-.phase-row {
-  display: flex; gap: 8px; padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-}
-.phase-label { font-size: 12px; color: var(--text2); width: 54px; flex-shrink: 0; padding-top: 4px; }
-.phase-bar-wrap { flex: 1; }
-.phase-bar {
-  height: 24px; border-radius: 99px; display: flex; align-items: center;
-  padding-left: 12px; font-size: 12px; font-weight: 600; min-width: 40px;
-}
-.phase-done { background: var(--purple); color: white; }
-.phase-prog { background: var(--purple-light); color: white; }
-.phase-future { background: var(--surface2); color: var(--text3); }
+/* SETTINGS */
+.s-profile{display:flex;align-items:center;gap:13px;padding:18px 20px;border-bottom:1px solid var(--border);}
+.s-ava{width:62px;height:62px;border-radius:50%;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--purple);border:3px solid var(--purple-border);}
+.s-info h3{font-size:18px;font-weight:700;}
+.s-info p{font-size:13px;color:var(--text2);margin-top:2px;}
+.s-badge{display:inline-flex;align-items:center;gap:4px;background:var(--purple-pale);color:var(--purple);font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;margin-top:6px;}
+.s-group{padding:0 20px;}
+.s-row{display:flex;align-items:center;gap:11px;padding:14px 0;border-bottom:1px solid var(--border);}
+.s-row i{font-size:20px;color:var(--text2);width:24px;flex-shrink:0;}
+.s-rinfo{flex:1;}
+.s-rinfo .l{font-size:14px;font-weight:500;}
+.s-rinfo .s{font-size:12px;color:var(--text2);margin-top:2px;}
+.toggle{width:44px;height:24px;border-radius:99px;background:var(--border);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--purple);}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:white;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+.toggle.on::after{left:22px;}
 
-.skills-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 16px 16px; }
-.skill-card {
-  border: 1px solid var(--border); border-radius: var(--radius); padding: 16px;
-  background: var(--surface); text-align: center;
-}
-.skill-name { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
-.ring-svg { width: 64px; height: 64px; display: block; margin: 0 auto 8px; }
-.skill-pct { font-size: 20px; font-weight: 700; font-family: 'Syne', sans-serif; }
-
-/* ===================== VOCAB ===================== */
-.vocab-top { padding: 16px 20px; border-bottom: 1px solid var(--border); }
-.vocab-top h2 { font-size: 17px; font-weight: 700; font-family: 'Syne', sans-serif; }
-.search-row { margin: 10px 16px 0; position: relative; }
-.search-row i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 18px; }
-.search-input {
-  width: 100%; padding: 10px 14px 10px 40px; border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm); font-size: 14px; font-family: 'DM Sans', sans-serif;
-  background: var(--surface); color: var(--text); outline: none; transition: border-color 0.15s;
-}
-.search-input:focus { border-color: var(--purple); }
-.filter-row { display: flex; gap: 6px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; }
-.filter-chip {
-  flex-shrink: 0; padding: 5px 13px; border-radius: 99px; font-size: 13px;
-  border: 1.5px solid var(--border); cursor: pointer; background: var(--surface); color: var(--text2);
-  transition: all 0.15s;
-}
-.filter-chip.active { background: var(--purple); border-color: var(--purple); color: white; }
-.word-list { padding: 0 16px; }
-.word-row {
-  display: flex; align-items: center; gap: 12px; padding: 13px 0;
-  border-bottom: 1px solid var(--border);
-}
-.word-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.wd-green { background: var(--green); }
-.wd-amber { background: var(--amber); }
-.wd-gray { background: var(--border); }
-.word-content { flex: 1; }
-.word-en { font-size: 15px; font-weight: 600; font-family: 'Syne', sans-serif; }
-.word-pt { font-size: 13px; color: var(--text2); margin-top: 1px; }
-.word-ctx { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 2px; }
-.word-actions-row { display: flex; gap: 4px; }
-.word-action-btn {
-  width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
-  background: var(--surface2); display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--text3); font-size: 15px; transition: all 0.15s;
-}
-.word-action-btn:hover { color: var(--purple); border-color: var(--purple); background: var(--purple-pale); }
-
-/* ===================== GAMIFICATION ===================== */
-.gami-header {
-  background: var(--purple); padding: 24px 20px 32px; text-align: center; color: white;
-}
-.gami-trophy { font-size: 52px; margin-bottom: 10px; }
-.gami-header h2 { font-size: 22px; font-weight: 800; font-family: 'Syne', sans-serif; margin-bottom: 4px; }
-.gami-header p { font-size: 13px; color: rgba(255,255,255,0.8); }
-.xp-badge-lg {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.18); border-radius: 99px;
-  padding: 7px 16px; font-size: 14px; font-weight: 600; margin-top: 14px;
-}
-.rank-list { padding: 4px 16px; display: flex; flex-direction: column; gap: 8px; }
-.rank-row {
-  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
-  border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
-}
-.rank-row.me { border-color: var(--purple); background: var(--purple-pale); }
-.rank-pos { font-size: 14px; font-weight: 700; width: 22px; text-align: center; font-family: 'Syne', sans-serif; }
-.ava {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; flex-shrink: 0;
-}
-.rank-info { flex: 1; }
-.rank-name { font-size: 14px; font-weight: 600; font-family: 'Syne', sans-serif; }
-.rank-pts { font-size: 12px; color: var(--text2); margin-top: 1px; }
-
-.ach-list { padding: 4px 16px; display: flex; flex-direction: column; gap: 8px; }
-.ach-row {
-  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-  border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
-}
-.ach-row.locked { opacity: 0.4; }
-.ach-icon { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
-.ach-text { flex: 1; }
-.ach-text h4 { font-size: 14px; font-weight: 600; font-family: 'Syne', sans-serif; }
-.ach-text p { font-size: 12px; color: var(--text2); margin-top: 2px; }
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:white;padding:11px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;z-index:9999;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
+<div class="app">
 
 <!-- LOADING -->
-<div id="loading-screen">
-  <div class="loading-logo">FluentUp</div>
-  <div class="loading-sub">Inglês em 6 meses</div>
-  <div class="loading-spinner"></div>
+<div class="screen active" id="screen-loading">
+  <div class="load-logo">FluentUp</div>
+  <div class="load-sub">Inglês real em 6 meses</div>
+  <div class="spinner"></div>
 </div>
 
+<!-- AUTH -->
+<div class="screen" id="screen-auth">
+  <div class="auth-hero">
+    <div class="auth-owl">🦉</div>
+    <h1>FluentUp</h1>
+    <p>Aprenda inglês de verdade.<br>Prático, direto, sem enrolação.</p>
+  </div>
+  <div class="auth-body">
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-in" onclick="switchTab('in')">Entrar</div>
+      <div class="auth-tab" id="tab-up" onclick="switchTab('up')">Criar conta</div>
+    </div>
+    <div id="form-in">
+      <div class="field"><label>E-mail</label><input type="email" id="li-email" placeholder="seu@email.com"></div>
+      <div class="field"><label>Senha</label><input type="password" id="li-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-purple" onclick="doLogin()"><i class="ti ti-login"></i> Entrar</button>
+    </div>
+    <div id="form-up" style="display:none">
+      <div class="field"><label>Nome</label><input type="text" id="ru-name" placeholder="Como posso te chamar?"></div>
+      <div class="field"><label>E-mail</label><input type="email" id="ru-email" placeholder="seu@email.com"></div>
+      <div class="field"><label>Senha</label><input type="password" id="ru-pass" placeholder="Mínimo 6 caracteres" onkeydown="if(event.key==='Enter')doRegister()"></div>
+      <button class="btn btn-purple" onclick="doRegister()"><i class="ti ti-user-plus"></i> Criar conta grátis</button>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="screen" id="screen-onboarding">
+  <div class="onboard-body">
+    <div class="onboard-pips" id="o-pips"></div>
+    <div id="o-content"></div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="screen-home">
+  <div style="flex:1;overflow-y:auto">
+    <div class="home-hdr">
+      <div class="home-top">
+        <div><div class="home-greet" id="h-greet">Bom dia!</div><div class="home-name" id="h-name">...</div></div>
+        <div class="home-ava" id="h-ava" onclick="showScreen('settings')">?</div>
+      </div>
+      <div class="home-stats">
+        <div class="hstat"><i class="ti ti-flame" style="color:var(--amber)"></i><div><div class="hstat-v" id="h-streak">0🔥</div><div class="hstat-l">Sequência</div></div></div>
+        <div class="hstat"><i class="ti ti-bolt" style="color:var(--amber)"></i><div><div class="hstat-v" id="h-xp">0</div><div class="hstat-l">XP Total</div></div></div>
+        <div class="hstat"><i class="ti ti-heart" style="color:var(--red)"></i><div><div class="hstat-v" id="h-hearts">5❤️</div><div class="hstat-l">Vidas</div></div></div>
+      </div>
+      <div class="xp-lbl"><span id="h-lvl">Nível 1</span><span id="h-xplbl">0/1000 XP</span></div>
+      <div class="xp-track"><div class="xp-fill" id="h-xpbar" style="width:0%"></div></div>
+    </div>
+    <div class="trail-lbl">Trilha de aprendizado</div>
+    <div class="trail" id="h-trail"></div>
+  </div>
+  <nav class="navbar">
+    <button class="nav-btn active" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+    <button class="nav-btn" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+    <button class="nav-btn" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+    <button class="nav-btn" onclick="showScreen('vocab')"><i class="ti ti-vocabulary"></i>Vocab</button>
+    <button class="nav-btn" onclick="showScreen('settings')"><i class="ti ti-settings"></i>Config</button>
+  </nav>
+</div>
+
+<!-- LESSON -->
+<div class="screen" id="screen-lesson">
+  <div class="ex-shell">
+    <div class="ex-topbar">
+      <button class="ex-close-btn" onclick="if(confirm('Sair da lição?'))showScreen('home')"><i class="ti ti-x"></i></button>
+      <div class="ex-pbar"><div class="ex-pfill" id="ex-pf" style="width:0%"></div></div>
+      <div class="hearts" id="ex-hearts"></div>
+    </div>
+    <div class="ex-content" id="ex-content"></div>
+    <div class="ex-footer">
+      <div id="ex-fb" style="display:none"></div>
+      <button class="check-btn cbtn-off" id="check-btn" onclick="handleCheck()" disabled>Verificar</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPLETE -->
+<div class="screen" id="screen-complete">
+  <div class="confetti-wrap" id="confetti"></div>
+  <div class="trophy">🏆</div>
+  <h2>Lição completa!</h2>
+  <p id="c-msg">Incrível! Continue assim!</p>
+  <div class="cstats">
+    <div class="cstat"><div class="v" id="c-xp">0</div><div class="l">XP ganho</div></div>
+    <div class="cstat"><div class="v" id="c-acc">0%</div><div class="l">Acertos</div></div>
+    <div class="cstat"><div class="v" id="c-time">0s</div><div class="l">Tempo</div></div>
+  </div>
+  <button class="btn" style="background:white;color:var(--purple);border:none;border-radius:var(--rs);font-size:16px;font-weight:800;padding:15px;width:100%;max-width:340px;cursor:pointer" onclick="showScreen('home')">
+    Continuar <i class="ti ti-arrow-right"></i>
+  </button>
+</div>
+
+<!-- CHAT -->
+<div class="screen" id="screen-chat">
+  <div class="chat-hdr"><h2>Chat com IA</h2><p>Pratique conversação em situações reais</p></div>
+  <div class="sc-pills" id="sc-pills"></div>
+  <div class="chat-msgs" id="chat-msgs" style="flex:1;overflow-y:auto"></div>
+  <div class="chat-input-row">
+    <button class="ibtn ibtn-g" onclick="showToast('Reconhecimento de voz em breve 🎤')"><i class="ti ti-microphone"></i></button>
+    <textarea class="chat-ta" id="chat-input" placeholder="Type in English..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <button class="ibtn ibtn-p" onclick="sendChat()"><i class="ti ti-send"></i></button>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="screen" id="screen-progress">
+  <div style="flex:1;overflow-y:auto">
+    <div class="prog-hero"><h2>Seu progresso</h2><p id="p-sub">Calculando...</p></div>
+    <div class="stats-g" style="margin-top:16px" id="p-stats"></div>
+    <div class="sec-lbl">Habilidades</div>
+    <div class="skills-g" id="p-skills"></div>
+    <div class="sec-lbl">Jornada de 6 meses</div>
+    <div class="phase-list" id="p-phases"></div>
+    <div style="height:20px"></div>
+  </div>
+  <nav class="navbar">
+    <button class="nav-btn" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+    <button class="nav-btn" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+    <button class="nav-btn active"><i class="ti ti-chart-line"></i>Progresso</button>
+    <button class="nav-btn" onclick="showScreen('vocab')"><i class="ti ti-vocabulary"></i>Vocab</button>
+    <button class="nav-btn" onclick="showScreen('settings')"><i class="ti ti-settings"></i>Config</button>
+  </nav>
+</div>
+
+<!-- VOCAB -->
+<div class="screen" id="screen-vocab">
+  <div class="vocab-hdr">
+    <h2>Vocabulário</h2>
+    <div class="srch-wrap"><i class="ti ti-search"></i><input class="srch-inp" id="v-search" placeholder="Buscar palavra..." oninput="renderVocab()"></div>
+  </div>
+  <div class="filter-row">
+    <div class="fpill on" onclick="setVF('all',this)">Todas</div>
+    <div class="fpill" onclick="setVF('mastered',this)">✅ Dominadas</div>
+    <div class="fpill" onclick="setVF('review',this)">🔄 Revisar</div>
+    <div class="fpill" onclick="setVF('new',this)">⭐ Novas</div>
+  </div>
+  <div class="word-list" id="v-list"></div>
+  <nav class="navbar">
+    <button class="nav-btn" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+    <button class="nav-btn" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+    <button class="nav-btn" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+    <button class="nav-btn active"><i class="ti ti-vocabulary"></i>Vocab</button>
+    <button class="nav-btn" onclick="showScreen('settings')"><i class="ti ti-settings"></i>Config</button>
+  </nav>
+</div>
+
+<!-- SETTINGS -->
+<div class="screen" id="screen-settings">
+  <div style="flex:1;overflow-y:auto">
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border)"><h2 style="font-size:17px;font-weight:700">Configurações</h2></div>
+    <div class="s-profile">
+      <div class="s-ava" id="s-ava">?</div>
+      <div class="s-info"><h3 id="s-name">--</h3><p id="s-email">--</p><div class="s-badge"><i class="ti ti-star" style="font-size:12px"></i><span id="s-lvl">Nível 1</span></div></div>
+    </div>
+    <div class="sec-lbl">Plano ativo</div>
+    <div style="margin:0 16px 14px;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden">
+      <div style="background:var(--purple);color:white;padding:15px">
+        <div style="font-size:15px;font-weight:700" id="s-ptitle">--</div>
+        <div style="font-size:12px;opacity:.8;margin-top:3px" id="s-psub">--</div>
+      </div>
+      <div style="display:flex;justify-content:space-around;padding:15px">
+        <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--purple)" id="s-done">0</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Dias feitos</div></div>
+        <div style="width:1px;background:var(--border)"></div>
+        <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--purple)" id="s-left">180</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Restantes</div></div>
+        <div style="width:1px;background:var(--border)"></div>
+        <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--purple)" id="s-pct">0%</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Concluído</div></div>
+      </div>
+    </div>
+    <div class="sec-lbl">Preferências</div>
+    <div class="s-group">
+      <div class="s-row"><i class="ti ti-bell"></i><div class="s-rinfo"><div class="l">Lembrete diário</div><div class="s">Notificação às 20h</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="s-row"><i class="ti ti-flame"></i><div class="s-rinfo"><div class="l">Alerta de sequência</div><div class="s">Aviso antes de perder o streak</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="s-row"><i class="ti ti-volume"></i><div class="s-rinfo"><div class="l">Efeitos sonoros</div><div class="s">Som nas lições</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+    </div>
+    <div style="padding:18px 20px 8px">
+      <button class="btn" style="background:var(--red-pale);color:var(--red);border:1.5px solid var(--red-border);border-radius:var(--rs);padding:14px" onclick="doLogout()"><i class="ti ti-logout"></i> Sair da conta</button>
+    </div>
+  </div>
+  <nav class="navbar">
+    <button class="nav-btn" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
+    <button class="nav-btn" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
+    <button class="nav-btn" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
+    <button class="nav-btn" onclick="showScreen('vocab')"><i class="ti ti-vocabulary"></i>Vocab</button>
+    <button class="nav-btn active"><i class="ti ti-settings"></i>Config</button>
+  </nav>
+</div>
+
+</div>
 <div class="toast" id="toast"></div>
 
-<div class="app-wrapper">
-
-  <!-- =========== AUTH =========== -->
-  <div class="screen" id="screen-auth">
-    <div class="auth-hero">
-      <div class="auth-hero-icon"><i class="ti ti-language"></i></div>
-      <h1>FluentUp</h1>
-      <p>Do básico ao intermediário funcional em 6 meses. Prática real, sem enrolação.</p>
-    </div>
-    <div class="auth-body">
-      <div id="auth-login-view">
-        <h2>Entrar</h2>
-        <p class="sub">Acesse seu progresso de qualquer lugar</p>
-        <div class="field">
-          <label>E-MAIL</label>
-          <input type="email" id="login-email" placeholder="seu@email.com">
-        </div>
-        <div class="field">
-          <label>SENHA</label>
-          <input type="password" id="login-pass" placeholder="••••••••">
-        </div>
-        <button class="btn btn-primary btn-full" onclick="doLogin()" style="margin-top:8px">
-          <i class="ti ti-login"></i> Entrar
-        </button>
-        <p class="auth-switch">Não tem conta? <a onclick="toggleAuthView()">Criar agora</a></p>
-      </div>
-      <div id="auth-register-view" style="display:none">
-        <h2>Criar conta</h2>
-        <p class="sub">Comece sua jornada hoje</p>
-        <div class="field">
-          <label>SEU NOME</label>
-          <input type="text" id="reg-name" placeholder="Como posso te chamar?">
-        </div>
-        <div class="field">
-          <label>E-MAIL</label>
-          <input type="email" id="reg-email" placeholder="seu@email.com">
-        </div>
-        <div class="field">
-          <label>SENHA</label>
-          <input type="password" id="reg-pass" placeholder="Mínimo 6 caracteres">
-        </div>
-        <button class="btn btn-primary btn-full" onclick="doRegister()" style="margin-top:8px">
-          <i class="ti ti-user-plus"></i> Criar conta gratuita
-        </button>
-        <p class="auth-switch">Já tem conta? <a onclick="toggleAuthView()">Entrar</a></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- =========== ONBOARDING =========== -->
-  <div class="screen" id="screen-onboarding">
-    <div class="onboard-container">
-      <div class="onboard-step-indicator" id="step-indicator">
-        <div class="step-pip active"></div>
-        <div class="step-pip"></div>
-        <div class="step-pip"></div>
-      </div>
-
-      <!-- Step 1: Level -->
-      <div id="onboard-1">
-        <div class="onboard-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-plant-2"></i></div>
-        <h2>Qual é seu nível de inglês?</h2>
-        <p class="desc">Vamos criar um plano personalizado pra você.</p>
-        <div class="choice-grid">
-          <div class="choice-card selected" onclick="selectChoice(this, 'level', 'beginner')">
-            <div class="choice-card-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-seedling"></i></div>
-            <div class="choice-card-text"><h4>Iniciante</h4><p>Sei pouquíssimas palavras</p></div>
-            <div class="check-dot"><i class="ti ti-check" style="font-size:12px"></i></div>
-          </div>
-          <div class="choice-card" onclick="selectChoice(this, 'level', 'basic')">
-            <div class="choice-card-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-leaf"></i></div>
-            <div class="choice-card-text"><h4>Básico</h4><p>Conheço algumas frases</p></div>
-            <div class="check-dot"></div>
-          </div>
-          <div class="choice-card" onclick="selectChoice(this, 'level', 'intermediate')">
-            <div class="choice-card-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-tree"></i></div>
-            <div class="choice-card-text"><h4>Intermediário</h4><p>Me comunico com dificuldade</p></div>
-            <div class="check-dot"></div>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-full" onclick="nextOnboardStep(2)">Continuar <i class="ti ti-arrow-right"></i></button>
-      </div>
-
-      <!-- Step 2: Goal -->
-      <div id="onboard-2" style="display:none">
-        <div class="onboard-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-target"></i></div>
-        <h2>Qual é seu objetivo?</h2>
-        <p class="desc">Seu plano será totalmente focado nisso.</p>
-        <div class="choice-grid">
-          <div class="choice-card selected" onclick="selectChoice(this, 'goal', 'travel')">
-            <div class="choice-card-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-plane"></i></div>
-            <div class="choice-card-text"><h4>Viagens</h4><p>Me virar no exterior</p></div>
-            <div class="check-dot"><i class="ti ti-check" style="font-size:12px"></i></div>
-          </div>
-          <div class="choice-card" onclick="selectChoice(this, 'goal', 'work')">
-            <div class="choice-card-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-briefcase"></i></div>
-            <div class="choice-card-text"><h4>Trabalho</h4><p>Reuniões e e-mails</p></div>
-            <div class="check-dot"></div>
-          </div>
-          <div class="choice-card" onclick="selectChoice(this, 'goal', 'conversation')">
-            <div class="choice-card-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-messages"></i></div>
-            <div class="choice-card-text"><h4>Conversação</h4><p>Falar com nativos</p></div>
-            <div class="check-dot"></div>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-full" onclick="nextOnboardStep(3)">Continuar <i class="ti ti-arrow-right"></i></button>
-      </div>
-
-      <!-- Step 3: Time -->
-      <div id="onboard-3" style="display:none">
-        <div class="onboard-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-clock"></i></div>
-        <h2>Quanto tempo por dia?</h2>
-        <p class="desc">Consistência bate quantidade. 5 minutos todo dia já funcionam.</p>
-        <div class="choice-grid">
-          <div class="choice-card" onclick="selectChoice(this, 'time', 5)">
-            <div class="choice-card-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-clock"></i></div>
-            <div class="choice-card-text"><h4>5 minutos</h4><p>Leve e consistente</p></div>
-            <div class="check-dot"></div>
-          </div>
-          <div class="choice-card selected" onclick="selectChoice(this, 'time', 10)">
-            <div class="choice-card-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-clock"></i></div>
-            <div class="choice-card-text"><h4>10 minutos</h4><p>Ritmo ideal</p></div>
-            <div class="check-dot"><i class="ti ti-check" style="font-size:12px"></i></div>
-          </div>
-          <div class="choice-card" onclick="selectChoice(this, 'time', 20)">
-            <div class="choice-card-icon" style="background:#FFF4E0;color:#E17055"><i class="ti ti-bolt"></i></div>
-            <div class="choice-card-text"><h4>20 minutos</h4><p>Modo intensivo</p></div>
-            <div class="check-dot"></div>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-full" onclick="finishOnboarding()"><i class="ti ti-sparkles"></i> Criar meu plano</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =========== HOME =========== -->
-  <div class="screen" id="screen-home">
-    <div class="content" style="flex:1;overflow-y:auto">
-      <div class="home-header">
-        <div class="home-top">
-          <div>
-            <div class="home-greeting">Bom dia! 👋</div>
-            <div class="home-name" id="home-name">Carregando...</div>
-          </div>
-          <div class="avatar-sm" id="home-avatar" onclick="showScreen('settings')">?</div>
-        </div>
-        <div class="streak-pill">
-          <i class="ti ti-flame" style="color:#FDCB6E;font-size:18px"></i>
-          <span id="home-streak">0 dias</span>
-        </div>
-        <div class="xp-row">
-          <span id="home-xp">0 XP hoje</span>
-          <span id="home-level">Nível 1</span>
-        </div>
-        <div class="xp-bar-bg">
-          <div class="xp-bar-fg" id="home-xp-bar" style="width:0%"></div>
-        </div>
-      </div>
-
-      <div class="section-label">Lições de hoje</div>
-
-      <div class="lesson-card" id="lesson-listening">
-        <div class="lesson-card-top">
-          <div class="lesson-icon" style="background:#EEEDFE;color:#6C5CE7"><i class="ti ti-headphones"></i></div>
-          <div class="lesson-meta">
-            <h3>Listening</h3>
-            <p id="lesson-listening-topic">Daily routine · 8 min</p>
-          </div>
-          <div class="lesson-badge-area">
-            <span class="badge badge-purple">Novo</span>
-          </div>
-        </div>
-        <div class="lesson-card-bottom">
-          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-listen" style="width:0%"></div></div>
-          <span class="pct" id="pct-listen">0%</span>
-          <button class="start-btn start-btn-purple" onclick="startLesson('listening')">Iniciar</button>
-        </div>
-      </div>
-
-      <div class="lesson-card" id="lesson-vocab">
-        <div class="lesson-card-top">
-          <div class="lesson-icon" style="background:#E1F5EE;color:#00B894"><i class="ti ti-vocabulary"></i></div>
-          <div class="lesson-meta">
-            <h3>Vocabulário</h3>
-            <p id="lesson-vocab-topic">At work · 15 palavras</p>
-          </div>
-          <div class="lesson-badge-area">
-            <span class="badge badge-green" id="vocab-status">Novo</span>
-          </div>
-        </div>
-        <div class="lesson-card-bottom">
-          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-vocab" style="width:0%;background:var(--green)"></div></div>
-          <span class="pct" id="pct-vocab">0%</span>
-          <button class="start-btn start-btn-ghost" onclick="startLesson('fillblank')">Iniciar</button>
-        </div>
-      </div>
-
-      <div class="lesson-card">
-        <div class="lesson-card-top">
-          <div class="lesson-icon" style="background:#FFF8EC;color:#E17055"><i class="ti ti-rotate-clockwise"></i></div>
-          <div class="lesson-meta">
-            <h3>Revisão inteligente</h3>
-            <p>Baseada nos seus erros · 5 min</p>
-          </div>
-          <div class="lesson-badge-area">
-            <span class="badge badge-amber">Revisar</span>
-          </div>
-        </div>
-        <div class="lesson-card-bottom">
-          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-review" style="width:40%;background:#E17055"></div></div>
-          <span class="pct">40%</span>
-          <button class="start-btn" style="background:#FFF4E0;color:#E17055" onclick="startLesson('fillblank')">Continuar</button>
-        </div>
-      </div>
-
-      <div class="section-label">Progresso geral</div>
-      <div class="stats-grid">
-        <div class="stat-tile"><div class="val" id="stat-words">0</div><div class="lbl">Palavras aprendidas</div></div>
-        <div class="stat-tile"><div class="val" id="stat-accuracy">0%</div><div class="lbl">Taxa de acerto</div></div>
-        <div class="stat-tile"><div class="val" id="stat-days">0</div><div class="lbl">Dias estudando</div></div>
-        <div class="stat-tile"><div class="val" id="stat-week">0h</div><div class="lbl">Esta semana</div></div>
-      </div>
-    </div>
-    <nav class="navbar">
-      <button class="nav-item active" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
-      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
-      <button class="nav-item" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
-      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
-      <button class="nav-item" onclick="showScreen('vocab')"><i class="ti ti-list"></i>Vocab</button>
-    </nav>
-  </div>
-
-  <!-- =========== LESSON LISTENING =========== -->
-  <div class="screen" id="screen-lesson-listening">
-    <div class="ex-topbar">
-      <button class="ex-back" onclick="showScreen('home')"><i class="ti ti-arrow-left"></i></button>
-      <span class="ex-title">Listening · Daily routine</span>
-      <span class="ex-xp">+15 XP</span>
-    </div>
-    <div class="ex-progress" id="listen-progress"></div>
-    <div class="ex-body" id="listen-body"></div>
-    <div style="padding:0 20px 20px">
-      <div id="listen-feedback" style="display:none" class="feedback-panel correct"></div>
-      <button class="btn btn-primary btn-full" id="listen-next-btn" style="display:none;margin-top:12px" onclick="nextListenQuestion()">
-        Próxima <i class="ti ti-arrow-right"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- =========== FILL BLANK =========== -->
-  <div class="screen" id="screen-fillblank">
-    <div class="ex-topbar">
-      <button class="ex-back" onclick="showScreen('home')"><i class="ti ti-arrow-left"></i></button>
-      <span class="ex-title">Complete a frase</span>
-      <span class="ex-xp">+20 XP</span>
-    </div>
-    <div class="ex-progress" id="fill-progress"></div>
-    <div class="ex-body" id="fill-body" style="flex:1;overflow-y:auto"></div>
-    <div style="padding:0 20px 20px">
-      <div id="fill-feedback" style="display:none" class="feedback-panel"></div>
-      <button class="btn btn-primary btn-full" id="fill-check-btn" style="margin-top:12px" onclick="checkFill()" disabled>
-        Verificar resposta
-      </button>
-      <button class="btn btn-ghost btn-full" id="fill-next-btn" style="display:none;margin-top:8px" onclick="nextFillQuestion()">
-        Próxima <i class="ti ti-arrow-right"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- =========== AI CHAT =========== -->
-  <div class="screen" id="screen-chat" style="height:100vh">
-    <div class="chat-top">
-      <h2>Chat com IA</h2>
-      <p>Pratique conversação em situações reais</p>
-      <div class="scenario-scroll" id="scenario-pills"></div>
-    </div>
-    <div class="chat-messages" id="chat-messages"></div>
-    <div class="chat-input-area">
-      <button class="icon-btn icon-btn-ghost" id="mic-btn" onclick="toggleMic()"><i class="ti ti-microphone"></i></button>
-      <textarea class="chat-textarea" id="chat-input" placeholder="Type in English..." rows="1"
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-      <button class="icon-btn icon-btn-purple" onclick="sendChat()"><i class="ti ti-send"></i></button>
-    </div>
-  </div>
-
-  <!-- =========== PROGRESS =========== -->
-  <div class="screen" id="screen-progress">
-    <div class="content" style="flex:1;overflow-y:auto">
-      <div class="progress-hero">
-        <h2>Seu progresso</h2>
-        <p id="prog-subtitle">Mês 1 de 6 · calculando...</p>
-      </div>
-
-      <div class="section-label">Plano de 6 meses</div>
-      <div style="padding:0 16px 4px" id="phase-bars"></div>
-
-      <div class="section-label">Habilidades</div>
-      <div class="skills-wrap" id="skills-wrap"></div>
-
-      <div class="section-label">Histórico recente</div>
-      <div style="padding:0 16px 20px" id="history-list"></div>
-    </div>
-    <nav class="navbar">
-      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
-      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
-      <button class="nav-item" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
-      <button class="nav-item active"><i class="ti ti-chart-line"></i>Progresso</button>
-      <button class="nav-item" onclick="showScreen('vocab')"><i class="ti ti-list"></i>Vocab</button>
-    </nav>
-  </div>
-
-  <!-- =========== VOCAB =========== -->
-  <div class="screen" id="screen-vocab">
-    <div class="vocab-top">
-      <h2>Vocabulário</h2>
-      <div class="search-row" style="margin:10px 0 0">
-        <i class="ti ti-search"></i>
-        <input class="search-input" type="text" placeholder="Buscar palavra..." id="vocab-search" oninput="filterVocab()">
-      </div>
-    </div>
-    <div class="filter-row">
-      <div class="filter-chip active" onclick="setVocabFilter('all', this)">Todas</div>
-      <div class="filter-chip" onclick="setVocabFilter('mastered', this)">✅ Dominadas</div>
-      <div class="filter-chip" onclick="setVocabFilter('review', this)">🔄 Revisar</div>
-      <div class="filter-chip" onclick="setVocabFilter('new', this)">⭐ Novas</div>
-    </div>
-    <div class="word-list" id="word-list" style="flex:1;overflow-y:auto"></div>
-    <nav class="navbar">
-      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
-      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
-      <button class="nav-item" onclick="showScreen('chat')"><i class="ti ti-message-chatbot"></i>Chat IA</button>
-      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
-      <button class="nav-item active"><i class="ti ti-list"></i>Vocab</button>
-    </nav>
-  </div>
-
-  <!-- =========== GAMIFICATION =========== -->
-  <div class="screen" id="screen-gami">
-    <div class="content" style="flex:1;overflow-y:auto">
-      <div class="gami-header">
-        <div class="gami-trophy"><i class="ti ti-trophy"></i></div>
-        <h2>Liga Semanal</h2>
-        <p id="gami-subtitle">Liga Bronze · Semana atual</p>
-        <div class="xp-badge-lg"><i class="ti ti-star" style="font-size:16px"></i> <span id="gami-xp">0 XP esta semana</span></div>
-      </div>
-
-      <div class="section-label">Ranking</div>
-      <div class="rank-list" id="rank-list"></div>
-
-      <div class="section-label">Conquistas</div>
-      <div class="ach-list" id="ach-list"></div>
-    </div>
-    <nav class="navbar">
-      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
-      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
-      <button class="nav-item active"><i class="ti ti-trophy"></i>Liga</button>
-      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
-      <button class="nav-item" onclick="showScreen('settings')"><i class="ti ti-settings"></i>Config</button>
-    </nav>
-  </div>
-
-  <!-- =========== SETTINGS =========== -->
-  <div class="screen" id="screen-settings">
-    <div style="padding:16px 20px;border-bottom:1px solid var(--border)">
-      <h2 style="font-size:17px;font-weight:700;font-family:'Syne',sans-serif">Configurações</h2>
-    </div>
-    <div style="flex:1;overflow-y:auto">
-      <!-- Profile -->
-      <div style="display:flex;align-items:center;gap:14px;padding:20px;border-bottom:1px solid var(--border)">
-        <div id="settings-avatar" style="width:60px;height:60px;border-radius:50%;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--purple);font-family:'Syne',sans-serif">?</div>
-        <div>
-          <div style="font-size:17px;font-weight:700;font-family:'Syne',sans-serif" id="settings-name">--</div>
-          <div style="font-size:13px;color:var(--text2);margin-top:2px" id="settings-email">--</div>
-          <div style="margin-top:6px"><span class="badge badge-purple" id="settings-level">Nível 1</span></div>
-        </div>
-      </div>
-
-      <!-- Plan -->
-      <div class="section-label">Plano ativo</div>
-      <div style="margin:0 16px 16px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
-        <div style="background:var(--purple);color:white;padding:16px">
-          <div style="font-size:15px;font-weight:700;font-family:'Syne',sans-serif" id="plan-title">--</div>
-          <div style="font-size:12px;opacity:0.8;margin-top:3px" id="plan-sub">--</div>
-        </div>
-        <div style="display:flex;justify-content:space-around;padding:16px;background:var(--surface)">
-          <div style="text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;color:var(--purple)" id="plan-days-done">0</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Dias feitos</div></div>
-          <div style="width:1px;background:var(--border)"></div>
-          <div style="text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;color:var(--purple)" id="plan-days-left">180</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Restantes</div></div>
-          <div style="width:1px;background:var(--border)"></div>
-          <div style="text-align:center"><div style="font-size:20px;font-weight:700;font-family:'Syne',sans-serif;color:var(--purple)" id="plan-pct">0%</div><div style="font-size:11px;color:var(--text2);margin-top:2px">Concluído</div></div>
-        </div>
-      </div>
-
-      <!-- Notifications -->
-      <div class="section-label">Notificações</div>
-      <div style="padding:0 20px">
-        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)">
-          <i class="ti ti-bell" style="font-size:20px;color:var(--text2);width:24px"></i>
-          <div style="flex:1"><div style="font-size:14px;font-weight:500">Lembrete diário</div><div style="font-size:12px;color:var(--text2)">Às 20:00 todos os dias</div></div>
-          <div class="toggle-switch" data-on="true" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)">
-          <i class="ti ti-flame" style="font-size:20px;color:var(--text2);width:24px"></i>
-          <div style="flex:1"><div style="font-size:14px;font-weight:500">Alerta de sequência</div><div style="font-size:12px;color:var(--text2)">Aviso antes de perder o streak</div></div>
-          <div class="toggle-switch" data-on="true" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)">
-          <i class="ti ti-trophy" style="font-size:20px;color:var(--text2);width:24px"></i>
-          <div style="flex:1"><div style="font-size:14px;font-weight:500">Atualizações da liga</div><div style="font-size:12px;color:var(--text2)">Mudanças no ranking</div></div>
-          <div class="toggle-switch" data-on="false" onclick="toggleSwitch(this)"><div class="toggle-thumb"></div></div>
-        </div>
-      </div>
-
-      <div style="padding:20px 20px 8px">
-        <button class="btn btn-full" style="background:var(--red-pale);color:var(--red);border:none;border-radius:var(--radius-sm)" onclick="doLogout()">
-          <i class="ti ti-logout"></i> Sair da conta
-        </button>
-      </div>
-    </div>
-    <nav class="navbar">
-      <button class="nav-item" onclick="showScreen('home')"><i class="ti ti-home"></i>Início</button>
-      <button class="nav-item" onclick="showScreen('lesson-listening')"><i class="ti ti-book"></i>Lição</button>
-      <button class="nav-item" onclick="showScreen('gami')"><i class="ti ti-trophy"></i>Liga</button>
-      <button class="nav-item" onclick="showScreen('progress')"><i class="ti ti-chart-line"></i>Progresso</button>
-      <button class="nav-item active"><i class="ti ti-settings"></i>Config</button>
-    </nav>
-  </div>
-
-</div><!-- end app-wrapper -->
-
-<style>
-.toggle-switch {
-  width: 42px; height: 24px; border-radius: 99px;
-  background: var(--border); cursor: pointer; position: relative;
-  transition: background 0.2s; flex-shrink: 0;
-}
-.toggle-switch[data-on="true"] { background: var(--purple); }
-.toggle-thumb {
-  width: 20px; height: 20px; border-radius: 50%; background: white;
-  position: absolute; top: 2px; left: 2px; transition: left 0.2s;
-}
-.toggle-switch[data-on="true"] .toggle-thumb { left: 20px; }
-</style>
-
-<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ===================== FIREBASE CONFIG =====================
-// INSTRUÇÃO: Substitua estas chaves pelas suas do Firebase Console
-// firebase.google.com → Criar projeto → Web App → Copiar firebaseConfig
-const firebaseConfig = {
-  apiKey: "AIzaSyCR2rvk534fZKKkRP3HtnzfFZZ6s1COUVg",
-  authDomain: "fluentup-dbdc1.firebaseapp.com",
-  projectId: "fluentup-dbdc1",
-  storageBucket: "fluentup-dbdc1.firebasestorage.app",
-  messagingSenderId: "1030644173691",
-  appId: "1:1030644173691:web:ecf33a4ce5846fcd2fcbde"
+const FB = { apiKey:"AIzaSyCR2rvk534fZKKkRP3HtnzfFZZ6s1COUVg", authDomain:"fluentup-dbdc1.firebaseapp.com", projectId:"fluentup-dbdc1", storageBucket:"fluentup-dbdc1.firebasestorage.app", messagingSenderId:"1030644173691", appId:"1:1030644173691:web:ecf33a4ce5846fcd2fcbde" };
+const fbApp = initializeApp(FB);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+
+// ─── CONTEÚDO ───────────────────────────────────────
+const TRAIL = [
+  { id:'foundations', title:'Fundamentos', sub:'Mês 1–2 · Base sólida', color:'#6C5CE7', icon:'ti-seedling', lessons:[
+    { id:'greetings', title:'Cumprimentos', sub:'Hello, hi, good morning...', xp:20, exercises:[
+      { type:'listen', phrase:'Hello, how are you?', phonetic:'/ˈhɛloʊ haʊ ɑːr juː/', inst:'O que você ouviu?', opts:['Hello, how are you?','Hello, who are you?','Hello, where are you?','Hello, how old are you?'], ans:0 },
+      { type:'trans', phrase:'Good morning!', phonetic:'/ɡʊd ˈmɔːrnɪŋ/', inst:'O que significa?', opts:['Boa noite!','Boa tarde!','Bom dia!','Olá!'], ans:2 },
+      { type:'fill', pt:'Muito prazer em te conhecer.', pre:'', blanks:[{id:'b1',ans:'Nice'}], suf:'to meet you.', words:['Nice','Good','Fine','Well','Great'], hint:'"Nice to meet you" = expressão clássica de apresentação.' },
+      { type:'match', inst:'Conecte os pares', pairs:[{en:'Good morning',pt:'Bom dia'},{en:'Good night',pt:'Boa noite'},{en:'See you later',pt:'Até logo'},{en:'Thank you',pt:'Obrigado'}] },
+      { type:'trans', phrase:'See you tomorrow!', phonetic:'/siː juː təˈmɒroʊ/', inst:'O que significa?', opts:['Te vejo hoje!','Até amanhã!','Até logo!','Te ligo amanhã!'], ans:1 },
+    ]},
+    { id:'numbers', title:'Números e tempo', sub:'One, two... what time is it?', xp:20, exercises:[
+      { type:'listen', phrase:'What time is it?', phonetic:'/wɒt taɪm ɪz ɪt/', inst:'O que você ouviu?', opts:['What time is it?','What time was it?','What day is it?','What place is it?'], ans:0 },
+      { type:'trans', phrase:"It's half past seven.", phonetic:'/ɪts hɑːf pɑːst ˈsɛvən/', inst:'O que significa?', opts:['São sete em ponto.','São sete e meia.','São seis e meia.','São oito menos.'], ans:1 },
+      { type:'fill', pt:'O trem chega às três.', pre:'The train arrives at', blanks:[{id:'b1',ans:'three'}], suf:"o'clock.", words:['three','two','four','five','six'], hint:'Three = 3.' },
+      { type:'trans', phrase:"I'll be there in five minutes.", phonetic:'', inst:'O que significa?', opts:['Estou lá faz 5 min.','Estarei lá em 5 min.','Fiquei lá por 5 min.','Chego em 15 min.'], ans:1 },
+      { type:'match', inst:'Conecte os números', pairs:[{en:'one',pt:'um'},{en:'five',pt:'cinco'},{en:'ten',pt:'dez'},{en:'twenty',pt:'vinte'}] },
+    ]},
+    { id:'routine', title:'Rotina diária', sub:'Wake up, go to work...', xp:25, exercises:[
+      { type:'listen', phrase:'I wake up at seven.', phonetic:'/aɪ weɪk ʌp æt ˈsɛvən/', inst:'O que você ouviu?', opts:['I wake up at seven.','I wake up at eleven.','I give up at seven.','I make up at seven.'], ans:0 },
+      { type:'trans', phrase:'I wake up at seven.', phonetic:'', inst:'O que significa?', opts:['Eu durmo às sete.','Eu acordo às sete.','Eu saio às sete.','Eu chego às sete.'], ans:1 },
+      { type:'fill', pt:'Eu vou ao trabalho de ônibus.', pre:'I go to work', blanks:[{id:'b1',ans:'by bus'}], suf:'.', words:['by bus','by car','by foot','on train','by taxi'], hint:'"By" + transporte = forma de se deslocar.' },
+      { type:'match', inst:'Conecte as rotinas', pairs:[{en:'wake up',pt:'acordar'},{en:'have breakfast',pt:'tomar café'},{en:'go to bed',pt:'ir dormir'},{en:'get dressed',pt:'se vestir'}] },
+      { type:'fill', pt:'Eu termino o trabalho às seis.', pre:'I finish work', blanks:[{id:'b1',ans:'at six'}], suf:'.', words:['at six','at five','at noon','by six','in six'], hint:'"At" = para horários específicos.' },
+    ]},
+  ]},
+  { id:'communication', title:'Comunicação', sub:'Mês 3–4 · Diálogos reais', color:'#00B894', icon:'ti-messages', lessons:[
+    { id:'shopping', title:'Fazendo compras', sub:"How much? I'll take it!", xp:30, exercises:[
+      { type:'listen', phrase:'How much does this cost?', phonetic:'/haʊ mʌtʃ dʌz ðɪs kɒst/', inst:'O que você ouviu?', opts:['How much does this cost?','How much does that last?','How many does this cost?','How often does this cost?'], ans:0 },
+      { type:'trans', phrase:"I'll take it.", phonetic:"/aɪl teɪk ɪt/", inst:'O que significa?', opts:['Eu vou devolver.','Eu vou levar.','Eu vou tentar.','Eu vou pagar.'], ans:1 },
+      { type:'fill', pt:'Você tem isso em tamanho maior?', pre:'Do you have this in a', blanks:[{id:'b1',ans:'larger'}], suf:'size?', words:['larger','smaller','better','cheaper','bigger'], hint:'"Larger" = maior. "Smaller" = menor.' },
+      { type:'match', inst:'Termos de compra', pairs:[{en:'receipt',pt:'recibo'},{en:'discount',pt:'desconto'},{en:'cash',pt:'dinheiro'},{en:'refund',pt:'reembolso'}] },
+      { type:'trans', phrase:"Can I pay by card?", phonetic:'', inst:'O que significa?', opts:['Posso pagar em dinheiro?','Posso parcelar?','Posso pagar no cartão?','Tenho desconto?'], ans:2 },
+    ]},
+    { id:'work', title:'No trabalho', sub:'Meetings, emails, deadlines', xp:30, exercises:[
+      { type:'listen', phrase:'Could we reschedule the meeting?', phonetic:'', inst:'O que você ouviu?', opts:['Could we reschedule the meeting?','Could we cancel the meeting?','Could we attend the meeting?','Could we join the meeting?'], ans:0 },
+      { type:'trans', phrase:'The deadline is on Friday.', phonetic:'', inst:'O que significa?', opts:['A reunião é sexta.','O prazo é sexta.','O relatório é sexta.','A entrega foi sexta.'], ans:1 },
+      { type:'fill', pt:'Preciso enviar o relatório até amanhã.', pre:'I need to send the', blanks:[{id:'b1',ans:'report'}], suf:'by tomorrow.', words:['report','email','project','meeting','file'], hint:'"Report" = relatório.' },
+      { type:'fill', pt:'Você está disponível para uma ligação?', pre:'Are you', blanks:[{id:'b1',ans:'available'}], suf:'for a quick call?', words:['available','ready','able','free','here'], hint:'"Available" = disponível.' },
+      { type:'match', inst:'Vocabulário profissional', pairs:[{en:'feedback',pt:'retorno'},{en:'deadline',pt:'prazo'},{en:'meeting',pt:'reunião'},{en:'colleague',pt:'colega'}] },
+    ]},
+  ]},
+  { id:'fluency', title:'Fluência prática', sub:'Mês 5–6 · Conversação livre', color:'#E17055', icon:'ti-rocket', lessons:[
+    { id:'travel', title:'Viagem e aeroporto', sub:'Boarding pass, baggage...', xp:35, exercises:[
+      { type:'listen', phrase:'Where is the baggage claim?', phonetic:'', inst:'O que você ouviu?', opts:['Where is the baggage claim?','Where is the boarding gate?','Where is the taxi stand?','Where is the baggage tag?'], ans:0 },
+      { type:'trans', phrase:'My flight was delayed.', phonetic:'', inst:'O que significa?', opts:['Meu voo foi cancelado.','Meu voo atrasou.','Meu voo chegou cedo.','Meu voo partiu.'], ans:1 },
+      { type:'fill', pt:'Gostaria de um quarto para não fumantes.', pre:"I'd like a", blanks:[{id:'b1',ans:'non-smoking'}], suf:'room please.', words:['non-smoking','double','single','smoking','quiet'], hint:'"Non-smoking" = para não fumantes.' },
+      { type:'match', inst:'Vocabulário de viagem', pairs:[{en:'boarding pass',pt:'cartão de embarque'},{en:'customs',pt:'alfândega'},{en:'check-in',pt:'registro'},{en:'layover',pt:'escala'}] },
+      { type:'fill', pt:'Minha mala foi perdida.', pre:'My', blanks:[{id:'b1',ans:'luggage'}], suf:'was lost.', words:['luggage','bag','ticket','passport','wallet'], hint:'"Luggage" = bagagem.' },
+    ]},
+  ]},
+];
+
+const VOCAB = [
+  {en:'routine',pt:'rotina',ctx:'My morning routine is simple.',status:'mastered'},
+  {en:'schedule',pt:'agenda / horário',ctx:"What's on your schedule?",status:'review'},
+  {en:'meeting',pt:'reunião',ctx:'The meeting is at 3pm.',status:'mastered'},
+  {en:'deadline',pt:'prazo',ctx:'The deadline is Friday.',status:'review'},
+  {en:'colleague',pt:'colega de trabalho',ctx:'My colleague helped me.',status:'new'},
+  {en:'available',pt:'disponível',ctx:'Are you available tomorrow?',status:'mastered'},
+  {en:'feedback',pt:'retorno / opinião',ctx:'Can I get your feedback?',status:'mastered'},
+  {en:'luggage',pt:'bagagem',ctx:'My luggage was lost.',status:'review'},
+  {en:'receipt',pt:'recibo',ctx:'Can I have the receipt?',status:'new'},
+  {en:'discount',pt:'desconto',ctx:'Do you have a discount?',status:'mastered'},
+  {en:'boarding pass',pt:'cartão de embarque',ctx:'Show your boarding pass.',status:'mastered'},
+  {en:'customs',pt:'alfândega',ctx:'Go through customs first.',status:'new'},
+];
+
+const SCENARIOS = {
+  airport:{name:'✈️ Aeroporto',intro:"Hello! Welcome to JFK Airport. You just arrived from Brazil. How can I help you?",prompt:'You are an English coach as JFK airport staff. Be helpful. Note grammar mistakes with "Quick tip:". Max 2 sentences.'},
+  market:{name:'🛒 Supermercado',intro:"Hi! Welcome to Whole Foods. Looking for something specific today?",prompt:'You are an English coach as a supermarket employee. Note grammar mistakes with "Quick tip:". Max 2 sentences.'},
+  hotel:{name:'🏨 Hotel',intro:"Good evening! Welcome to the Grand Hotel. Do you have a reservation?",prompt:'You are an English coach as hotel receptionist. Note grammar mistakes with "Quick tip:". Max 2 sentences.'},
+  interview:{name:'💼 Entrevista',intro:"Good morning! I'm Sarah, the hiring manager. Tell me about yourself.",prompt:'You are an English coach as a job interviewer. Note grammar mistakes with "Quick tip:". Max 2 sentences.'},
+  restaurant:{name:'🍽️ Restaurante',intro:"Good evening! My name is James, I'll be your server. What would you like to drink?",prompt:'You are an English coach as a restaurant waiter. Note grammar mistakes with "Quick tip:". Max 2 sentences.'},
 };
 
-// Modo demo: roda sem Firebase real quando config não está configurada
-const DEMO_MODE = firebaseConfig.apiKey.includes('DEMO');
-
-let app, auth, db, currentUser = null, userProfile = null;
-
-if (!DEMO_MODE) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-}
-
-// ===================== CONTEÚDO DO APP =====================
-const listenQuestions = [
-  {
-    phrase: "I wake up at 7am",
-    phonetic: "/aɪ weɪk ʌp æt ˈsɛvən/",
-    type: "recognize",
-    instruction: "O que você ouviu?",
-    options: ["I sleep at 7am", "I wake up at 7am", "I arrive at 7am", "I leave at 7am"],
-    correct: 1
-  },
-  {
-    phrase: "I wake up at 7am",
-    phonetic: "/aɪ weɪk ʌp æt ˈsɛvən/",
-    type: "translate",
-    instruction: "O que significa o que você ouviu?",
-    options: ["Eu durmo às 7h", "Eu acordo às 7h", "Eu chego às 7h", "Eu saio às 7h"],
-    correct: 1
-  },
-  {
-    phrase: "I have breakfast",
-    phonetic: "/aɪ hæv ˈbrɛkfəst/",
-    type: "recognize",
-    instruction: "O que você ouviu?",
-    options: ["I have dinner", "I have lunch", "I have breakfast", "I skip meals"],
-    correct: 2
-  },
-  {
-    phrase: "I have breakfast",
-    phonetic: "/aɪ hæv ˈbrɛkfəst/",
-    type: "translate",
-    instruction: "O que significa o que você ouviu?",
-    options: ["Eu faço o almoço", "Eu tomo o café da manhã", "Eu janto", "Eu pulo a refeição"],
-    correct: 1
-  },
-  {
-    phrase: "I go to work by bus",
-    phonetic: "/aɪ ɡoʊ tʊ wɜːrk baɪ bʌs/",
-    type: "recognize",
-    instruction: "O que você ouviu?",
-    options: ["I go home by bus", "I go to school by car", "I go to work by bus", "I go to work by train"],
-    correct: 2
-  },
-  {
-    phrase: "I go to work by bus",
-    phonetic: "/aɪ ɡoʊ tʊ wɜːrk baɪ bʌs/",
-    type: "translate",
-    instruction: "O que significa o que você ouviu?",
-    options: ["Eu vou de carro", "Eu trabalho em casa", "Eu vou ao trabalho de ônibus", "Eu perco o ônibus"],
-    correct: 2
-  },
-  {
-    phrase: "I finish work at 6pm",
-    phonetic: "/aɪ ˈfɪnɪʃ wɜːrk æt sɪks/",
-    type: "recognize",
-    instruction: "O que você ouviu?",
-    options: ["I start work at 6pm", "I finish work at 6pm", "I have lunch at 6pm", "I leave at 6am"],
-    correct: 1
-  },
-  {
-    phrase: "I finish work at 6pm",
-    phonetic: "/aɪ ˈfɪnɪʃ wɜːrk æt sɪks/",
-    type: "translate",
-    instruction: "O que significa o que você ouviu?",
-    options: ["Começo às 6h", "Termino o trabalho às 18h", "Almoço às 6h", "Saio às 18h de trem"],
-    correct: 1
-  },
-  {
-    phrase: "I go to bed early",
-    phonetic: "/aɪ ɡoʊ tʊ bɛd ˈɜːrli/",
-    type: "recognize",
-    instruction: "O que você ouviu?",
-    options: ["I wake up early", "I go to bed late", "I go to bed early", "I stay awake early"],
-    correct: 2
-  },
-  {
-    phrase: "I go to bed early",
-    phonetic: "/aɪ ɡoʊ tʊ bɛd ˈɜːrli/",
-    type: "translate",
-    instruction: "O que significa o que você ouviu?",
-    options: ["Durmo tarde", "Vou dormir cedo", "Fico acordado", "Acordo cedo"],
-    correct: 1
-  },
+const ONBOARD = [
+  {emoji:'🎯',title:'Qual é seu nível?',desc:'Vamos personalizar sua trilha.',key:'level',opts:[
+    {icon:'🌱',bg:'#EEEDFE',tc:'#6C5CE7',title:'Iniciante',desc:'Sei muito pouco inglês',val:'beginner'},
+    {icon:'🌿',bg:'#D4EFEA',tc:'#00B894',title:'Básico',desc:'Conheço algumas frases',val:'basic'},
+    {icon:'🌳',bg:'#FFF4E0',tc:'#E17055',title:'Intermediário',desc:'Me comunico com dificuldade',val:'intermediate'},
+  ]},
+  {emoji:'🚀',title:'Qual é seu objetivo?',desc:'Seu plano será 100% focado nisso.',key:'goal',opts:[
+    {icon:'✈️',bg:'#FFF4E0',tc:'#E17055',title:'Viagens',desc:'Me virar no exterior',val:'travel'},
+    {icon:'💼',bg:'#EEEDFE',tc:'#6C5CE7',title:'Trabalho',desc:'Reuniões e e-mails em inglês',val:'work'},
+    {icon:'💬',bg:'#D4EFEA',tc:'#00B894',title:'Conversação',desc:'Falar com confiança',val:'conversation'},
+  ]},
+  {emoji:'⏱️',title:'Tempo por dia?',desc:'Consistência vale mais que quantidade.',key:'time',opts:[
+    {icon:'⚡',bg:'#D4EFEA',tc:'#00B894',title:'5 minutos',desc:'Leve e constante',val:5},
+    {icon:'🔥',bg:'#EEEDFE',tc:'#6C5CE7',title:'10 minutos',desc:'Ritmo ideal — recomendado',val:10},
+    {icon:'💪',bg:'#FFF4E0',tc:'#E17055',title:'20 minutos',desc:'Intensivo — progresso rápido',val:20},
+  ]},
 ];
 
-const fillQuestions = [
-  { pt: "Eu costumava acordar cedo quando trabalhava lá.", prefix: "I", blanks: [{id:'b1',answer:'used to'},{id:'b2',answer:'worked'}], suffix: "wake up early when I ___ there.", words: ["worked","used to","was","would","did","use to"], hint: '"Costumava" = hábito passado. Use "used to" + verbo.' },
-  { pt: "Você poderia me ajudar com isso, por favor?", prefix: "Could you", blanks: [{id:'b1',answer:'help'}], suffix: "me with this, please?", words: ["help","helps","helping","helped","do","make"], hint: 'Após "Could you", use o verbo no infinitivo sem "to".' },
-  { pt: "Ela está estudando inglês há dois anos.", prefix: "She", blanks: [{id:'b1',answer:'has been studying'}], suffix: "English for two years.", words: ["is studying","has been studying","was studying","studies","studied","will study"], hint: 'Ação que começou no passado e continua: "has been + -ing".' },
-];
+// ─── STATE ───────────────────────────────────────────
+let CU=null, P=null;
+let OA={level:'beginner',goal:'travel',time:10}, OS=0;
+let CL=null, EQ=[], EI=0, EH=5, EXP=0, EC=0, ET=0;
+let CS='airport', CH=[];
+let VF='all';
 
-const chatScenarios = {
-  airport: { name: "✈️ Aeroporto", prompt: "You are an English conversation coach. Simulate being an airport staff member at JFK airport. The user just arrived. Speak naturally, correct grammar mistakes kindly by saying 'Quick tip:' followed by the correction, then continue the conversation. Keep responses under 3 sentences." },
-  supermarket: { name: "🛒 Supermercado", prompt: "You are an English conversation coach simulating a supermarket employee. Help the customer find items, discuss prices, etc. Correct grammar mistakes kindly with 'Quick tip:'. Keep responses under 3 sentences." },
-  job: { name: "💼 Entrevista", prompt: "You are an English conversation coach simulating a job interviewer at a tech company. Ask typical interview questions. Correct grammar mistakes with 'Quick tip:'. Keep responses under 3 sentences." },
-  hotel: { name: "🏨 Hotel", prompt: "You are an English conversation coach simulating a hotel receptionist. Handle check-in, questions about amenities, etc. Correct grammar mistakes with 'Quick tip:'. Keep responses under 3 sentences." },
+// ─── UTILS ───────────────────────────────────────────
+window.showToast=t=>{const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2500);};
+
+window.showScreen=n=>{
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n)?.classList.add('active');
+  if(n==='progress')rProgress();
+  if(n==='vocab')renderVocab();
+  if(n==='settings')rSettings();
+  if(n==='chat')initChat();
+  if(n==='home')loadHome();
 };
 
-const vocabData = [
-  { en: "routine", pt: "rotina", ctx: "My morning routine is simple.", status: "mastered" },
-  { en: "schedule", pt: "agenda / horário", ctx: "What's on your schedule today?", status: "review" },
-  { en: "meeting", pt: "reunião", ctx: "We have a meeting at 3pm.", status: "mastered" },
-  { en: "deadline", pt: "prazo / data limite", ctx: "The deadline is Friday.", status: "review" },
-  { en: "colleague", pt: "colega de trabalho", ctx: "My colleague helped me.", status: "new" },
-  { en: "available", pt: "disponível", ctx: "Are you available tomorrow?", status: "mastered" },
-  { en: "presentation", pt: "apresentação", ctx: "I have a presentation today.", status: "review" },
-  { en: "feedback", pt: "retorno / opinião", ctx: "Can I get your feedback?", status: "mastered" },
-  { en: "project", pt: "projeto", ctx: "The project is almost done.", status: "mastered" },
-  { en: "budget", pt: "orçamento", ctx: "We are under budget.", status: "new" },
-  { en: "client", pt: "cliente", ctx: "The client loved the idea.", status: "mastered" },
-  { en: "report", pt: "relatório", ctx: "Please send the report.", status: "review" },
-];
-
-// ===================== STATE =====================
-let currentScreen = '';
-let listenQ = 0, listenAnswered = false;
-let fillQ = 0, fillBlanks = {}, fillAnswered = false;
-let chatHistory = [];
-let currentScenario = 'airport';
-let vocabFilter = 'all';
-let onboardData = { level: 'beginner', goal: 'travel', time: 10 };
-
-// ===================== UTILS =====================
-window.showToast = function(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function speak(txt){
+  if(!window.speechSynthesis||!txt)return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(txt);
+  u.lang='en-US';u.rate=0.82;u.pitch=1.08;
+  function go(){
+    const vs=speechSynthesis.getVoices();
+    const v=vs.find(v=>v.name==='Samantha')||vs.find(v=>v.name.includes('Google US English'))||vs.find(v=>v.name.includes('Zira'))||vs.find(v=>v.name.includes('Jenny'))||vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang.startsWith('en'));
+    if(v)u.voice=v;
+    speechSynthesis.speak(u);
+  }
+  speechSynthesis.getVoices().length?go():(speechSynthesis.onvoiceschanged=go);
 }
 
-window.showScreen = function(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById('screen-' + name);
-  if (el) { el.classList.add('active'); currentScreen = name; }
-  if (name === 'progress') renderProgress();
-  if (name === 'vocab') renderVocab();
-  if (name === 'gami') renderGami();
-  if (name === 'settings') renderSettings();
-  if (name === 'chat') initChat();
-}
+function greet(){const h=new Date().getHours();return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';}
 
-window.toggleSwitch = function(el) {
-  const on = el.dataset.on === 'true';
-  el.dataset.on = (!on).toString();
-}
+async function save(u){Object.assign(P,u);if(CU)await updateDoc(doc(db,'users',CU.uid),u).catch(()=>{});}
 
-// ===================== AUTH =====================
-window.toggleAuthView = function() {
-  const login = document.getElementById('auth-login-view');
-  const reg = document.getElementById('auth-register-view');
-  login.style.display = login.style.display === 'none' ? '' : 'none';
-  reg.style.display = reg.style.display === 'none' ? '' : 'none';
-}
+// ─── AUTH ─────────────────────────────────────────────
+window.switchTab=t=>{
+  document.getElementById('form-in').style.display=t==='in'?'':'none';
+  document.getElementById('form-up').style.display=t==='up'?'':'none';
+  document.getElementById('tab-in').classList.toggle('active',t==='in');
+  document.getElementById('tab-up').classList.toggle('active',t==='up');
+};
+window.doLogin=async()=>{
+  const e=document.getElementById('li-email').value.trim(),p=document.getElementById('li-pass').value;
+  if(!e||!p){showToast('Preencha todos os campos');return;}
+  try{const c=await signInWithEmailAndPassword(auth,e,p);await loadP(c.user);}
+  catch(er){showToast(er.code==='auth/invalid-credential'?'Email ou senha incorretos':'Erro ao entrar.');}
+};
+window.doRegister=async()=>{
+  const n=document.getElementById('ru-name').value.trim(),e=document.getElementById('ru-email').value.trim(),p=document.getElementById('ru-pass').value;
+  if(!n||!e||!p){showToast('Preencha todos os campos');return;}
+  if(p.length<6){showToast('Senha mínima: 6 caracteres');return;}
+  try{
+    const c=await createUserWithEmailAndPassword(auth,e,p);
+    P={name:n,email:e,level:'beginner',goal:'travel',time:10,xp:0,streak:0,daysDone:0,wordsLearned:0,accuracy:0,hearts:5,lessonsCompleted:[],skills:{listening:0,speaking:0,reading:0,writing:0},onboardDone:false};
+    CU=c.user;
+    await setDoc(doc(db,'users',c.user.uid),{...P,createdAt:serverTimestamp()});
+    startOnboard();showScreen('onboarding');
+  }catch(er){showToast(er.message||'Erro ao criar conta');}
+};
+window.doLogout=async()=>{await signOut(auth);CU=null;P=null;showScreen('auth');};
 
-window.doLogin = async function() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  if (!email || !pass) { showToast('Preencha todos os campos'); return; }
-
-  if (DEMO_MODE) { demoLogin(email); return; }
-
-  try {
-    const cred = await signInWithEmailAndPassword(auth, email, pass);
-    await loadUserProfile(cred.user);
-  } catch(e) {
-    showToast('Erro: ' + (e.code === 'auth/invalid-credential' ? 'Email ou senha incorretos' : e.message));
+async function loadP(user){
+  CU=user;
+  const snap=await getDoc(doc(db,'users',user.uid));
+  if(snap.exists()){
+    P=snap.data();
+    if(!P.onboardDone){startOnboard();showScreen('onboarding');}
+    else{loadHome();showScreen('home');}
+  }else{
+    P={name:user.email.split('@')[0],email:user.email,level:'beginner',goal:'travel',time:10,xp:0,streak:0,daysDone:0,wordsLearned:0,accuracy:0,hearts:5,lessonsCompleted:[],skills:{listening:0,speaking:0,reading:0,writing:0},onboardDone:false};
+    await setDoc(doc(db,'users',user.uid),{...P,createdAt:serverTimestamp()});
+    startOnboard();showScreen('onboarding');
   }
 }
 
-window.doRegister = async function() {
-  const name = document.getElementById('reg-name').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const pass = document.getElementById('reg-pass').value;
-  if (!name || !email || !pass) { showToast('Preencha todos os campos'); return; }
-  if (pass.length < 6) { showToast('Senha deve ter no mínimo 6 caracteres'); return; }
-
-  if (DEMO_MODE) { demoRegister(name, email); return; }
-
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await createUserProfile(cred.user.uid, name, email);
-    showScreen('onboarding');
-  } catch(e) {
-    showToast('Erro: ' + e.message);
-  }
-}
-
-window.doLogout = async function() {
-  if (!DEMO_MODE) await signOut(auth);
-  currentUser = null; userProfile = null;
-  showScreen('auth');
-}
-
-// ===================== DEMO MODE =====================
-function demoLogin(email) {
-  userProfile = {
-    name: email.split('@')[0],
-    email: email,
-    level: 'beginner',
-    goal: 'travel',
-    time: 10,
-    xp: 620,
-    streak: 12,
-    daysDone: 47,
-    wordsLearned: 423,
-    accuracy: 78,
-    weekHours: 3.2,
-    skills: { listening: 60, speaking: 40, reading: 70, writing: 50 },
-    createdAt: new Date(Date.now() - 47 * 86400000)
-  };
-  loadHomeData();
-  showScreen('home');
-}
-
-function demoRegister(name, email) {
-  userProfile = {
-    name, email,
-    level: 'beginner', goal: 'travel', time: 10,
-    xp: 0, streak: 0, daysDone: 0,
-    wordsLearned: 0, accuracy: 0, weekHours: 0,
-    skills: { listening: 0, speaking: 0, reading: 0, writing: 0 },
-    createdAt: new Date()
-  };
-  showScreen('onboarding');
-}
-
-// ===================== FIREBASE USER =====================
-async function createUserProfile(uid, name, email) {
-  const profile = {
-    name, email, level: 'beginner', goal: 'travel', time: 10,
-    xp: 0, streak: 0, daysDone: 0,
-    wordsLearned: 0, accuracy: 0, weekHours: 0,
-    skills: { listening: 0, speaking: 0, reading: 0, writing: 0 },
-    onboardingDone: false,
-    createdAt: serverTimestamp()
-  };
-  await setDoc(doc(db, 'users', uid), profile);
-  userProfile = profile;
-  currentUser = { uid };
-}
-
-async function loadUserProfile(user) {
-  currentUser = user;
-  const snap = await getDoc(doc(db, 'users', user.uid));
-  if (snap.exists()) {
-    userProfile = snap.data();
-    if (!userProfile.onboardingDone) { showScreen('onboarding'); }
-    else { loadHomeData(); showScreen('home'); }
-  } else {
-    await createUserProfile(user.uid, user.email.split('@')[0], user.email);
-    showScreen('onboarding');
-  }
-}
-
-async function saveProfile(updates) {
-  Object.assign(userProfile, updates);
-  if (!DEMO_MODE && currentUser) {
-    await updateDoc(doc(db, 'users', currentUser.uid), updates);
-  }
-}
-
-// ===================== ONBOARDING =====================
-window.selectChoice = function(el, key, val) {
-  el.closest('.choice-grid').querySelectorAll('.choice-card').forEach(c => {
-    c.classList.remove('selected');
-    c.querySelector('.check-dot').innerHTML = '';
-  });
-  el.classList.add('selected');
-  el.querySelector('.check-dot').innerHTML = '<i class="ti ti-check" style="font-size:12px"></i>';
-  onboardData[key] = val;
-}
-
-window.nextOnboardStep = function(step) {
-  document.getElementById('onboard-1').style.display = 'none';
-  document.getElementById('onboard-2').style.display = 'none';
-  document.getElementById('onboard-3').style.display = 'none';
-  document.getElementById('onboard-' + step).style.display = '';
-  document.querySelectorAll('.step-pip').forEach((p, i) => {
-    p.className = 'step-pip' + (i < step - 1 ? ' done' : i === step - 1 ? ' active' : '');
-  });
-}
-
-window.finishOnboarding = async function() {
-  await saveProfile({ ...onboardData, onboardingDone: true });
-  loadHomeData();
-  showScreen('home');
-  showToast('Plano criado! Bora começar 🚀');
-}
-
-// ===================== HOME =====================
-function loadHomeData() {
-  if (!userProfile) return;
-  const p = userProfile;
-  const initials = p.name ? p.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : '??';
-  document.getElementById('home-name').textContent = p.name || 'Aluno';
-  document.getElementById('home-avatar').textContent = initials;
-  document.getElementById('home-streak').textContent = (p.streak || 0) + ' dias';
-  const xpInLevel = (p.xp || 0) % 1000;
-  document.getElementById('home-xp').textContent = (p.xp || 0) + ' XP total';
-  document.getElementById('home-level').textContent = 'Nível ' + (Math.floor((p.xp || 0) / 1000) + 1);
-  document.getElementById('home-xp-bar').style.width = (xpInLevel / 10) + '%';
-  document.getElementById('stat-words').textContent = p.wordsLearned || 0;
-  document.getElementById('stat-accuracy').textContent = (p.accuracy || 0) + '%';
-  document.getElementById('stat-days').textContent = p.daysDone || 0;
-  document.getElementById('stat-week').textContent = (p.weekHours || 0) + 'h';
-}
-
-// ===================== LESSONS =====================
-window.startLesson = function(type) {
-  if (type === 'listening') {
-    listenQ = 0; listenAnswered = false;
-    renderListenQuestion();
-    showScreen('lesson-listening');
-  } else if (type === 'fillblank') {
-    fillQ = 0; fillAnswered = false; fillBlanks = {};
-    renderFillQuestion();
-    showScreen('fillblank');
-  }
-}
-
-function renderListenProgress() {
-  const c = document.getElementById('listen-progress');
-  c.innerHTML = listenQuestions.map((_, i) =>
-    `<div class="ex-prog-pip ${i < listenQ ? 'done' : i === listenQ ? 'active' : ''}"></div>`
-  ).join('');
-}
-
-function renderListenQuestion() {
-  renderListenProgress();
-  const q = listenQuestions[listenQ];
-  listenAnswered = false;
-  document.getElementById('listen-feedback').style.display = 'none';
-  document.getElementById('listen-next-btn').style.display = 'none';
-
-  const isRecognize = q.type === 'recognize';
-  const typeLabel = isRecognize
-    ? '<i class="ti ti-ear" style="font-size:12px;vertical-align:-1px"></i> Ouça e escolha o que foi dito'
-    : '<i class="ti ti-language" style="font-size:12px;vertical-align:-1px"></i> Ouça e escolha a tradução';
-
-  document.getElementById('listen-body').innerHTML = `
-    <div class="ex-type">${typeLabel}</div>
-    <div class="audio-card-ex">
-      <button class="play-circle" onclick="simulatePlay(this)" id="play-btn">
-        <i class="ti ti-player-play" id="play-icon"></i>
-      </button>
-      ${isRecognize
-        ? `<div class="phrase-en" style="font-size:15px;color:var(--text2);font-weight:400;font-family:'DM Sans'">Ouça com atenção...</div>`
-        : `<div class="phrase-en">"${q.phrase}"</div><div class="phrase-ph">${q.phonetic}</div>`
-      }
-      <div style="margin-top:10px;font-size:13px;color:var(--text2)">${q.instruction}</div>
+// ─── ONBOARDING ───────────────────────────────────────
+function startOnboard(){OS=0;rOnboard();}
+function rOnboard(){
+  const s=ONBOARD[OS];
+  document.getElementById('o-pips').innerHTML=ONBOARD.map((_,i)=>`<div class="pip ${i<OS?'done':i===OS?'active':''}"></div>`).join('');
+  document.getElementById('o-content').innerHTML=`
+    <div class="onboard-emoji">${s.emoji}</div>
+    <h2>${s.title}</h2>
+    <p class="desc">${s.desc}</p>
+    <div class="opts">
+      ${s.opts.map(o=>`<div class="opt ${OA[s.key]===o.val?'sel':''}" onclick="pickOpt('${s.key}',${JSON.stringify(o.val)},this)">
+        <div class="opt-ico" style="background:${o.bg};color:${o.tc}">${o.icon}</div>
+        <div class="opt-txt"><h4>${o.title}</h4><p>${o.desc}</p></div>
+        <div class="opt-chk">${OA[s.key]===o.val?'<i class="ti ti-check" style="font-size:12px"></i>':''}</div>
+      </div>`).join('')}
     </div>
-    <div class="choices-grid">
-      ${q.options.map((o, i) => `<button class="choice-btn" onclick="answerListen(this, ${i === q.correct})">${o}</button>`).join('')}
+    <button class="btn btn-purple" onclick="nextOnboard()">${OS<ONBOARD.length-1?'Continuar <i class="ti ti-arrow-right"></i>':'<i class="ti ti-sparkles"></i> Criar meu plano'}</button>
+    ${OS>0?'<button class="btn btn-ghost" onclick="prevOnboard()">Voltar</button>':''}
+  `;
+}
+window.pickOpt=(k,v,el)=>{
+  OA[k]=v;
+  el.closest('.opts').querySelectorAll('.opt').forEach(o=>{o.classList.remove('sel');o.querySelector('.opt-chk').innerHTML='';});
+  el.classList.add('sel');el.querySelector('.opt-chk').innerHTML='<i class="ti ti-check" style="font-size:12px"></i>';
+};
+window.nextOnboard=async()=>{
+  if(OS<ONBOARD.length-1){OS++;rOnboard();}
+  else{await save({...OA,onboardDone:true});loadHome();showScreen('home');showToast('Plano criado! Bora começar 🚀');}
+};
+window.prevOnboard=()=>{OS--;rOnboard();};
+
+// ─── HOME ─────────────────────────────────────────────
+function loadHome(){
+  if(!P)return;
+  const ini=(P.name||'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('h-greet').textContent=greet()+'!';
+  document.getElementById('h-name').textContent=P.name||'Aluno';
+  document.getElementById('h-ava').textContent=ini;
+  document.getElementById('h-streak').textContent=(P.streak||0)+'🔥';
+  document.getElementById('h-xp').textContent=P.xp||0;
+  document.getElementById('h-hearts').textContent=(P.hearts??5)+'❤️';
+  const xp=P.xp||0,lvl=Math.floor(xp/1000)+1,xl=xp%1000;
+  document.getElementById('h-lvl').textContent='Nível '+lvl;
+  document.getElementById('h-xplbl').textContent=xl+'/1000 XP';
+  document.getElementById('h-xpbar').style.width=(xl/10)+'%';
+  const done=P.lessonsCompleted||[];
+  document.getElementById('h-trail').innerHTML=TRAIL.map(sec=>`
+    <div class="t-section">
+      <div class="t-sec-hdr" style="background:${sec.color}">
+        <i class="ti ${sec.icon}" style="font-size:20px"></i>
+        <div><h3>${sec.title}</h3><p>${sec.sub}</p></div>
+      </div>
+      <div class="t-sec-body">
+        ${sec.lessons.map((l,i)=>{
+          const isDone=done.includes(l.id);
+          const prev=i===0||done.includes(sec.lessons[i-1].id);
+          const isCurr=!isDone&&prev,isLock=!isDone&&!prev;
+          return `<div class="t-lesson ${isDone?'done':isCurr?'curr':isLock?'locked':''}"
+            onclick="${isLock?"showToast('Complete a lição anterior primeiro!')":"startLesson('"+sec.id+"','"+l.id+"')"}">
+            <div class="lesson-node ${isDone?'ln-done':isCurr?'ln-curr':'ln-lock'}">
+              <i class="ti ${isDone?'ti-check':isCurr?'ti-star':'ti-lock'}"></i>
+            </div>
+            <div class="t-lesson-info"><h4>${l.title}</h4><p>${l.sub}</p></div>
+            <span class="t-xp">${isDone?'✓':'+'+l.xp+' XP'}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ─── LESSON ENGINE ────────────────────────────────────
+let _ex=null,_fs={},_ms={left:null,right:null,matched:[]};
+
+window.startLesson=(sid,lid)=>{
+  const sec=TRAIL.find(s=>s.id===sid);
+  const lesson=sec?.lessons.find(l=>l.id===lid);
+  if(!lesson)return;
+  CL={...lesson,sid};
+  EQ=[...lesson.exercises];
+  EI=0;EH=P.hearts??5;EXP=0;EC=0;ET=Date.now();
+  showScreen('lesson');rExercise();
+};
+
+function rHearts(){document.getElementById('ex-hearts').innerHTML=Array.from({length:5},(_,i)=>`<span class="heart ${i>=EH?'lost':''}">❤️</span>`).join('');}
+function rProg(){document.getElementById('ex-pf').style.width=(EI/EQ.length*100)+'%';}
+function setBtn(s,t){const b=document.getElementById('check-btn');b.className='check-btn cbtn-'+s;b.textContent=t;b.disabled=s==='off';}
+
+function rExercise(){
+  rHearts();rProg();
+  document.getElementById('ex-fb').style.display='none';
+  setBtn('off','Verificar');
+  _ex=EQ[EI];_fs={};_ms={left:null,right:null,matched:[]};
+  const c=document.getElementById('ex-content');
+  if(_ex.type==='listen')rListen(c);
+  else if(_ex.type==='trans')rTrans(c);
+  else if(_ex.type==='fill')rFill(c);
+  else if(_ex.type==='match')rMatch(c);
+}
+
+// LISTEN
+function rListen(el){
+  el.innerHTML=`
+    <span class="ex-badge badge-listen"><i class="ti ti-ear" style="font-size:13px"></i> Ouça e escolha</span>
+    <div class="ex-q">${_ex.inst}</div>
+    <div class="audio-card" onclick="doPlay()">
+      <button class="play-btn" id="pbtn"><i class="ti ti-player-play" id="pico"></i></button>
+      <div class="audio-txt"><div style="font-size:15px;color:var(--text2);font-weight:500">Toque para ouvir</div><div class="audio-ph">${_ex.phonetic}</div></div>
+    </div>
+    <div class="choices">${_ex.opts.map((o,i)=>`<button class="choice" onclick="pickC(this,${i===_ex.ans})" data-c="${i===_ex.ans}"><span class="cletter">${'ABCD'[i]}</span>${o}</button>`).join('')}</div>
+  `;
+  setTimeout(doPlay,350);
+}
+
+// TRANSLATE
+function rTrans(el){
+  el.innerHTML=`
+    <span class="ex-badge badge-translate"><i class="ti ti-language" style="font-size:13px"></i> Tradução</span>
+    <div class="ex-q">${_ex.inst}</div>
+    <div class="audio-card" onclick="doPlay()">
+      <button class="play-btn" id="pbtn"><i class="ti ti-player-play" id="pico"></i></button>
+      <div class="audio-txt"><div class="audio-phrase">"${_ex.phrase}"</div>${_ex.phonetic?`<div class="audio-ph">${_ex.phonetic}</div>`:''}</div>
+    </div>
+    <div class="choices">${_ex.opts.map((o,i)=>`<button class="choice" onclick="pickC(this,${i===_ex.ans})" data-c="${i===_ex.ans}"><span class="cletter">${'ABCD'[i]}</span>${o}</button>`).join('')}</div>
+  `;
+  setTimeout(doPlay,350);
+}
+
+window.doPlay=()=>{
+  const btn=document.getElementById('pbtn'),ico=document.getElementById('pico');
+  if(!btn||!ico)return;
+  ico.className='ti ti-player-pause';btn.classList.add('playing');
+  speak(_ex.phrase);
+  setTimeout(()=>{if(ico)ico.className='ti ti-player-play';if(btn)btn.classList.remove('playing');},((_ex.phrase||'').length*80)+800);
+};
+
+window.pickC=(el,ok)=>{
+  document.querySelectorAll('.choice').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');el.dataset.ok=ok;
+  setBtn('on','Verificar');
+};
+
+// FILL
+function rFill(el){
+  _fs={};
+  let sent=_ex.pre+' ';
+  const parts=_ex.suf.split('___');
+  _ex.blanks.forEach((b,i)=>{sent+=`<span class="blank-slot" id="${b.id}" onclick="clearSlot('${b.id}')">___</span> `;if(parts[i])sent+=parts[i]+' ';});
+  el.innerHTML=`
+    <span class="ex-badge badge-fill"><i class="ti ti-puzzle" style="font-size:13px"></i> Complete a frase</span>
+    <div><div class="ex-q-sub">Traduza para inglês:</div><div class="ex-q" style="color:var(--text2);font-size:17px;margin-top:4px">${_ex.pt}</div></div>
+    <div class="sentence-wrap">${sent}</div>
+    ${_ex.hint?`<div class="hint-box"><i class="ti ti-bulb"></i><p>${_ex.hint}</p></div>`:''}
+    <div><div style="font-size:12px;font-weight:700;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Banco de palavras</div>
+    <div class="word-bank">${_ex.words.map(w=>`<div class="wtile" onclick="pickW(this,'${w}')">${w}</div>`).join('')}</div></div>
+  `;
+}
+window.pickW=(el,w)=>{
+  if(el.classList.contains('used'))return;
+  const b=_ex.blanks.find(b=>!_fs[b.id]);
+  if(!b)return;
+  _fs[b.id]=w;el.classList.add('used');
+  const s=document.getElementById(b.id);s.textContent=w;s.classList.add('filled');
+  if(Object.keys(_fs).length===_ex.blanks.length)setBtn('on','Verificar');
+};
+window.clearSlot=(id)=>{
+  if(!_fs[id])return;
+  const w=_fs[id];delete _fs[id];
+  const s=document.getElementById(id);s.textContent='___';s.classList.remove('filled','ok','err');
+  document.querySelectorAll('.wtile').forEach(t=>{if(t.textContent===w&&t.classList.contains('used')){t.classList.remove('used');return;}});
+  setBtn('off','Verificar');
+};
+
+// MATCH
+function rMatch(el){
+  _ms={left:null,right:null,matched:[]};
+  const right=[..._ex.pairs].sort(()=>Math.random()-.5);
+  el.innerHTML=`
+    <span class="ex-badge badge-match"><i class="ti ti-arrows-exchange" style="font-size:13px"></i> Conecte os pares</span>
+    <div class="ex-q">${_ex.inst}</div>
+    <div class="match-grid">
+      <div style="display:flex;flex-direction:column;gap:9px">${_ex.pairs.map((p,i)=>`<div class="mitem" id="ml${i}" onclick="pickM('l',${i},'${p.en}')">${p.en}</div>`).join('')}</div>
+      <div style="display:flex;flex-direction:column;gap:9px">${right.map((p,i)=>`<div class="mitem" id="mr${i}" onclick="pickM('r',${i},'${p.en}')" data-en="${p.en}">${p.pt}</div>`).join('')}</div>
     </div>
   `;
 }
-
-window.speakPhrase = function(phrase, btn) {
-  const icon = document.getElementById('play-icon');
-  window.speechSynthesis.cancel();
-
-  const utter = new SpeechSynthesisUtterance(phrase);
-  utter.lang = 'en-US';
-  utter.rate = 0.78;
-  utter.pitch = 1.1;
-  utter.volume = 1;
-
-  function doSpeak() {
-    const voices = window.speechSynthesis.getVoices();
-    const enVoice = 
-      voices.find(v => v.name === 'Samantha') ||
-      voices.find(v => v.name === 'Karen') ||
-      voices.find(v => v.name === 'Moira') ||
-      voices.find(v => v.name.includes('Google US English Female')) ||
-      voices.find(v => v.name.includes('Microsoft Zira')) ||
-      voices.find(v => v.name.includes('Microsoft Jenny')) ||
-      voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('female')) ||
-      voices.find(v => v.lang === 'en-US') ||
-      voices.find(v => v.lang.startsWith('en'));
-    if (enVoice) utter.voice = enVoice;
-
-    utter.onstart = () => {
-      if (icon) icon.className = 'ti ti-player-pause';
-      if (btn) { btn.style.background = 'var(--purple-dark)'; btn.onclick = () => { window.speechSynthesis.cancel(); }; }
-    };
-    utter.onend = utter.onerror = () => {
-      if (icon) icon.className = 'ti ti-player-play';
-      if (btn) { btn.style.background = 'var(--purple)'; btn.onclick = () => window.speakPhrase(phrase, btn); }
-    };
-    window.speechSynthesis.speak(utter);
-  }
-
-  const voices = window.speechSynthesis.getVoices();
-  if (voices.length > 0) {
-    doSpeak();
-  } else {
-    window.speechSynthesis.onvoiceschanged = () => { doSpeak(); };
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
-  }
-}
-
-window.simulatePlay = function(btn) {
-  const q = listenQuestions[listenQ];
-  window.speakPhrase(q.phrase, btn);
-}
-
-window.answerListen = function(btn, correct) {
-  if (listenAnswered) return;
-  listenAnswered = true;
-  document.querySelectorAll('.choice-btn').forEach(b => b.style.pointerEvents = 'none');
-  const fb = document.getElementById('listen-feedback');
-  if (correct) {
-    btn.classList.add('correct');
-    fb.className = 'feedback-panel correct';
-    fb.innerHTML = '<i class="ti ti-circle-check"></i><div><strong>Correto!</strong> +15 XP adicionados.</div>';
-    gainXP(15);
-  } else {
-    btn.classList.add('wrong');
-    fb.className = 'feedback-panel wrong';
-    fb.innerHTML = '<i class="ti ti-circle-x"></i><div>Quase! Revise essa palavra na próxima sessão.</div>';
-    document.querySelectorAll('.choice-btn')[listenQuestions[listenQ].correct].classList.add('correct');
-  }
-  fb.style.display = 'flex';
-  document.getElementById('listen-next-btn').style.display = '';
-}
-
-window.nextListenQuestion = function() {
-  listenQ++;
-  if (listenQ >= listenQuestions.length) {
-    saveProfile({ daysDone: (userProfile.daysDone || 0) + 1 });
-    showToast('Lição concluída! +75 XP 🎉');
-    showScreen('home');
-    loadHomeData();
-  } else {
-    renderListenQuestion();
-  }
-}
-
-// FILL BLANK
-function renderFillProgress() {
-  const c = document.getElementById('fill-progress');
-  c.innerHTML = fillQuestions.map((_, i) =>
-    `<div class="ex-prog-pip ${i < fillQ ? 'done' : i === fillQ ? 'active' : ''}"></div>`
-  ).join('');
-}
-
-function renderFillQuestion() {
-  renderFillProgress();
-  const q = fillQuestions[fillQ];
-  fillBlanks = {};
-  fillAnswered = false;
-  document.getElementById('fill-feedback').style.display = 'none';
-  document.getElementById('fill-next-btn').style.display = 'none';
-  document.getElementById('fill-check-btn').style.display = '';
-  document.getElementById('fill-check-btn').disabled = true;
-
-  const blanksHtml = q.blanks.map(b => `<span class="blank-slot" id="${b.id}" data-answer="${b.answer}" onclick="clearBlankSlot('${b.id}')">___</span>`).join(' ');
-
-  document.getElementById('fill-body').innerHTML = `
-    <div class="ex-type"><i class="ti ti-pencil" style="font-size:12px;vertical-align:-1px"></i> Tradução reversa PT → EN</div>
-    <div class="sentence-display">
-      <div style="font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:400;font-family:'DM Sans'">${q.pt}</div>
-      ${q.prefix} ${blanksHtml} ${q.suffix}
-    </div>
-    <div class="hint-box">
-      <i class="ti ti-bulb"></i>
-      <p>${q.hint}</p>
-    </div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:500">Banco de palavras</div>
-    <div class="word-bank-ex" id="word-bank-${fillQ}">
-      ${q.words.map(w => `<div class="word-tile" onclick="selectWord(this, '${w}')">${w}</div>`).join('')}
-    </div>
-  `;
-}
-
-window.selectWord = function(el, word) {
-  if (el.classList.contains('used')) return;
-  const blanks = fillQuestions[fillQ].blanks;
-  const emptyBlank = blanks.find(b => !fillBlanks[b.id]);
-  if (!emptyBlank) return;
-  fillBlanks[emptyBlank.id] = word;
-  el.classList.add('used');
-  const slot = document.getElementById(emptyBlank.id);
-  slot.textContent = word;
-  slot.style.color = 'var(--purple)';
-  if (Object.keys(fillBlanks).length === blanks.length) {
-    document.getElementById('fill-check-btn').disabled = false;
-  }
-}
-
-window.clearBlankSlot = function(id) {
-  if (!fillBlanks[id]) return;
-  const word = fillBlanks[id];
-  delete fillBlanks[id];
-  document.getElementById(id).textContent = '___';
-  document.getElementById(id).style.color = 'var(--purple)';
-  document.querySelectorAll('.word-tile').forEach(t => {
-    if (t.textContent === word && t.classList.contains('used')) { t.classList.remove('used'); return; }
-  });
-  document.getElementById('fill-check-btn').disabled = true;
-  document.getElementById('fill-feedback').style.display = 'none';
-}
-
-window.checkFill = function() {
-  if (fillAnswered) return;
-  fillAnswered = true;
-  const q = fillQuestions[fillQ];
-  let allCorrect = true;
-  q.blanks.forEach(b => {
-    const slot = document.getElementById(b.id);
-    if (fillBlanks[b.id] === b.answer) {
-      slot.style.borderColor = 'var(--green)'; slot.style.color = 'var(--green)';
-    } else {
-      slot.style.borderColor = 'var(--red)'; slot.style.color = 'var(--red)';
-      allCorrect = false;
+window.pickM=(side,idx,en)=>{
+  const id=(side==='l'?'ml':'mr')+idx;
+  const el=document.getElementById(id);
+  if(el.classList.contains('matched'))return;
+  if(side==='l'){if(_ms.left!=null)document.getElementById('ml'+_ms.left)?.classList.remove('sel');_ms.left=idx;_ms.len=en;}
+  else{if(_ms.right!=null)document.getElementById('mr'+_ms.right)?.classList.remove('sel');_ms.right=idx;_ms.ren=en;}
+  el.classList.add('sel');
+  if(_ms.left!=null&&_ms.right!=null){
+    const le=document.getElementById('ml'+_ms.left),re=document.getElementById('mr'+_ms.right);
+    if(_ms.len===_ms.ren){
+      le.classList.remove('sel');le.classList.add('matched');re.classList.remove('sel');re.classList.add('matched');
+      _ms.matched.push(_ms.len);_ms.left=null;_ms.right=null;
+      if(_ms.matched.length===_ex.pairs.length)setTimeout(()=>setBtn('next','Continuar'),300);
+    }else{
+      le.classList.add('bad');re.classList.add('bad');
+      setTimeout(()=>{le.classList.remove('sel','bad');re.classList.remove('sel','bad');_ms.left=null;_ms.right=null;},600);
     }
-  });
-  const fb = document.getElementById('fill-feedback');
-  if (allCorrect) {
-    fb.className = 'feedback-panel correct';
-    fb.innerHTML = '<i class="ti ti-circle-check"></i><div><strong>Perfeito!</strong> Resposta correta. +20 XP</div>';
-    gainXP(20);
-  } else {
-    fb.className = 'feedback-panel wrong';
-    const correct = q.blanks.map(b => `<strong>${b.answer}</strong>`).join(' / ');
-    fb.innerHTML = `<i class="ti ti-circle-x"></i><div>Quase! Resposta: ${correct}</div>`;
   }
-  fb.style.display = 'flex';
-  document.getElementById('fill-check-btn').style.display = 'none';
-  document.getElementById('fill-next-btn').style.display = '';
-}
-
-window.nextFillQuestion = function() {
-  fillQ++;
-  if (fillQ >= fillQuestions.length) {
-    showToast('Exercício concluído! +60 XP 🎉');
-    showScreen('home');
-    loadHomeData();
-  } else {
-    renderFillQuestion();
-  }
-}
-
-// ===================== AI CHAT =====================
-function initChat() {
-  if (chatHistory.length === 0) {
-    renderScenarioPills();
-    loadScenario('airport');
-  }
-}
-
-function renderScenarioPills() {
-  document.getElementById('scenario-pills').innerHTML = Object.entries(chatScenarios).map(([key, s]) =>
-    `<div class="scenario-pill ${key === currentScenario ? 'active' : ''}" onclick="loadScenario('${key}')">${s.name}</div>`
-  ).join('');
-}
-
-window.loadScenario = function(key) {
-  currentScenario = key;
-  chatHistory = [];
-  renderScenarioPills();
-  const msgs = document.getElementById('chat-messages');
-  msgs.innerHTML = '';
-  appendMessage('ai', 'Coach IA', scenarios_intro[key] || 'Hello! Ready to practice? Let\'s go!');
-}
-
-const scenarios_intro = {
-  airport: "Hello! Welcome to JFK Airport. You just arrived in New York. How can I help you today?",
-  supermarket: "Hi there! Welcome to Whole Foods. Are you looking for something specific today?",
-  job: "Good morning! Please have a seat. I'm Alex, the hiring manager. Tell me a little about yourself.",
-  hotel: "Good evening and welcome to the Grand Hotel. Do you have a reservation with us?",
 };
 
-function appendMessage(type, name, text, correction = null) {
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = `msg ${type}`;
-  div.innerHTML = `
-    <div class="msg-name">${name}</div>
-    <div class="bubble">${text}</div>
-    ${correction ? `<div class="correction-chip"><i class="ti ti-pencil" style="font-size:12px"></i> ${correction}</div>` : ''}
-  `;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+// CHECK
+window.handleCheck=()=>{
+  const b=document.getElementById('check-btn');
+  if(b.className.includes('next')){nextEx();return;}
+  let ok=false;
+  if(_ex.type==='listen'||_ex.type==='trans'){
+    const sel=document.querySelector('.choice.sel');if(!sel)return;
+    ok=sel.dataset.ok==='true'||sel.dataset.c==='true';
+    document.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.style.pointerEvents='none';if(c.dataset.ok==='true'||c.dataset.c==='true')c.classList.add('correct');else if(c.classList.contains('sel'))c.classList.add('wrong');});
+  }else if(_ex.type==='fill'){
+    ok=true;
+    _ex.blanks.forEach(b=>{const s=document.getElementById(b.id);if(_fs[b.id]===b.ans)s.classList.add('ok');else{s.classList.add('err');ok=false;}});
+    document.querySelectorAll('.wtile').forEach(t=>t.style.pointerEvents='none');
+  }else if(_ex.type==='match'){ok=_ms.matched.length===_ex.pairs.length;}
+  showFB(ok);
+  if(ok){EC++;EXP+=Math.floor((CL?.xp||20)/EQ.length);}
+  else{EH=Math.max(0,EH-1);rHearts();if(EH===0)setTimeout(()=>{showToast('Sem vidas! Continue tentando.');EH=5;rHearts();},1000);}
+  if(ok&&_ex.phrase)speak(_ex.phrase);
+  setBtn('next','Continuar');
+};
+
+function showFB(ok){
+  const fb=document.getElementById('ex-fb');fb.style.display='';
+  const ans=_ex.phrase||(_ex.blanks?_ex.blanks.map(b=>b.ans).join(' + '):'Veja acima.');
+  fb.innerHTML=ok
+    ?`<div class="feedback ok"><i class="ti ti-circle-check"></i><div><div class="fb-title">Correto! 🎉</div><div class="fb-sub">${_ex.phrase?'"'+_ex.phrase+'"':'Muito bem!'}</div></div></div>`
+    :`<div class="feedback err"><i class="ti ti-circle-x"></i><div><div class="fb-title">Quase lá!</div><div class="fb-sub">Resposta: <strong>${ans}</strong></div></div></div>`;
 }
 
-function appendThinking() {
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.id = 'thinking';
-  div.className = 'ai-thinking';
-  div.innerHTML = '<div class="thinking-dot"></div><div class="thinking-dot"></div><div class="thinking-dot"></div>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+function nextEx(){
+  EI++;
+  if(EI>=EQ.length)completeLesson();
+  else rExercise();
 }
 
-window.sendChat = async function() {
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  input.style.height = 'auto';
+async function completeLesson(){
+  const elapsed=Math.round((Date.now()-ET)/1000);
+  const acc=Math.round((EC/EQ.length)*100);
+  const xpEarned=EXP+(acc===100?10:0);
+  const done=[...(P.lessonsCompleted||[])];
+  if(!done.includes(CL.id))done.push(CL.id);
+  await save({xp:(P.xp||0)+xpEarned,streak:(P.streak||0)+1,daysDone:(P.daysDone||0)+1,wordsLearned:(P.wordsLearned||0)+3,lessonsCompleted:done,hearts:EH,accuracy:Math.round(((P.accuracy||0)+acc)/2)});
+  document.getElementById('c-xp').textContent='+'+xpEarned;
+  document.getElementById('c-acc').textContent=acc+'%';
+  document.getElementById('c-time').textContent=elapsed+'s';
+  document.getElementById('c-msg').textContent=acc===100?'🌟 Perfeito! 100% de acerto!':acc>=70?'🔥 Ótimo trabalho!':'💪 Continue praticando!';
+  showScreen('complete');confetti();
+}
 
-  const name = userProfile?.name || 'Você';
-  appendMessage('user', name, text);
-  chatHistory.push({ role: 'user', content: text });
-  appendThinking();
+function confetti(){
+  const w=document.getElementById('confetti');w.innerHTML='';
+  const cols=['#6C5CE7','#00B894','#FDCB6E','#FF6B6B','#A29BFE'];
+  for(let i=0;i<45;i++){const e=document.createElement('div');e.className='cpiece';e.style.cssText=`left:${Math.random()*100}%;background:${cols[~~(Math.random()*cols.length)]};width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;animation:fall ${1.5+Math.random()*1.5}s ${Math.random()*.5}s linear forwards;border-radius:${Math.random()>.5?'50%':'2px'}`;w.appendChild(e);}
+}
 
-  try {
-    const systemPrompt = chatScenarios[currentScenario].prompt;
-    const messages = [{ role: 'user', content: systemPrompt + '\n\nConversation so far:\n' +
-      chatHistory.slice(-6).map(m => m.role + ': ' + m.content).join('\n') +
-      '\n\nNow respond to the latest user message.' }];
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'anthropic-dangerous-allow-browser': 'true' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 300, messages })
-    });
-    const data = await res.json();
+// ─── CHAT ─────────────────────────────────────────────
+function initChat(){
+  if(CH.length>0)return;
+  rScenarioPills();loadScenario('airport');
+}
+function rScenarioPills(){
+  document.getElementById('sc-pills').innerHTML=Object.entries(SCENARIOS).map(([k,s])=>
+    `<div class="sc-pill ${k===CS?'active':''}" onclick="loadScenario('${k}')">${s.name}</div>`).join('');
+}
+window.loadScenario=k=>{CS=k;CH=[];rScenarioPills();document.getElementById('chat-msgs').innerHTML='';addMsg('ai',SCENARIOS[k].intro);};
+function addMsg(type,txt,corr=null){
+  const msgs=document.getElementById('chat-msgs');
+  const d=document.createElement('div');d.className='msg '+type;
+  d.innerHTML=`<div class="msg-who">${type==='ai'?'Coach IA':(P?.name||'Você')}</div><div class="bubble">${txt}</div>${corr?`<div class="correction"><i class="ti ti-pencil" style="font-size:12px"></i> ${corr}</div>`:''}`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function addThinking(){
+  const msgs=document.getElementById('chat-msgs');
+  const d=document.createElement('div');d.id='thinking';d.className='thinking';
+  d.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+window.sendChat=async()=>{
+  const ta=document.getElementById('chat-input');const txt=ta.value.trim();if(!txt)return;
+  ta.value='';ta.style.height='auto';
+  addMsg('user',txt);CH.push({role:'user',content:txt});addThinking();
+  try{
+    const hist=CH.slice(-8).map(m=>m.role+': '+m.content).join('\n');
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-allow-browser':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:250,messages:[{role:'user',content:`${SCENARIOS[CS].prompt}\n\nConversation:\n${hist}\n\nRespond now:`}]})});
+    const data=await res.json();
     document.getElementById('thinking')?.remove();
+    let reply=data.content?.[0]?.text||"Sorry, could you repeat that?";
+    CH.push({role:'assistant',content:reply});
+    let corr=null;
+    if(reply.includes('Quick tip:')){const p=reply.split('Quick tip:');reply=p[0].trim();corr='Quick tip:'+p[1].split('\n')[0];}
+    addMsg('ai',reply,corr);
+    speak(reply.slice(0,100));
+    await save({xp:(P.xp||0)+5});
+  }catch(e){document.getElementById('thinking')?.remove();addMsg('ai',"Connection issue. Try again!");}
+};
 
-    const reply = data.content?.[0]?.text || "Sorry, could you repeat that?";
-    chatHistory.push({ role: 'assistant', content: reply });
-
-    let correction = null;
-    if (reply.includes('Quick tip:')) {
-      const parts = reply.split('Quick tip:');
-      const mainText = parts[0].trim();
-      correction = 'Quick tip:' + parts[1].split('\n')[0];
-      appendMessage('ai', 'Coach IA', mainText, correction);
-    } else {
-      appendMessage('ai', 'Coach IA', reply);
-    }
-    gainXP(5);
-  } catch(e) {
-    document.getElementById('thinking')?.remove();
-    appendMessage('ai', 'Coach IA', "I'm having trouble connecting right now. Try again in a moment!");
-  }
-}
-
-window.toggleMic = function() {
-  showToast('Reconhecimento de voz em breve 🎤');
-}
-
-// ===================== XP =====================
-async function gainXP(amount) {
-  const newXP = (userProfile.xp || 0) + amount;
-  await saveProfile({ xp: newXP });
-  loadHomeData();
-}
-
-// ===================== PROGRESS =====================
-function renderProgress() {
-  if (!userProfile) return;
-  const p = userProfile;
-  const daysDone = p.daysDone || 0;
-  const month = Math.floor(daysDone / 30) + 1;
-  document.getElementById('prog-subtitle').textContent = `Mês ${Math.min(month, 6)} de 6 · ${Math.max(180 - daysDone, 0)} dias restantes`;
-
-  const phases = [
-    { label: 'Mês 1–2', name: 'Fundamentos', pct: Math.min(daysDone / 60, 1) },
-    { label: 'Mês 3–4', name: 'Comunicação', pct: Math.min(Math.max((daysDone - 60) / 60, 0), 1) },
-    { label: 'Mês 5–6', name: 'Fluência prática', pct: Math.min(Math.max((daysDone - 120) / 60, 0), 1) },
-  ];
-
-  document.getElementById('phase-bars').innerHTML = phases.map(ph => {
-    const cls = ph.pct >= 1 ? 'phase-done' : ph.pct > 0 ? 'phase-prog' : 'phase-future';
-    const w = Math.max(ph.pct * 100, ph.pct > 0 ? 30 : 100);
-    const label = ph.pct >= 1 ? ph.name + ' ✓' : ph.name;
-    return `<div class="phase-row">
-      <div class="phase-label">${ph.label}</div>
-      <div class="phase-bar-wrap"><div class="phase-bar ${cls}" style="width:${w}%">${label}</div></div>
-    </div>`;
-  }).join('');
-
-  const skills = p.skills || { listening: 0, speaking: 0, reading: 0, writing: 0 };
-  const skillItems = [
-    { key: 'listening', label: 'Listening', icon: 'ti-ear', color: '#6C5CE7' },
-    { key: 'speaking', label: 'Speaking', icon: 'ti-message', color: '#00B894' },
-    { key: 'reading', label: 'Reading', icon: 'ti-book', color: '#E17055' },
-    { key: 'writing', label: 'Writing', icon: 'ti-pencil', color: '#FDCB6E' },
-  ];
-  document.getElementById('skills-wrap').innerHTML = skillItems.map(s => {
-    const pct = skills[s.key] || 0;
-    const r = 26; const circ = 2 * Math.PI * r;
-    const dash = (pct / 100) * circ;
-    return `<div class="skill-card">
-      <div class="skill-name"><i class="ti ${s.icon}" style="color:${s.color};margin-right:4px;font-size:14px"></i> ${s.label}</div>
-      <svg class="ring-svg" viewBox="0 0 64 64">
+// ─── PROGRESS ─────────────────────────────────────────
+function rProgress(){
+  if(!P)return;
+  const done=P.daysDone||0,m=Math.min(Math.floor(done/30)+1,6);
+  document.getElementById('p-sub').textContent=`Mês ${m} de 6 · ${Math.max(180-done,0)} dias restantes`;
+  document.getElementById('p-stats').innerHTML=[
+    {v:P.wordsLearned||0,l:'Palavras aprendidas'},
+    {v:(P.accuracy||0)+'%',l:'Taxa de acerto'},
+    {v:P.daysDone||0,l:'Dias estudando'},
+    {v:(P.lessonsCompleted||[]).length,l:'Lições completas'},
+  ].map(s=>`<div class="scard"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('');
+  const sk=P.skills||{listening:0,speaking:0,reading:0,writing:0};
+  const sl=[{k:'listening',l:'Listening',i:'ti-ear',c:'#6C5CE7'},{k:'speaking',l:'Speaking',i:'ti-message',c:'#00B894'},{k:'reading',l:'Reading',i:'ti-book-2',c:'#E17055'},{k:'writing',l:'Writing',i:'ti-pencil',c:'#FDCB6E'}];
+  document.getElementById('p-skills').innerHTML=sl.map(s=>{
+    const p=Math.min((sk[s.k]||0)+Math.floor((P.daysDone||0)*.5),100),r=26,circ=2*Math.PI*r,dash=(p/100)*circ;
+    return `<div class="skill-card"><div class="skill-lbl"><i class="ti ${s.i}" style="color:${s.c};font-size:14px;margin-right:4px"></i>${s.l}</div>
+      <svg width="64" height="64" viewBox="0 0 64 64" style="display:block;margin:0 auto">
         <circle cx="32" cy="32" r="${r}" fill="none" stroke="#F2F1FC" stroke-width="6"/>
-        <circle cx="32" cy="32" r="${r}" fill="none" stroke="${s.color}" stroke-width="6"
-          stroke-dasharray="${dash.toFixed(1)} ${circ.toFixed(1)}"
-          stroke-linecap="round" transform="rotate(-90 32 32)"/>
-      </svg>
-      <div class="skill-pct" style="color:${s.color}">${pct}%</div>
-    </div>`;
+        <circle cx="32" cy="32" r="${r}" fill="none" stroke="${s.c}" stroke-width="6" stroke-dasharray="${dash.toFixed(1)} ${circ.toFixed(1)}" stroke-linecap="round" transform="rotate(-90 32 32)"/>
+      </svg><div class="skill-pct" style="color:${s.c}">${p}%</div></div>`;
   }).join('');
-
-  document.getElementById('history-list').innerHTML = `
-    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
-      ${[
-        { icon: 'ti-headphones', label: 'Listening concluído', time: 'Hoje · +75 XP', color: '#EEEDFE', tc: '#6C5CE7' },
-        { icon: 'ti-vocabulary', label: 'Vocabulário: At work', time: 'Ontem · +45 XP', color: '#E1F5EE', tc: '#00B894' },
-        { icon: 'ti-message-chatbot', label: 'Chat IA: Aeroporto', time: '2 dias atrás · +30 XP', color: '#FFF8EC', tc: '#E17055' },
-      ].map((h, i) => `
-        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;${i > 0 ? 'border-top:1px solid var(--border)' : ''}">
-          <div style="width:36px;height:36px;border-radius:10px;background:${h.color};display:flex;align-items:center;justify-content:center;font-size:18px;color:${h.tc}"><i class="ti ${h.icon}"></i></div>
-          <div style="flex:1"><div style="font-size:14px;font-weight:500">${h.label}</div><div style="font-size:12px;color:var(--text2);margin-top:2px">${h.time}</div></div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-// ===================== VOCAB =====================
-let currentVocabFilter = 'all';
-let vocabSearch = '';
-
-window.setVocabFilter = function(filter, el) {
-  currentVocabFilter = filter;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderVocab();
-}
-
-window.filterVocab = function() {
-  vocabSearch = document.getElementById('vocab-search').value.toLowerCase();
-  renderVocab();
-}
-
-function renderVocab() {
-  const filtered = vocabData.filter(w => {
-    const matchFilter = currentVocabFilter === 'all' || w.status === currentVocabFilter;
-    const matchSearch = !vocabSearch || w.en.toLowerCase().includes(vocabSearch) || w.pt.toLowerCase().includes(vocabSearch);
-    return matchFilter && matchSearch;
-  });
-  const dotColor = { mastered: 'var(--green)', review: 'var(--amber)', new: 'var(--border)' };
-  document.getElementById('word-list').innerHTML = filtered.map(w => `
-    <div class="word-row">
-      <div class="word-dot" style="background:${dotColor[w.status]}"></div>
-      <div class="word-content">
-        <div class="word-en">${w.en}</div>
-        <div class="word-pt">${w.pt}</div>
-        <div class="word-ctx">"${w.ctx}"</div>
-      </div>
-      <div class="word-actions-row">
-        <div class="word-action-btn"><i class="ti ti-volume"></i></div>
-        <div class="word-action-btn"><i class="ti ti-star"></i></div>
-      </div>
-    </div>
-  `).join('') || '<div style="text-align:center;color:var(--text3);padding:40px 20px;font-size:14px">Nenhuma palavra encontrada</div>';
-}
-
-// ===================== GAMIFICATION =====================
-function renderGami() {
-  const xp = userProfile?.xp || 0;
-  document.getElementById('gami-xp').textContent = xp + ' XP total';
-
-  const ranking = [
-    { name: 'Carlos A.', pts: 1240, streak: 21, color: '#FFF4E0', tc: '#E17055', initials: 'CA', pos: '1', posColor: '#B8860B' },
-    { name: 'Maria R.', pts: 980, streak: 14, color: '#E1F5EE', tc: '#00B894', initials: 'MR', pos: '2', posColor: '#888' },
-    { name: 'João S.', pts: 810, streak: 9, color: '#FFF4E0', tc: '#E17055', initials: 'JS', pos: '3', posColor: '#CD7F32' },
-    { name: userProfile?.name || 'Você', pts: xp, streak: userProfile?.streak || 0, color: '#EEEDFE', tc: '#6C5CE7', initials: (userProfile?.name||'?')[0].toUpperCase() + ((userProfile?.name||'?').split(' ')[1]||'?')[0].toUpperCase(), pos: '4', isMe: true, posColor: '#6C5CE7' },
-    { name: 'Lucas F.', pts: Math.max(xp - 80, 100), streak: 5, color: '#F2F1FC', tc: '#888', initials: 'LF', pos: '5', posColor: 'var(--text3)' },
-  ].sort((a,b) => b.pts - a.pts).map((r, i) => ({ ...r, pos: String(i + 1) }));
-
-  document.getElementById('rank-list').innerHTML = ranking.map(r => `
-    <div class="rank-row ${r.isMe ? 'me' : ''}">
-      <div class="rank-pos" style="color:${r.posColor}">${r.pos}</div>
-      <div class="ava" style="background:${r.color};color:${r.tc}">${r.initials}</div>
-      <div class="rank-info">
-        <div class="rank-name" ${r.isMe ? 'style="color:var(--purple)"' : ''}>${r.name}</div>
-        <div class="rank-pts">${r.pts.toLocaleString()} XP · <i class="ti ti-flame" style="font-size:12px;vertical-align:-1px;color:#FDCB6E"></i> ${r.streak} dias</div>
-      </div>
-    </div>
-  `).join('');
-
-  const achievements = [
-    { icon: 'ti-flame', bg: '#FFF4E0', tc: '#E17055', name: 'Sequência de fogo', desc: 'Estudou 10 dias seguidos', xp: '+100 XP', locked: (userProfile?.streak || 0) < 10 },
-    { icon: 'ti-vocabulary', bg: '#E1F5EE', tc: '#00B894', name: 'Poliglota iniciante', desc: 'Aprendeu 400 palavras', xp: '+200 XP', locked: (userProfile?.wordsLearned || 0) < 400 },
-    { icon: 'ti-message-chatbot', bg: '#EEEDFE', tc: '#6C5CE7', name: 'Conversador', desc: 'Complete 10 chats com a IA', xp: '+150 XP', locked: true },
-    { icon: 'ti-crown', bg: '#FFF4E0', tc: '#E17055', name: 'Liga Ouro', desc: 'Alcance o 1º lugar na semana', xp: '+500 XP', locked: true },
+  const phases=[
+    {n:'Fundamentos',s:'Vocabulário base + frases essenciais',p:Math.min((P.daysDone||0)/60,1)},
+    {n:'Comunicação',s:'Diálogos reais + situações cotidianas',p:Math.min(Math.max(((P.daysDone||0)-60)/60,0),1)},
+    {n:'Fluência prática',s:'Conversação livre + pensamento em inglês',p:Math.min(Math.max(((P.daysDone||0)-120)/60,0),1)},
   ];
-
-  document.getElementById('ach-list').innerHTML = achievements.map(a => `
-    <div class="ach-row ${a.locked ? 'locked' : ''}">
-      <div class="ach-icon" style="background:${a.bg};color:${a.tc}"><i class="ti ${a.icon}"></i></div>
-      <div class="ach-text"><h4>${a.name}</h4><p>${a.desc}</p></div>
-      <span class="badge badge-purple">${a.xp}</span>
-    </div>
-  `).join('');
+  document.getElementById('p-phases').innerHTML=phases.map(ph=>{
+    const c=ph.p>=1?'done':ph.p>0?'prog':'future';
+    const dc=c==='done'?'var(--green)':c==='prog'?'var(--purple)':'var(--border)';
+    const bs=c==='done'?'background:var(--green-pale);color:var(--green)':c==='prog'?'background:var(--purple-pale);color:var(--purple)':'background:var(--surface2);color:var(--text3)';
+    const bt=c==='done'?'✓ Completo':c==='prog'?Math.round(ph.p*100)+'% feito':'Em breve';
+    return `<div class="phase-row"><div class="pdot" style="background:${dc}"></div><div class="pinfo"><div class="pname">${ph.n}</div><div class="psub">${ph.s}</div></div><span style="${bs};padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700">${bt}</span></div>`;
+  }).join('');
 }
 
-// ===================== SETTINGS =====================
-function renderSettings() {
-  if (!userProfile) return;
-  const p = userProfile;
-  const initials = p.name ? p.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : '??';
-  document.getElementById('settings-avatar').textContent = initials;
-  document.getElementById('settings-name').textContent = p.name || '--';
-  document.getElementById('settings-email').textContent = p.email || '--';
-  document.getElementById('settings-level').textContent = 'Nível ' + (Math.floor((p.xp || 0) / 1000) + 1);
-
-  const goalLabel = { travel: 'Viagens', work: 'Trabalho', conversation: 'Conversação' };
-  const levelLabel = { beginner: 'Iniciante', basic: 'Básico', intermediate: 'Intermediário' };
-  document.getElementById('plan-title').textContent = `Plano ${levelLabel[p.level] || 'Iniciante'} · ${p.time || 10} min/dia`;
-  document.getElementById('plan-sub').textContent = `Foco em ${goalLabel[p.goal] || 'viagens'} · 6 meses`;
-
-  const done = p.daysDone || 0;
-  const pct = Math.round(done / 180 * 100);
-  document.getElementById('plan-days-done').textContent = done;
-  document.getElementById('plan-days-left').textContent = Math.max(180 - done, 0);
-  document.getElementById('plan-pct').textContent = pct + '%';
+// ─── VOCAB ────────────────────────────────────────────
+window.setVF=(f,el)=>{VF=f;document.querySelectorAll('.fpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');renderVocab();};
+function renderVocab(){
+  const srch=(document.getElementById('v-search')?.value||'').toLowerCase();
+  const dc={mastered:'var(--green)',review:'var(--amber)',new:'var(--border)'};
+  const f=VOCAB.filter(w=>(VF==='all'||w.status===VF)&&(!srch||w.en.toLowerCase().includes(srch)||w.pt.toLowerCase().includes(srch)));
+  document.getElementById('v-list').innerHTML=f.map(w=>`<div class="word-row">
+    <div class="wdot" style="background:${dc[w.status]}"></div>
+    <div class="wbody"><div class="wen">${w.en}</div><div class="wpt">${w.pt}</div><div class="wctx">"${w.ctx}"</div></div>
+    <div class="wbtns"><div class="wbtn" onclick="speak('${w.en}')"><i class="ti ti-volume"></i></div><div class="wbtn"><i class="ti ti-star"></i></div></div>
+  </div>`).join('')||`<div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:14px">Nenhuma palavra encontrada</div>`;
 }
 
-// ===================== BOOT =====================
-async function boot() {
-  await new Promise(r => setTimeout(r, 1200));
-  document.getElementById('loading-screen').classList.add('hide');
-  setTimeout(() => document.getElementById('loading-screen').remove(), 400);
+// ─── SETTINGS ─────────────────────────────────────────
+function rSettings(){
+  if(!P)return;
+  const ini=(P.name||'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  const lvl=Math.floor((P.xp||0)/1000)+1;
+  const gm={travel:'Viagens',work:'Trabalho',conversation:'Conversação'};
+  const lm={beginner:'Iniciante',basic:'Básico',intermediate:'Intermediário'};
+  document.getElementById('s-ava').textContent=ini;
+  document.getElementById('s-name').textContent=P.name||'--';
+  document.getElementById('s-email').textContent=P.email||'--';
+  document.getElementById('s-lvl').textContent='Nível '+lvl;
+  document.getElementById('s-ptitle').textContent=`Plano ${lm[P.level]||'Iniciante'} · ${P.time||10} min/dia`;
+  document.getElementById('s-psub').textContent=`Foco em ${gm[P.goal]||'viagens'} · 6 meses`;
+  const d=P.daysDone||0;
+  document.getElementById('s-done').textContent=d;
+  document.getElementById('s-left').textContent=Math.max(180-d,0);
+  document.getElementById('s-pct').textContent=Math.round(d/180*100)+'%';
+}
 
-  if (DEMO_MODE) {
-    showScreen('auth');
-    showToast('Modo demo ativo — use qualquer e-mail/senha');
-    return;
-  }
+// ─── BOOT ─────────────────────────────────────────────
+window.renderVocab=renderVocab;
+window.rProgress=rProgress;
 
-  onAuthStateChanged(auth, async user => {
-    if (user) { await loadUserProfile(user); }
-    else { showScreen('auth'); }
+setTimeout(()=>{
+  onAuthStateChanged(auth,async user=>{
+    document.getElementById('screen-loading').classList.remove('active');
+    if(user)await loadP(user);
+    else showScreen('auth');
   });
-}
-
-boot();
+},1300);
 </script>
 </body>
 </html>
