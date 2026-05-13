@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGL Soluções Elétricas – Leonardo Giudice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;1,700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#060608;
+  --dark:#0c0d10;
+  --card:#13141a;
+  --card2:#1a1b23;
+  --orange:#f97316;
+  --orange-d:#ea6a0a;
+  --amber:#fbbf24;
+  --amber-pale:#fde68a;
+  --white:#ffffff;
+  --gray:#9ca3af;
+  --light:#f3f4f6;
+  --serif:'Barlow Condensed',Impact,sans-serif;
+  --sans:'Barlow',system-ui,sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --spring:cubic-bezier(0.34,1.56,0.64,1);
+}
+html{scroll-behavior:smooth;cursor:none;}
+body{font-family:var(--sans);background:var(--black);color:var(--white);overflow-x:hidden;}
+
+/* CURSOR */
+#cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+#cd{width:8px;height:8px;background:var(--orange);mix-blend-mode:screen;transition:width .2s,height .2s;}
+#cr{width:30px;height:30px;border:1.5px solid rgba(249,115,22,.4);transition:width .3s var(--ease),height .3s var(--ease);}
+.ch #cd{width:12px;height:12px;}
+.ch #cr{width:50px;height:50px;border-color:var(--orange);}
+@media(hover:none){#cd,#cr{display:none;}html{cursor:auto;}}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px;}
+
+/* ── LIGHTNING BOLTS BG ── */
+.lbg{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.lbg svg{position:absolute;opacity:.04;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.2rem clamp(1.2rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;transition:all .4s var(--ease);}
+nav.sc{background:rgba(6,6,8,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(249,115,22,.12);padding:.8rem clamp(1.2rem,5vw,4rem);}
+.nlogo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nlogo-ico{
+  width:44px;height:44px;border-radius:6px;
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;font-weight:900;color:var(--black);font-family:var(--serif);
+  letter-spacing:-.02em;flex-shrink:0;
+  box-shadow:0 4px 20px rgba(249,115,22,.35);
+}
+.nlogo-txt{font-family:var(--serif);font-size:1.45rem;letter-spacing:.06em;color:var(--white);line-height:1;font-weight:700;}
+.nlogo-sub{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);font-family:var(--sans);font-weight:500;}
+.nlinks{display:flex;gap:2rem;list-style:none;}
+.nlinks a{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;position:relative;padding-bottom:3px;}
+.nlinks a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--orange);transition:width .3s var(--ease);}
+.nlinks a:hover{color:var(--orange);} .nlinks a:hover::after{width:100%;}
+.ncta{padding:.6rem 1.5rem;border-radius:4px;background:linear-gradient(135deg,var(--orange),var(--amber));color:var(--black);font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .3s var(--ease);cursor:none;font-family:var(--sans);box-shadow:0 4px 20px rgba(249,115,22,.3);}
+.ncta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(249,115,22,.5);}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px;cursor:none;z-index:600;}
+.hbg span{display:block;width:24px;height:2px;background:var(--white);transition:all .4s var(--ease);transform-origin:center;}
+.hbg.on span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hbg.on span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hbg.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* MOBILE MENU */
+.mmenu{position:fixed;inset:0;z-index:490;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;pointer-events:none;transition:opacity .4s var(--ease);}
+.mmenu.on{opacity:1;pointer-events:all;}
+.mmenu a{font-family:var(--serif);font-size:clamp(2.2rem,7vw,3.5rem);color:var(--white);text-decoration:none;letter-spacing:.08em;font-weight:700;opacity:0;transform:translateY(20px);transition:opacity .4s var(--ease),transform .4s var(--ease),color .2s;}
+.mmenu.on a{opacity:1;transform:translateY(0);}
+.mmenu.on a:nth-child(1){transition-delay:.07s;}.mmenu.on a:nth-child(2){transition-delay:.14s;}.mmenu.on a:nth-child(3){transition-delay:.21s;}.mmenu.on a:nth-child(4){transition-delay:.28s;}.mmenu.on a:nth-child(5){transition-delay:.35s;}
+.mmenu a:hover{color:var(--orange);}
+
+/* ── HERO ── */
+#hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;padding:8rem clamp(1.2rem,5vw,4rem) 6rem;background:var(--dark);}
+.hero-circuit{position:absolute;inset:0;z-index:0;opacity:.06;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(249,115,22,.5) 39px,rgba(249,115,22,.5) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(249,115,22,.5) 39px,rgba(249,115,22,.5) 40px);}
+.hglow{position:absolute;border-radius:50%;filter:blur(130px);z-index:1;pointer-events:none;}
+.hg1{width:800px;height:800px;background:rgba(249,115,22,.13);top:-20%;right:-15%;animation:hgm 12s ease-in-out infinite alternate;}
+.hg2{width:500px;height:500px;background:rgba(251,191,36,.07);bottom:-15%;left:-10%;animation:hgm 15s ease-in-out infinite alternate;animation-delay:-6s;}
+@keyframes hgm{0%{transform:translate(0,0);}100%{transform:translate(-25px,20px);}}
+
+/* animated lightning */
+.bolt{position:absolute;z-index:1;pointer-events:none;opacity:0;animation:boltFlash 8s ease-in-out infinite;}
+.bolt1{top:15%;right:20%;font-size:4rem;animation-delay:0s;}
+.bolt2{top:60%;right:8%;font-size:2.5rem;animation-delay:-3s;}
+.bolt3{top:40%;right:35%;font-size:2rem;animation-delay:-5s;}
+@keyframes boltFlash{0%,90%,100%{opacity:0;transform:scale(.8);}92%,96%{opacity:.12;transform:scale(1);}94%{opacity:.06;}}
+
+/* diagonal line accent */
+.hero-line{position:absolute;top:0;bottom:0;right:38%;width:4px;background:linear-gradient(to bottom,transparent,var(--orange),transparent);z-index:1;opacity:.25;transform:skewX(-8deg);}
+
+.hero-inner{position:relative;z-index:2;max-width:700px;}
+.htag{display:inline-flex;align-items:center;gap:10px;font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:1.5rem;opacity:0;animation:fu .7s .3s var(--ease) both;}
+.htag-line{width:28px;height:2px;background:var(--orange);}
+.htag-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pd 1.5s infinite;}
+@keyframes pd{0%,100%{opacity:1;}50%{opacity:.3;}}
+h1.hh1{font-family:var(--serif);font-size:clamp(3.8rem,8vw,9rem);line-height:.9;color:var(--white);font-weight:800;letter-spacing:.02em;margin-bottom:1.8rem;opacity:0;animation:fu .9s .5s var(--ease) both;}
+h1.hh1 .orange{color:var(--orange);display:block;}
+h1.hh1 .small{font-size:.38em;font-weight:300;letter-spacing:.12em;color:rgba(255,255,255,.5);display:block;margin-bottom:.2em;}
+.hbadges{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.8rem;opacity:0;animation:fu .8s .6s var(--ease) both;}
+.hbadge{display:inline-flex;align-items:center;gap:6px;padding:.35rem .9rem;border-radius:3px;border:1px solid rgba(249,115,22,.35);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);font-weight:700;background:rgba(249,115,22,.07);}
+.hbadge-check{width:14px;height:14px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--black);font-weight:900;}
+.hsub{font-size:clamp(.9rem,1.4vw,1.05rem);line-height:1.8;color:rgba(255,255,255,.45);font-weight:300;max-width:520px;margin-bottom:2.5rem;opacity:0;animation:fu .9s .75s var(--ease) both;}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fu .9s .9s var(--ease) both;}
+.borange{display:inline-flex;align-items:center;gap:9px;padding:.9rem 2rem;border-radius:4px;background:linear-gradient(135deg,var(--orange),var(--amber));color:var(--black);font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .35s var(--ease);box-shadow:0 6px 25px rgba(249,115,22,.3);}
+.borange:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(249,115,22,.5);}
+.bghost{display:inline-flex;align-items:center;gap:9px;padding:.9rem 2rem;border-radius:4px;border:1.5px solid rgba(249,115,22,.35);color:rgba(255,255,255,.7);background:transparent;font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .35s var(--ease);}
+.bghost:hover{border-color:var(--orange);color:var(--orange);background:rgba(249,115,22,.07);}
+.shi{position:absolute;bottom:2rem;left:clamp(1.2rem,5vw,4rem);z-index:2;display:flex;align-items:center;gap:10px;opacity:0;animation:fu .6s 1.5s var(--ease) both;}
+.shi span{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+.shline{width:50px;height:1px;background:linear-gradient(to right,var(--orange),transparent);animation:shp 2s ease-in-out infinite;}
+@keyframes shp{0%,100%{transform:scaleX(1);opacity:.4;}50%{transform:scaleX(.5);opacity:1;}}
+
+/* STATS */
+#stats{background:var(--card);padding:2.5rem clamp(1.2rem,5vw,4rem);display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:1.5rem;border-top:2px solid var(--orange);border-bottom:1px solid rgba(249,115,22,.1);}
+.si{text-align:center;flex:1;min-width:100px;}
+.sn{font-family:var(--serif);font-size:clamp(2.4rem,4vw,3.8rem);color:var(--orange);letter-spacing:.05em;line-height:1;display:block;font-weight:800;}
+.sl{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:.3rem;font-weight:500;}
+.ssep{width:1px;height:50px;background:rgba(249,115,22,.15);flex-shrink:0;}
+@media(max-width:480px){.ssep{display:none;}}
+
+/* SECTION */
+.sec{padding:7rem clamp(1.2rem,5vw,4rem);position:relative;overflow:hidden;}
+.sin{max-width:1280px;margin:0 auto;}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:.8rem;}
+.tl{width:20px;height:2px;background:var(--orange);}
+h2.sh{font-family:var(--serif);font-size:clamp(2.5rem,5vw,5rem);color:var(--white);line-height:.92;letter-spacing:.04em;font-weight:800;margin-bottom:1.2rem;}
+h2.sh span{color:var(--orange);}
+.lead{font-size:1rem;color:rgba(255,255,255,.4);line-height:1.85;max-width:520px;font-weight:300;}
+
+/* SERVICES */
+#svc{background:var(--dark);}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1px;margin-top:4rem;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.08);}
+.sc{background:var(--card);padding:1.8rem 1.6rem;position:relative;overflow:hidden;transition:all .4s var(--ease);cursor:none;}
+.sc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(249,115,22,.08),transparent);opacity:0;transition:opacity .4s;}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--amber));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.sc:hover{background:var(--card2);transform:translateY(-3px);box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.sc:hover::before{opacity:1;}
+.sc:hover::after{transform:scaleX(1);}
+.sc-ico{width:48px;height:48px;border-radius:6px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1.2rem;transition:transform .4s var(--spring),background .3s;}
+.sc:hover .sc-ico{transform:scale(1.1) rotate(-6deg);background:rgba(249,115,22,.18);}
+.sc-num{position:absolute;top:1.2rem;right:1.2rem;font-family:var(--serif);font-size:3rem;color:rgba(249,115,22,.06);font-weight:800;line-height:1;letter-spacing:.05em;}
+.sc h3{font-family:var(--serif);font-size:1.2rem;color:var(--white);letter-spacing:.05em;margin-bottom:.5rem;font-weight:700;}
+.sc p{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.7;}
+
+/* CERTS */
+#certs{background:linear-gradient(135deg,var(--orange) 0%,var(--amber) 100%);padding:4rem clamp(1.2rem,5vw,4rem);}
+.cert-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+.cert-txt h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);color:var(--black);font-weight:800;letter-spacing:.05em;line-height:.95;}
+.cert-txt p{font-size:.95rem;color:rgba(0,0,0,.6);margin-top:.8rem;font-weight:400;max-width:400px;}
+.cert-badges{display:flex;gap:1rem;flex-wrap:wrap;}
+.cert-badge{background:rgba(0,0,0,.15);border:2px solid rgba(0,0,0,.2);border-radius:8px;padding:1.2rem 2rem;text-align:center;}
+.cert-badge .cn{font-family:var(--serif);font-size:2.5rem;font-weight:800;color:var(--black);letter-spacing:.05em;}
+.cert-badge .ct{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.6);font-weight:700;}
+
+/* ABOUT */
+#about{background:var(--dark);}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.avis{position:relative;}
+.acard{
+  background:var(--card);border-radius:8px;
+  border:1px solid rgba(249,115,22,.15);
+  overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+  position:relative;
+}
+.acard-top{
+  background:linear-gradient(135deg,var(--orange),var(--amber));
+  padding:2rem;display:flex;align-items:center;gap:1.2rem;
+}
+.acard-initial{
+  width:64px;height:64px;border-radius:6px;
+  background:rgba(0,0,0,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:2rem;font-weight:800;color:var(--black);
+  flex-shrink:0;
+}
+.acard-name{font-family:var(--serif);font-size:1.5rem;font-weight:800;color:var(--black);letter-spacing:.04em;}
+.acard-role{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.55);font-weight:600;margin-top:.15rem;}
+.acard-body{padding:2rem;}
+.acard-p{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:1.5rem;font-weight:300;}
+.acard-contacts{display:flex;flex-direction:column;gap:.6rem;}
+.ac{display:flex;align-items:center;gap:.8rem;font-size:.85rem;color:rgba(255,255,255,.6);}
+.ac-ico{width:30px;height:30px;border-radius:4px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+.ac a{color:inherit;text-decoration:none;transition:color .2s;}
+.ac a:hover{color:var(--orange);}
+.acard-badge{
+  position:absolute;top:-15px;right:1.5rem;
+  background:var(--card);border:1px solid rgba(249,115,22,.3);
+  border-radius:6px;padding:.6rem 1rem;
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--orange);font-weight:700;
+  box-shadow:0 8px 30px rgba(0,0,0,.3);
+  animation:abf 4s ease-in-out infinite;
+}
+@keyframes abf{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.atxt .creds{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem;}
+.cr{display:flex;align-items:flex-start;gap:.9rem;padding:1rem 1.1rem;background:var(--card);border-radius:6px;border-left:2px solid var(--orange);transition:all .3s var(--ease);cursor:none;}
+.cr:hover{background:var(--card2);transform:translateX(5px);}
+.cr-ico{font-size:1.1rem;flex-shrink:0;margin-top:.05rem;}
+.cr-t{font-size:.86rem;color:rgba(255,255,255,.5);line-height:1.5;}
+.cr-t strong{color:var(--white);font-weight:600;display:block;margin-bottom:.1rem;}
+
+/* PROCESS */
+#proc{background:var(--black);position:relative;overflow:hidden;}
+.proc-circuit{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(249,115,22,.8) 59px,rgba(249,115,22,.8) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(249,115,22,.8) 59px,rgba(249,115,22,.8) 60px);}
+.psteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;margin-top:4rem;position:relative;z-index:1;}
+.psteps::before{content:'';position:absolute;top:27px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(249,115,22,.3),transparent);}
+.ps{text-align:center;position:relative;}
+.psc{width:56px;height:56px;border-radius:6px;border:1.5px solid rgba(249,115,22,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-family:var(--serif);font-size:1.5rem;color:var(--orange);font-weight:800;background:rgba(249,115,22,.07);transition:all .4s var(--ease);position:relative;z-index:1;}
+.ps:hover .psc{background:var(--orange);color:var(--black);transform:scale(1.08);box-shadow:0 0 35px rgba(249,115,22,.4);}
+.ps h3{font-family:var(--serif);font-size:1.1rem;color:var(--white);letter-spacing:.06em;margin-bottom:.5rem;font-weight:700;}
+.ps p{font-size:.8rem;color:rgba(255,255,255,.35);line-height:1.65;}
+
+/* CONTACT */
+#contact{background:var(--dark);}
+.cgrid{display:grid;grid-template-columns:1fr 1.3fr;gap:4rem;margin-top:4rem;align-items:start;}
+.clist{display:flex;flex-direction:column;gap:.9rem;}
+.ci{display:flex;align-items:flex-start;gap:1.1rem;padding:1.2rem;border-radius:6px;background:var(--card);border:1px solid rgba(249,115,22,.1);transition:all .35s var(--ease);cursor:none;}
+.ci:hover{border-color:rgba(249,115,22,.4);transform:translateX(5px);}
+.cion{width:42px;height:42px;border-radius:6px;background:linear-gradient(135deg,var(--orange),var(--amber));color:var(--black);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.cilbl{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:.3rem;font-weight:700;}
+.cval{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.6;}
+.cval a{color:inherit;text-decoration:none;transition:color .2s;}
+.cval a:hover{color:var(--orange);}
+.cform{background:var(--card);border-radius:8px;border:1px solid rgba(249,115,22,.12);padding:2.5rem;}
+.cform h3{font-family:var(--serif);font-size:2rem;color:var(--white);letter-spacing:.06em;font-weight:800;margin-bottom:1.8rem;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+.fg label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);font-weight:700;}
+.fg input,.fg select,.fg textarea{padding:.8rem 1rem;border:1px solid rgba(249,115,22,.18);border-radius:4px;font-family:var(--sans);font-size:.9rem;color:var(--white);background:rgba(255,255,255,.04);outline:none;width:100%;transition:border-color .25s,box-shadow .25s;appearance:none;-webkit-appearance:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,.12);}
+.fg textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f97316' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;background-size:12px;color:rgba(255,255,255,.6);}
+.fg select option{background:var(--card);}
+.bsub{width:100%;padding:1rem;margin-top:.5rem;background:linear-gradient(135deg,var(--orange),var(--amber));color:var(--black);border:none;cursor:none;border-radius:4px;font-family:var(--sans);font-size:.88rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .35s var(--ease);}
+.bsub:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(249,115,22,.45);}
+
+/* FOOTER */
+footer{background:var(--black);padding:4rem clamp(1.2rem,5vw,4rem) 2.5rem;border-top:1px solid rgba(249,115,22,.1);}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.fbrand p{font-size:.84rem;color:rgba(255,255,255,.28);line-height:1.7;max-width:260px;margin-top:.7rem;}
+.fcol h4{font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:1.1rem;font-weight:700;}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+.fcol ul li a{font-size:.84rem;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s;}
+.fcol ul li a:hover{color:var(--orange);}
+.fbot{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;flex-wrap:wrap;gap:1rem;}
+.fbot p{font-size:.7rem;color:rgba(255,255,255,.18);}
+
+/* FAB */
+.fab{position:fixed;bottom:2rem;right:2rem;z-index:400;width:58px;height:58px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:none;box-shadow:0 6px 25px rgba(37,211,102,.35);animation:fbi .8s 2s var(--spring) both;transition:transform .3s var(--spring);}
+.fab:hover{transform:scale(1.12);}
+.fabr{position:fixed;bottom:2rem;right:2rem;z-index:399;width:58px;height:58px;border-radius:50%;border:2px solid #25D366;animation:fbi .8s 2s var(--spring) both,fabr 2.5s 3s ease-out infinite;}
+@keyframes fbi{from{opacity:0;transform:scale(0);}to{opacity:1;transform:scale(1);}}
+@keyframes fabr{0%{transform:scale(1);opacity:.4;}100%{transform:scale(2.2);opacity:0;}}
+
+/* REVEAL */
+@keyframes fu{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rvl{opacity:0;transform:translateX(-24px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rvr{opacity:0;transform:translateX(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rv.vis,.rvl.vis,.rvr.vis{opacity:1;transform:translate(0);}
+.d1{transition-delay:.1s!important;}.d2{transition-delay:.2s!important;}.d3{transition-delay:.3s!important;}.d4{transition-delay:.4s!important;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .agrid,.cgrid{grid-template-columns:1fr;gap:3rem;}
+  .fgrid{grid-template-columns:1fr 1fr;}
+  .cert-inner{flex-direction:column;}
+}
+@media(max-width:768px){
+  .nlinks,.ncta{display:none!important;}
+  .hbg{display:flex!important;}
+  .psteps::before{display:none;}
+  .fgrid{grid-template-columns:1fr;}
+  .fcol{display:none;}
+}
+@media(max-width:520px){
+  .frow{grid-template-columns:1fr;}
+  .hbtns{flex-direction:column;}
+  .hbtns a{justify-content:center;}
+  .cert-badges{justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="cd"></div><div id="cr"></div>
+
+<div class="mmenu" id="mm">
+  <a href="#svc" onclick="cm()">Serviços</a>
+  <a href="#certs" onclick="cm()">Certificações</a>
+  <a href="#about" onclick="cm()">Empresa</a>
+  <a href="#proc" onclick="cm()">Como Funciona</a>
+  <a href="#contact" onclick="cm()">Contato</a>
+</div>
+
+<nav id="nav">
+  <a class="nlogo" href="#">
+    <div class="nlogo-ico">EGL</div>
+    <div>
+      <div class="nlogo-txt">EGL</div>
+      <div class="nlogo-sub">Soluções Elétricas</div>
+    </div>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#svc">Serviços</a></li>
+    <li><a href="#certs">Certificações</a></li>
+    <li><a href="#about">Empresa</a></li>
+    <li><a href="#proc">Como Funciona</a></li>
+    <li><a href="#contact">Contato</a></li>
+  </ul>
+  <a class="ncta" href="https://wa.me/5519971178316" target="_blank">Solicitar Orçamento</a>
+  <button class="hbg" id="hbg" onclick="tm()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-circuit"></div>
+  <div class="hglow hg1"></div>
+  <div class="hglow hg2"></div>
+  <div class="hero-line"></div>
+  <div class="bolt bolt1">⚡</div>
+  <div class="bolt bolt2">⚡</div>
+  <div class="bolt bolt3">⚡</div>
+
+  <div class="hero-inner">
+    <div class="htag"><span class="htag-line"></span><span class="htag-dot"></span>Piracicaba – SP · NR 10 · NR 35</div>
+    <h1 class="hh1">
+      <span class="small">Soluções</span>
+      ELÉTRICAS<br><span class="orange">PROFISSIONAIS</span>
+    </h1>
+    <div class="hbadges">
+      <span class="hbadge"><span class="hbadge-check">✓</span>NR 10 Certificado</span>
+      <span class="hbadge"><span class="hbadge-check">✓</span>NR 35 Certificado</span>
+      <span class="hbadge"><span class="hbadge-check">✓</span>Técnico Especializado</span>
+    </div>
+    <p class="hsub">Elétrica residencial, comercial e industrial. Da instalação à manutenção, automação e energia solar — com segurança, qualidade e pontualidade.</p>
+    <div class="hbtns">
+      <a class="borange" href="https://wa.me/5519971178316" target="_blank">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Pedir Orçamento
+      </a>
+      <a class="bghost" href="#svc">Ver Serviços →</a>
+    </div>
+  </div>
+  <div class="shi"><span>Rolar</span><div class="shline"></div></div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="si rv"><span class="sn" data-c="15">0</span><div class="sl">serviços oferecidos</div></div>
+  <div class="ssep"></div>
+  <div class="si rv d1"><span class="sn" data-c="2">0</span><div class="sl">certificações NR</div></div>
+  <div class="ssep"></div>
+  <div class="si rv d2"><span class="sn">24h</span><div class="sl">atendimento urgência</div></div>
+  <div class="ssep"></div>
+  <div class="si rv d3"><span class="sn">100%</span><div class="sl">qualidade garantida</div></div>
+</div>
+
+<!-- SERVICES -->
+<section id="svc" class="sec">
+  <div class="sin">
+    <div class="tag rv"><span class="tl"></span>Especialidades</div>
+    <h2 class="sh rv d1">NOSSOS<br><span>SERVIÇOS</span></h2>
+    <p class="lead rv d2">Do simples ao complexo, atendemos residências, comércios e indústrias com técnica e segurança.</p>
+    <div class="sgrid">
+      <div class="sc rv"><div class="sc-ico">🏠</div><div class="sc-num">01</div><h3>ELÉTRICA RESIDENCIAL</h3><p>Instalação, manutenção e reforma elétrica completa para sua residência com segurança total.</p></div>
+      <div class="sc rv d1"><div class="sc-ico">🏢</div><div class="sc-num">02</div><h3>ELÉTRICA COMERCIAL</h3><p>Projetos e instalações elétricas para estabelecimentos comerciais de todos os portes.</p></div>
+      <div class="sc rv d2"><div class="sc-ico">🏭</div><div class="sc-num">03</div><h3>ELÉTRICA INDUSTRIAL</h3><p>Soluções industriais com toda a segurança exigida pelas normas NR 10 e NR 35.</p></div>
+      <div class="sc rv d3"><div class="sc-ico">🔐</div><div class="sc-num">04</div><h3>FECHADURA ELETRÔNICA</h3><p>Instalação de fechaduras digitais e biométricas para mais conforto e segurança.</p></div>
+      <div class="sc rv"><div class="sc-ico">🏡</div><div class="sc-num">05</div><h3>CASA INTELIGENTE</h3><p>Automação residencial integrada para controle de iluminação, climatização e muito mais.</p></div>
+      <div class="sc rv d1"><div class="sc-ico">⚡</div><div class="sc-num">06</div><h3>MONTAGEM DE QDC</h3><p>Montagem e organização de quadros de distribuição com total conformidade técnica.</p></div>
+      <div class="sc rv d2"><div class="sc-ico">📹</div><div class="sc-num">07</div><h3>CÂMERAS DE SEGURANÇA</h3><p>Instalação de sistemas CFTV residencial e comercial com acesso remoto pelo celular.</p></div>
+      <div class="sc rv d3"><div class="sc-ico">⚠️</div><div class="sc-num">08</div><h3>CERCA ELÉTRICA</h3><p>Instalação e manutenção de cercas elétricas para proteção perimetral eficiente.</p></div>
+      <div class="sc rv"><div class="sc-ico">🚨</div><div class="sc-num">09</div><h3>ALARME</h3><p>Sistemas de alarme monitorado para residências e comércios com central 24 horas.</p></div>
+      <div class="sc rv d1"><div class="sc-ico">🏊</div><div class="sc-num">10</div><h3>AUTOMAÇÃO DE PISCINA</h3><p>Automação completa de piscinas: bombas, iluminação, aquecimento e controle remoto.</p></div>
+      <div class="sc rv d2"><div class="sc-ico">🎛️</div><div class="sc-num">11</div><h3>PAINÉIS DE COMANDOS</h3><p>Projeto, montagem e instalação de painéis elétricos de comando e controle industrial.</p></div>
+      <div class="sc rv d3"><div class="sc-ico">🔧</div><div class="sc-num">12</div><h3>PARTIDAS DE MOTORES</h3><p>Instalação de chaves de partida, inversores e sistemas de controle de motores elétricos.</p></div>
+      <div class="sc rv"><div class="sc-ico">🖥️</div><div class="sc-num">13</div><h3>CABEAMENTO ESTRUTURADO</h3><p>Redes de dados, telefonia e cabeamento estruturado para ambientes corporativos.</p></div>
+      <div class="sc rv d1"><div class="sc-ico">❄️</div><div class="sc-num">14</div><h3>AR CONDICIONADO</h3><p>Instalação e manutenção de ar condicionado split e sistemas VRF com garantia.</p></div>
+      <div class="sc rv d2"><div class="sc-ico">☀️</div><div class="sc-num">15</div><h3>ENERGIA SOLAR</h3><p>Instalação de sistemas fotovoltaicos para redução da sua conta de energia com retorno garantido.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="cert-inner">
+    <div class="cert-txt rv">
+      <h2>TÉCNICO<br>CERTIFICADO</h2>
+      <p>Trabalhamos dentro das normas regulamentadoras exigidas pelo Ministério do Trabalho, garantindo segurança total em cada serviço.</p>
+    </div>
+    <div class="cert-badges rv d1">
+      <div class="cert-badge">
+        <div class="cn">NR 10</div>
+        <div class="ct">Segurança em<br>Instalações Elétricas</div>
+      </div>
+      <div class="cert-badge">
+        <div class="cn">NR 35</div>
+        <div class="ct">Trabalho em<br>Altura</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="sin">
+    <div class="agrid">
+      <div class="avis rvl">
+        <div class="acard-badge">⚡ Técnico Especializado</div>
+        <div class="acard">
+          <div class="acard-top">
+            <div class="acard-initial">LG</div>
+            <div>
+              <div class="acard-name">Leonardo Giudice</div>
+              <div class="acard-role">Diretor Geral · EGL Soluções Elétricas</div>
+            </div>
+          </div>
+          <div class="acard-body">
+            <p class="acard-p">Profissional com ampla experiência no ramo de elétrica residencial, comercial e industrial. Trabalhamos com materiais e equipamentos de excelente qualidade e contamos com colaboradores capacitados para melhor atender a demanda com eficiência.</p>
+            <div class="acard-contacts">
+              <div class="ac"><div class="ac-ico">📱</div><a href="https://wa.me/5519971178316">(19) 97117-8316</a></div>
+              <div class="ac"><div class="ac-ico">📸</div><a href="https://instagram.com/egl_solucoes_eletricas" target="_blank">@egl_solucoes_eletricas</a></div>
+              <div class="ac"><div class="ac-ico">✉️</div><a href="mailto:eglsolucoeseletricas98@gmail.com">eglsolucoeseletricas98@gmail.com</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="atxt rvr">
+        <div class="tag"><span class="tl"></span>Sobre a Empresa</div>
+        <h2 class="sh">POR QUE<br><span>ESCOLHER A EGL?</span></h2>
+        <p class="lead">Combinamos experiência técnica, certificações regulamentares e atendimento personalizado para entregar o melhor resultado em cada projeto.</p>
+        <div class="creds">
+          <div class="cr"><span class="cr-ico">🏆</span><div class="cr-t"><strong>Experiência comprovada</strong>Atuamos no mercado com excelência em projetos residenciais, comerciais e industriais.</div></div>
+          <div class="cr"><span class="cr-ico">📋</span><div class="cr-t"><strong>Orçamento detalhado</strong>Transparência total: você recebe um orçamento completo antes de qualquer serviço.</div></div>
+          <div class="cr"><span class="cr-ico">🔍</span><div class="cr-t"><strong>Visita técnica gratuita</strong>Avaliamos o local sem custo para indicar a melhor solução para o seu projeto.</div></div>
+          <div class="cr"><span class="cr-ico">🛡️</span><div class="cr-t"><strong>Segurança em primeiro lugar</strong>Certificados NR 10 e NR 35 garantem que todos os serviços seguem as normas vigentes.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="proc" class="sec">
+  <div class="proc-circuit"></div>
+  <div class="sin" style="position:relative;z-index:1;">
+    <div class="tag rv"><span class="tl"></span>Como Trabalhamos</div>
+    <h2 class="sh rv d1">DO CONTATO<br><span>À ENTREGA</span></h2>
+    <div class="psteps">
+      <div class="ps rv"><div class="psc">1</div><h3>CONTATO</h3><p>Fale pelo WhatsApp ou e-mail. Atendimento rápido e sem enrolação.</p></div>
+      <div class="ps rv d1"><div class="psc">2</div><h3>VISITA TÉCNICA</h3><p>Avaliação gratuita no local para entender o projeto e dimensionar o serviço.</p></div>
+      <div class="ps rv d2"><div class="psc">3</div><h3>ORÇAMENTO</h3><p>Orçamento detalhado, transparente e sem compromisso entregue rapidamente.</p></div>
+      <div class="ps rv d3"><div class="psc">4</div><h3>EXECUÇÃO</h3><p>Serviço executado por técnico certificado, com materiais de qualidade.</p></div>
+      <div class="ps rv d4"><div class="psc">5</div><h3>ENTREGA</h3><p>Obra entregue limpa, no prazo e com garantia total do serviço realizado.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="sin">
+    <div class="tag rv"><span class="tl"></span>Fale Conosco</div>
+    <h2 class="sh rv d1">SOLICITE SEU<br><span>ORÇAMENTO</span></h2>
+    <div class="cgrid">
+      <div class="rvl">
+        <div class="clist">
+          <div class="ci"><div class="cion">📱</div><div><div class="cilbl">WhatsApp</div><div class="cval"><a href="https://wa.me/5519971178316">(19) 97117-8316</a></div></div></div>
+          <div class="ci"><div class="cion">📸</div><div><div class="cilbl">Instagram</div><div class="cval"><a href="https://instagram.com/egl_solucoes_eletricas" target="_blank">@egl_solucoes_eletricas</a></div></div></div>
+          <div class="ci"><div class="cion">✉️</div><div><div class="cilbl">E-mail</div><div class="cval"><a href="mailto:eglsolucoeseletricas98@gmail.com">eglsolucoeseletricas98@gmail.com</a></div></div></div>
+          <div class="ci"><div class="cion">📍</div><div><div class="cilbl">Atendimento</div><div class="cval">Piracicaba–SP e região</div></div></div>
+          <div class="ci"><div class="cion">⏰</div><div><div class="cilbl">Horário</div><div class="cval">Segunda a Sábado · 7h às 18h<br>Urgências 24h</div></div></div>
+        </div>
+      </div>
+      <div class="cform rvr">
+        <h3>SOLICITAR ORÇAMENTO</h3>
+        <div class="frow">
+          <div class="fg"><label>Nome</label><input type="text" id="fn" placeholder="Seu nome"></div>
+          <div class="fg"><label>Telefone</label><input type="tel" id="fp" placeholder="(19) 9 0000-0000"></div>
+        </div>
+        <div class="fg"><label>Serviço</label>
+          <select id="fs">
+            <option value="">Selecione o serviço…</option>
+            <option>Elétrica Residencial</option><option>Elétrica Comercial</option><option>Elétrica Industrial</option>
+            <option>Fechadura Eletrônica</option><option>Casa Inteligente</option><option>Montagem de QDC</option>
+            <option>Câmeras de Segurança</option><option>Cerca Elétrica</option><option>Alarme</option>
+            <option>Automação de Piscina</option><option>Painéis de Comandos</option><option>Partidas de Motores</option>
+            <option>Cabeamento Estruturado</option><option>Ar Condicionado</option><option>Energia Solar</option>
+          </select>
+        </div>
+        <div class="fg"><label>Mensagem</label><textarea id="fm" placeholder="Descreva o serviço, localização, urgência…"></textarea></div>
+        <button class="bsub" onclick="sw()">Enviar pelo WhatsApp ⚡</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fgrid">
+    <div class="fbrand">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:40px;height:40px;border-radius:6px;background:linear-gradient(135deg,#f97316,#fbbf24);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;font-weight:800;color:#000;letter-spacing:.02em;">EGL</div>
+        <div style="font-family:var(--serif);font-size:1.4rem;letter-spacing:.08em;color:var(--white);font-weight:700;">EGL SOLUÇÕES ELÉTRICAS</div>
+      </div>
+      <p>Elétrica residencial, comercial e industrial em Piracicaba–SP. Técnico certificado NR 10 e NR 35.</p>
+    </div>
+    <div class="fcol">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#svc">Elétrica Residencial</a></li><li><a href="#svc">Elétrica Comercial</a></li>
+        <li><a href="#svc">Energia Solar</a></li><li><a href="#svc">Casa Inteligente</a></li>
+        <li><a href="#svc">Câmeras de Segurança</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="https://wa.me/5519971178316">WhatsApp</a></li>
+        <li><a href="https://instagram.com/egl_solucoes_eletricas" target="_blank">Instagram</a></li>
+        <li><a href="mailto:eglsolucoeseletricas98@gmail.com">E-mail</a></li>
+        <li><a href="#contact">Solicitar Orçamento</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 EGL Soluções Elétricas · Leonardo Giudice · Piracicaba–SP</p>
+    <p>NR 10 · NR 35 · Técnico Especializado</p>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/5519971178316" target="_blank" title="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<div class="fabr"></div>
+
+<script>
+const dot=document.getElementById('cd'),ring=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+document.querySelectorAll('a,button,.sc,.ci,.cr,.ps').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+});
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>60),{passive:true});
+function tm(){const h=document.getElementById('hbg'),m=document.getElementById('mm');h.classList.toggle('on');m.classList.toggle('on');document.body.style.overflow=m.classList.contains('on')?'hidden':'';}
+function cm(){document.getElementById('hbg').classList.remove('on');document.getElementById('mm').classList.remove('on');document.body.style.overflow='';}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
+function ac(el,t){let s=0;const d=1800;const step=ts=>{if(!s)s=ts;const p=Math.min((ts-s)/d,1);const e=1-Math.pow(1-p,3);el.textContent=Math.round(e*t);if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);}
+const cobs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){ac(x.target,+x.target.dataset.c);cobs.unobserve(x.target);}});},{threshold:.5});
+document.querySelectorAll('[data-c]').forEach(el=>cobs.observe(el));
+function sw(){
+  const n=document.getElementById('fn').value.trim(),ph=document.getElementById('fp').value.trim(),sv=document.getElementById('fs').value,mg=document.getElementById('fm').value.trim();
+  let t='Olá Leonardo! Vim pelo site da EGL Soluções Elétricas e gostaria de solicitar um orçamento.';
+  if(n)t+=`\n\n*Nome:* ${n}`;if(ph)t+=`\n*Telefone:* ${ph}`;if(sv)t+=`\n*Serviço:* ${sv}`;if(mg)t+=`\n*Mensagem:* ${mg}`;
+  window.open(`https://wa.me/5519971178316?text=${encodeURIComponent(t)}`,'_blank');
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});
+});
+</script>
+</body>
+</html>
