@@ -350,7 +350,10 @@ footer{background:var(--dark);padding:4rem clamp(1.2rem,5vw,4rem) 2.5rem;border-
 @media(max-width:768px){
   .nlinks,.ncta{display:none!important;}
   .hbg{display:flex!important;}
-  .hero-split{display:none;}
+  .hero-split{clip-path:none!important;width:100%!important;left:0!important;right:0!important;}
+  .hero-split-img{filter:brightness(.28) saturate(.6)!important;transform:scale(1.05)!important;}
+  .hero-split-overlay{background:linear-gradient(to top,var(--dark) 15%,rgba(10,10,10,.75) 100%)!important;}
+  #hero{padding-top:9rem;}
   h1.hh1{font-size:clamp(3.5rem,12vw,6rem);}
   .pgrid{grid-template-columns:1fr;}
   .pgrid .pcard:first-child{grid-column:auto;}
